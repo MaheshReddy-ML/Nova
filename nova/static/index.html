@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOVA | Owner Console</title>
+<link rel="stylesheet" href="/static/dashboard.css">
+<script src="/static/dashboard.js" type="module"></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="identity" href="#overview"><span class="mark" aria-hidden="true">N</span><span><strong>NOVA</strong><small>Owner Console</small></span></a>
+    <nav aria-label="Workspace">
+      <a href="#overview" aria-current="page">Overview</a>
+      <a href="#leads">Customers</a>
+      <a href="#projects">Projects</a>
+      <a href="#approvals">Approvals <span id="review-count" class="nav-count" hidden></span></a>
+      <a href="#models">Model Observatory</a>
+      <a href="#memory">Memory</a>
+    </nav>
+    <div class="sidebar-foot"><span class="presence" aria-hidden="true"></span><span>Local service</span><small id="version">NOVA</small></div>
+  </aside>
+  <main>
+    <header class="topbar">
+      <div><span class="prefix">Workspace</span><span class="divider" aria-hidden="true">/</span><strong id="breadcrumb">Overview</strong></div>
+      <div class="top-actions"><span id="feed-status" class="connection">Connecting</span><button id="stop" class="quiet danger" type="button">Emergency stop</button></div>
+    </header>
+    <div class="content">
+      <p id="banner" class="banner" role="status" hidden></p>
+      <section id="overview" class="view">
+        <div class="page-heading"><div><h1>Mission control</h1><p>Manage objectives, checkpoints and live execution.</p></div><button id="open-mission" type="button" class="primary">New mission</button></div>
+        <div class="metrics" aria-label="Operational totals">
+          <div><span>Active missions</span><strong id="active-count">0</strong></div>
+          <div><span>Completed</span><strong id="completed-count">0</strong></div>
+          <div><span>Qualified leads</span><strong id="qualified-count">0</strong></div>
+          <div><span>Pending approvals</span><strong id="pending-count">0</strong></div>
+        </div>
+        <div class="workgrid">
+          <section class="panel missions"><div class="panel-heading"><h2>Missions</h2><span id="mission-count" class="tip"></span></div><div id="tasks" class="list"></div></section>
+        <section class="panel conversation">
+          <div class="panel-heading"><h2>Talk to NOVA</h2><span id="voice-state" class="pill">Ready</span></div>
+          <div class="conversation-body">
+            <div id="response" class="response" aria-live="polite"><p>Ask for a mission status update or start website research.</p></div>
+            <div class="voice-actions">
+              <button id="voice-toggle" type="button" aria-pressed="false" class="secondary">Enable microphone</button>
+              <button id="interrupt" type="button" class="quiet">Stop audio</button>
+              <span id="voice-metrics" class="tip"></span>
+            </div>
+            <details class="voice-settings"><summary>Voice settings</summary>
+              <div class="voice-controls">
+                <label>Voice <select id="voice-choice"><option value="">Configured Magpie voice</option></select></label>
+                <label>Volume <input id="volume" type="range" min="0" max="1" step=".1" value=".8"></label>
+                <label>Playback speed <input id="rate" type="range" min=".75" max="1.5" step=".05" value="1"></label>
+                <label class="check"><input id="headphones" type="checkbox"> Headphone barge-in</label>
+                <label class="check"><input id="notifications" type="checkbox"> Speak mission updates</label>
+              </div>
+              <p class="tip" id="voice-mode">With speakers, use Stop audio before speaking over playback.</p>
+            </details>
+            <form id="chat" class="chat"><label class="sr-only" for="text">Message NOVA</label><input id="text" name="text" placeholder="What are you working on?" required maxlength="1400" autocomplete="off"><button id="send" class="primary" type="submit">Send</button></form>
+          </div>
+        </section>
+          <section class="panel activity"><div class="panel-heading"><h2>Live activity</h2><span class="tip" id="event-count"></span></div><ol id="events" class="timeline list"></ol></section>
+        </div>
+      </section>
+      <section id="leads" class="view" hidden><div class="page-heading"><div><h1>Customers</h1><p>Public website observations and opportunity scores.</p></div></div><div id="lead-list" class="panel list"></div></section>
+      <section id="projects" class="view" hidden><div class="page-heading"><div><h1>Projects</h1><p>Local concepts, verification screenshots and proposal files.</p></div></div><div id="project-list" class="panel list"></div></section>
+      <section id="approvals" class="view" hidden><div class="page-heading"><div><h1>Approvals</h1><p>Review the proposal and record your decision.</p></div></div><div id="approval-list" class="panel list"></div></section>
+      <section id="models" class="view" hidden>
+        <div class="page-heading"><div><h1>Model observatory</h1><p>NVIDIA routes and recorded inference usage.</p></div><button id="check-providers" type="button" class="secondary">Refresh NVIDIA access</button></div>
+        <div id="routes" class="panel list"></div><div id="usage" class="panel list"></div>
+      </section>
+      <section id="memory" class="view" hidden>
+        <div class="page-heading"><div><h1>Memory</h1><p>Search recorded observations from completed missions.</p></div></div>
+        <form id="memory-form" class="chat standalone"><label class="sr-only" for="memory-query">Search memory</label><input id="memory-query" maxlength="300" placeholder="Search observations"><button type="submit" class="primary">Search</button></form>
+        <div id="memory-list" class="panel list"></div>
+      </section>
+    </div>
+  </main>
+</div>
+<dialog id="mission-dialog">
+  <div class="panel-heading"><h2>New mission</h2><button class="quiet" data-close="mission-dialog" type="button">Close</button></div>
+  <form id="mission-form" class="dialog-body">
+    <label>Mission title<input id="mission-title" required minlength="3" maxlength="140" placeholder="Website review"></label>
+    <div class="fields"><label>Workflow<select id="workflow"><option value="website">Website research and concept</option><option value="brief">NVIDIA planning brief</option></select></label>
+      <label>Priority<select id="priority"><option value="3">Low</option><option value="5" selected>Normal</option><option value="8">High</option></select></label></div>
+    <div id="candidate-fields"><label for="candidates">Public websites</label><textarea id="candidates" rows="4" placeholder="Business name | https://example.com/"></textarea>
+      <div class="field-note"><span>One business per line, up to five.</span><button id="load-preset" class="quiet" type="button">Use Hyderabad studio list</button></div>
+      <label>Public directory URL instead<input id="directory-url" type="url" maxlength="500" placeholder="https://example.com/business-guide"></label></div>
+    <label id="objective-field" hidden>Objective<textarea id="objective" rows="4" maxlength="1600"></textarea></label>
+    <div class="fields"><label>Start time <input id="run-at" type="datetime-local"></label><label>Dependency <select id="dependency"><option value="">None</option></select></label></div>
+    <p id="form-error" class="form-error" role="alert" hidden></p>
+    <button id="queue-mission" class="primary" type="submit">Queue mission</button>
+  </form>
+</dialog>
+<dialog id="details-dialog"><div class="panel-heading"><h2 id="detail-title">Mission details</h2><button class="quiet" data-close="details-dialog" type="button">Close</button></div><div id="detail-body" class="dialog-body"></div></dialog>
+</body>
+</html>
