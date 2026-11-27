@@ -1,0 +1,1 @@
+Use the verified organization, finding and scope. Write a short subject and one practical next step. Keep estimates conditional and preserve the sender's AI identity. Remove generic openings and unsupported promises. Check every claim against supplied evidence. Deliver a reviewable draft.

@@ -1,0 +1,3980 @@
+{
+ "schema_version": 1,
+ "skills": [
+  {
+   "skill_id": "impeccable",
+   "title": "Impeccable",
+   "description": "Creative direction and visual review for distinct, usable website concepts.",
+   "source": "https://github.com/pbakaus/impeccable",
+   "category": "design",
+   "roles": [
+    "website:design",
+    "website:build",
+    "website:verify"
+   ],
+   "keywords": [
+    "typography",
+    "website",
+    "creative"
+   ],
+   "priority": 35,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2fc5e1459efbbf06d92c7306517c286bf12490cf",
+   "revisions": [
+    {
+     "revision": "2fc5e1459efbbf06d92c7306517c286bf12490cf",
+     "version": "4.11.1",
+     "license": "Apache-2.0",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "impeccable",
+     "source_path": ".agents/skills/impeccable/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": ".agents/skills/impeccable/SKILL.md",
+       "sha256": "0189a38e7190e66a938aa987b69709f27742d027fac11c940ffa8fe943fbc557",
+       "bytes": 12833
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "02bb8c3b4e70190e3986c0404ad2fd8d639b4f534252d82379cc1b502b6d1812",
+       "bytes": 10766
+      },
+      "references/critique-rubric.md": {
+       "source_path": ".agents/skills/impeccable/reference/critique-rubric.md",
+       "sha256": "ba070404e3f61c62b40c25a5d096b803825408de12a0fbb559b1587c89692866",
+       "bytes": 19937
+      },
+      "NOTICE.md": {
+       "source_path": "NOTICE.md",
+       "sha256": "01bf53e5d24d64e19e9e1c33b24c37cef0d314323df7bf678c6ba22d4528a115",
+       "bytes": 1731
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "2f6d8f2adb8931ddc495d6b5332b7468215977629d1a7cc93de6f7502b4e0f78",
+       "bytes": 308
+      }
+     },
+     "guide_sources": [
+      "SKILL.md",
+      "references/critique-rubric.md"
+     ],
+     "evaluation": "Pinned Git blob and SHA-256 verification, license and privilege review, compiled context fixture"
+    }
+   ]
+  },
+  {
+   "skill_id": "context-engineering",
+   "title": "Context Engineering",
+   "description": "Keeps planning inputs specific to the objective and relevant evidence.",
+   "source": "https://github.com/addyosmani/agent-skills",
+   "category": "engineering",
+   "roles": [
+    "brief:brief",
+    "business:analysis"
+   ],
+   "keywords": [
+    "context",
+    "planning"
+   ],
+   "priority": 32,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+   "revisions": [
+    {
+     "revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+     "version": "e997ac5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "context-engineering",
+     "source_path": "skills/context-engineering/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/context-engineering/SKILL.md",
+       "sha256": "5ee2929d3aded01587aa24fc9907693c8820f87f807ea0c52a263af718b62d0b",
+       "bytes": 15514
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "6f202f8bd568cd730dbb2b0d1f8e243bc74c2fa1f64dbce9b2c7ea08bd5c9fd7",
+       "bytes": 1068
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "bb9f71bd8b6c42f59db916e2e782251474ebdc316d4a4c0838ddecd10ade3903",
+       "bytes": 257
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned Git blob and SHA-256 verification, license and privilege review, compiled context fixture"
+    }
+   ]
+  },
+  {
+   "skill_id": "customer-research",
+   "title": "Customer Research",
+   "description": "Organizes source evidence and labels assumptions when qualifying opportunities.",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "research",
+   "roles": [
+    "website:discover",
+    "website:audit",
+    "website:rank",
+    "research:report"
+   ],
+   "keywords": [
+    "evidence",
+    "directory",
+    "customer"
+   ],
+   "priority": 30,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.0.9",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "customer-research",
+     "source_path": "skills/customer-research/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/customer-research/SKILL.md",
+       "sha256": "b9f9c4bd9fe43e500258be5fac79e3b35a242914526e24dec812042267e40a06",
+       "bytes": 14570
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "25587de1de4715127b7c85a480c20dfe1f137f7dd8d9b8e2f4b3c502096c9fe1",
+       "bytes": 299
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned Git blob and SHA-256 verification, license and privilege review, compiled context fixture"
+    }
+   ]
+  },
+  {
+   "skill_id": "copy-editing",
+   "title": "Copy Editing",
+   "description": "Reviews proposal and email drafts for specificity, factual accuracy and tone.",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "communication",
+   "roles": [
+    "website:proposal",
+    "email:draft",
+    "email:validate",
+    "business:email"
+   ],
+   "keywords": [
+    "email",
+    "proposal",
+    "write"
+   ],
+   "priority": 36,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.2.4",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "copy-editing",
+     "source_path": "skills/copy-editing/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/copy-editing/SKILL.md",
+       "sha256": "ef6bf9e792edac9ff524576a7eea6980fd13e605e5561736b045136341cde63e",
+       "bytes": 17963
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/checklist.md": {
+       "source_path": "skills/copy-editing/references/checklist.md",
+       "sha256": "4cf94c922286223681fc53721fcc65ae7299f1e36e797e7397d369d674580c60",
+       "bytes": 4505
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "36d35f6004f1f73071fcae81718d76dc64dd9b1ec0f9315b4c001117c805b3dd",
+       "bytes": 290
+      }
+     },
+     "guide_sources": [
+      "SKILL.md",
+      "references/checklist.md"
+     ],
+     "evaluation": "Pinned Git blob and SHA-256 verification, license and privilege review, compiled context fixture"
+    }
+   ]
+  },
+  {
+   "skill_id": "humanizer",
+   "title": "Humanizer",
+   "description": "Provides concise, transparent conversational style guidance for NOVA's replies.",
+   "source": "https://github.com/blader/humanizer",
+   "category": "communication",
+   "roles": [
+    "conversation:respond"
+   ],
+   "keywords": [
+    "voice",
+    "conversation"
+   ],
+   "priority": 30,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "a32f24407364c74c812b43c15926d638bee1e072",
+   "revisions": [
+    {
+     "revision": "a32f24407364c74c812b43c15926d638bee1e072",
+     "version": "4.0.0",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "humanizer",
+     "source_path": "SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "SKILL.md",
+       "sha256": "3013910ef5433dab12f0d2b86d9cf9e3421a253ef986518a68ef07aa29629bdc",
+       "bytes": 33628
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "4ac4810254ab36d45419141aeb8e69bf50652cfafe5b2dab947d06d44e5cbf96",
+       "bytes": 1066
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "675614cd6e7e445eb0b33de694e729393986c339137cc26426110b4d94bd3590",
+       "bytes": 277
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned Git blob and SHA-256 verification, license and privilege review, compiled context fixture"
+    }
+   ]
+  },
+  {
+   "skill_id": "animation-performance",
+   "title": "Animation Performance",
+   "description": "Optional checks for useful motion, frame cost and reduced-motion behavior.",
+   "source": "https://github.com/emilkowalski/skills",
+   "category": "design",
+   "roles": [
+    "website:build",
+    "website:verify"
+   ],
+   "keywords": [
+    "motion",
+    "animation"
+   ],
+   "priority": 14,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": false,
+   "default_revision": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c",
+   "revisions": [
+    {
+     "revision": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c",
+     "version": "64eb3de",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "animation-performance",
+     "source_path": "skills/animation-performance/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/animation-performance/SKILL.md",
+       "sha256": "6481e7a611b54c0d1d229ac3ac516c05648e63aa79de88c0a1bdc5ae2666ab80",
+       "bytes": 14002
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b",
+       "bytes": 1070
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "af7585e53cbaa17bd2f2f4fc13df6812a65005f3bcd40262a0521e9c30c3dca1",
+       "bytes": 177
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned Git blob and SHA-256 verification, license and privilege review, compiled context fixture"
+    },
+    {
+     "revision": "f1090bec277140d02ed202440185ad9d02ac1490",
+     "version": "f1090be",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "animation-performance",
+     "source_path": "skills/animation-performance/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/animation-performance/SKILL.md",
+       "sha256": "6c60f45ab416ff3f7d7765a5427beead77fab0d82487fe610d2a298397558d0a",
+       "bytes": 14269
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "4ff5bdb7887ec1435c9cab0e8d1a7caee704d894d65c2a008ccc68b1cc2f260b",
+       "bytes": 1070
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "967eeaf6148969ed3cb6faf100accbf7b9bd0f0915e17873243e63dfdedc0fc4",
+       "bytes": 168
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned Git blob and SHA-256 verification, license and privilege review, compiled context fixture"
+    }
+   ]
+  },
+  {
+   "skill_id": "frontend-design",
+   "title": "Frontend Design",
+   "description": "Guidance for distinctive, intentional visual design when building new UI or reshaping an existing one. Helps with aesthetic direction, typography, and making choices that don't read as templated defaults.",
+   "source": "https://github.com/anthropics/skills",
+   "category": "design",
+   "roles": [
+    "agent:design"
+   ],
+   "keywords": [
+    "aesthetic",
+    "building",
+    "choices",
+    "defaults",
+    "design",
+    "direction",
+    "distinctive",
+    "existing",
+    "frontend",
+    "guidance",
+    "helps",
+    "intentional"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba",
+   "revisions": [
+    {
+     "revision": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba",
+     "version": "upstream-e4bb5d9",
+     "license": "Apache-2.0",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "frontend-design",
+     "source_path": "skills/frontend-design/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/frontend-design/SKILL.md",
+       "sha256": "d91970639e9f5c37682ac7ab60094d35f1c7c1f38d731bd56396563aee10c1d3",
+       "bytes": 9390
+      },
+      "LICENSE.txt": {
+       "source_path": "skills/frontend-design/LICENSE.txt",
+       "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+       "bytes": 10174
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "6ad21f03fc3ace13d3d6a5b43dd003f46325f7c676761e73a2f35cb929f91787",
+       "bytes": 2620
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, Apache-2.0 license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "literature-review",
+   "title": "Literature Review",
+   "description": "Conducts systematic, scoping, and narrative literature reviews using PubMed, arXiv, bioRxiv, Semantic Scholar, and other appropriate sources. Use for research synthesis, reproducible literature searches, screening, citation checking, or preparing Markdown a...",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "analysis",
+    "appropriate",
+    "arxiv",
+    "biorxiv",
+    "checking",
+    "citation",
+    "conducts",
+    "coverage",
+    "does",
+    "engine",
+    "evidence",
+    "limitations"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "1.11",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "literature-review",
+     "source_path": "skills/literature-review/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/literature-review/SKILL.md",
+       "sha256": "16a9e85bcdcb9bb859e1646bf836e51b22900445ba2e367d8d75be05b5a5cba8",
+       "bytes": 12869
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/citation_styles.md": {
+       "source_path": "skills/literature-review/references/citation_styles.md",
+       "sha256": "2a50e43b18c2fff781e04406deb66186ba8f91ed28af32004aba63c63dcc1789",
+       "bytes": 7627
+      },
+      "references/core_workflow.md": {
+       "source_path": "skills/literature-review/references/core_workflow.md",
+       "sha256": "4d63f1087c98efeec7c7bf622bed6e0456a9c7c3defe584995917f2de6f2c601",
+       "bytes": 11876
+      },
+      "references/database_strategies.md": {
+       "source_path": "skills/literature-review/references/database_strategies.md",
+       "sha256": "24b56cd88128a9016520ed6b5e2abb79e19dc9b86cbf064927e9056aa1504f48",
+       "bytes": 10431
+      },
+      "references/example_workflow.md": {
+       "source_path": "skills/literature-review/references/example_workflow.md",
+       "sha256": "86336c42f78ff282430a6cdd2282a99562cc9d5e46b62e70a33bd839f9ab726a",
+       "bytes": 3078
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "3cd647810bbbbf7308c930b36b906109d7e0eab9afd10d7d2c2e66a47de4fdeb",
+       "bytes": 3390
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "ignored_tool_grants": "Read Write Edit Bash",
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "scientific-writing",
+   "title": "Scientific Writing",
+   "description": "Drafts, revises, and audits scientific manuscripts or reports with explicit evidence provenance, reporting-guideline coverage, authorship accountability, confidentiality controls, and local consistency checks. Use for manuscript sections, references, declar...",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "accountability",
+    "accuracy",
+    "audits",
+    "authorship",
+    "checks",
+    "confidentiality",
+    "consistency",
+    "controls",
+    "coverage",
+    "declarations",
+    "drafts",
+    "evidence"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "2.3",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "scientific-writing",
+     "source_path": "skills/scientific-writing/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/scientific-writing/SKILL.md",
+       "sha256": "511a2096bebecd8cf0f8212b9d262d37154ae1ba566eb385d93ac968682edbd1",
+       "bytes": 14897
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/authorship_ai_confidentiality.md": {
+       "source_path": "skills/scientific-writing/references/authorship_ai_confidentiality.md",
+       "sha256": "0200e3ad8eafaedec26bce2b9895cda81c6c9325790507509134373a0ca41fe2",
+       "bytes": 4919
+      },
+      "references/citation_styles.md": {
+       "source_path": "skills/scientific-writing/references/citation_styles.md",
+       "sha256": "338c08d8fba6fbf7437aad4dd99db5bccf3f597fa6650c562fae0c7ca422e572",
+       "bytes": 3945
+      },
+      "references/cli_reference.md": {
+       "source_path": "skills/scientific-writing/references/cli_reference.md",
+       "sha256": "05b15a587277e37dbc6161532dce58c8ccf647e22f21861ebcbac22954453e75",
+       "bytes": 4101
+      },
+      "references/evidence_workflow.md": {
+       "source_path": "skills/scientific-writing/references/evidence_workflow.md",
+       "sha256": "346c867d71e8cf1db6e3684a64714925a3966fcaeb1db853d7ddb07c6a6f607b",
+       "bytes": 5033
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "5be72b1d704be83893478a8b1ed71593a47ad724f84684f2c8a5199c24b1e433",
+       "bytes": 3227
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "peer-review",
+   "title": "Peer Review",
+   "description": "Prepares evidence-bounded, constructive peer-review drafts and structured manuscript assessments. Supports authorized review of scientific manuscripts, protocols, preprints, or research proposals; reporting-guideline selection; claim–evidence checks; method...",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "assessments",
+    "authorized",
+    "bounded",
+    "checks",
+    "citation",
+    "claim",
+    "constructive",
+    "critique",
+    "drafts",
+    "ethics",
+    "evidence",
+    "figure"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "2.4",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "peer-review",
+     "source_path": "skills/peer-review/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/peer-review/SKILL.md",
+       "sha256": "a042ccdc76d3399431b9a6c4cd4f98968eab964b1c14baeea4d9e73de82c7d19",
+       "bytes": 13853
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/common_issues.md": {
+       "source_path": "skills/peer-review/references/common_issues.md",
+       "sha256": "6a0979d6d64e07f769db8ee9ab82ad3190aebaca4294838f338f5c4b51b596f6",
+       "bytes": 13999
+      },
+      "references/ethical_review_practice.md": {
+       "source_path": "skills/peer-review/references/ethical_review_practice.md",
+       "sha256": "d61f27a471f9b42160ae303cb13df2b034085e037b5647cbc0bbf2de8435b1d7",
+       "bytes": 12209
+      },
+      "references/reporting_standards.md": {
+       "source_path": "skills/peer-review/references/reporting_standards.md",
+       "sha256": "19ececda52568269987be1dff81900471433353dee8bb8a28a06f3691cb051c2",
+       "bytes": 15438
+      },
+      "references/security_validation.md": {
+       "source_path": "skills/peer-review/references/security_validation.md",
+       "sha256": "3d24c7aa7d7b1d1a7df410307d95993b63dff79bf01c400a1c154df19fcf737d",
+       "bytes": 4166
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "26e72c05e93385d58b5883cb64d7956c245ad7373d6514aa0bc985bc1c36729e",
+       "bytes": 3255
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "hypothesis-generation",
+   "title": "Hypothesis Generation",
+   "description": "Formulates evidence-bounded scientific questions, candidate hypotheses, rival explanations, causal or associational claims, discriminating predictions, measurements, and preregistration-ready analysis plans. Used when turning observations or preliminary fin...",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "analysis",
+    "associational",
+    "bounded",
+    "candidate",
+    "causal",
+    "claims",
+    "discriminating",
+    "evidence",
+    "explanations",
+    "facts",
+    "findings",
+    "formulates"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "2.4",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "hypothesis-generation",
+     "source_path": "skills/hypothesis-generation/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/hypothesis-generation/SKILL.md",
+       "sha256": "5bccec0437d96d61821ec2095e7e32b61e8634cd8c02f11f42da953121e92719",
+       "bytes": 16622
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/causal_inference_and_claims.md": {
+       "source_path": "skills/hypothesis-generation/references/causal_inference_and_claims.md",
+       "sha256": "0162cd131dd12c6235a3b78c033c685abd80e98d5f40f9fb297b4d8104f85122",
+       "bytes": 7993
+      },
+      "references/concepts_and_workflow.md": {
+       "source_path": "skills/hypothesis-generation/references/concepts_and_workflow.md",
+       "sha256": "a86a8f464fb555212e79bf13e307f3c129e9c853069856eb3c93c3c8a60bb7fc",
+       "bytes": 7341
+      },
+      "references/ethics_safety_and_ai.md": {
+       "source_path": "skills/hypothesis-generation/references/ethics_safety_and_ai.md",
+       "sha256": "81d5691cd46d646ead2db50635bdcc07755e5f738b040c2ad707ac3b0eda034d",
+       "bytes": 10507
+      },
+      "references/experimental_design_patterns.md": {
+       "source_path": "skills/hypothesis-generation/references/experimental_design_patterns.md",
+       "sha256": "83c0c75c7b1edadc92e4ae23607624277c19955fc6a71ee0313b6efc51e4e939",
+       "bytes": 9765
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "70f216afea82e7163cba1f73c23593891a81b4e02592df9894ab095d921165f8",
+       "bytes": 3248
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "scientific-brainstorming",
+   "title": "Scientific Brainstorming",
+   "description": "Facilitates evidence-aware scientific ideation with independent generation, structured discussion, explicit assumptions, transparent evaluation, adversarial review, and decision logs. Use for early-stage research brainstorming or prioritizing candidate dire...",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "adversarial",
+    "appropriate",
+    "assumptions",
+    "aware",
+    "brainstorming",
+    "candidate",
+    "clinical",
+    "decision",
+    "design",
+    "directions",
+    "discussion",
+    "early"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "1.4",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "scientific-brainstorming",
+     "source_path": "skills/scientific-brainstorming/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/scientific-brainstorming/SKILL.md",
+       "sha256": "06f73b71556356a7f488c369b9445d7943543a3f14d159b2168fd3f621d6f8a9",
+       "bytes": 14658
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/brainstorming_methods.md": {
+       "source_path": "skills/scientific-brainstorming/references/brainstorming_methods.md",
+       "sha256": "2c3749f38c4a9ba0f310b04679b870cbf603d923aa30b82dd92720a7d2977632",
+       "bytes": 12505
+      },
+      "references/facilitation_workflows.md": {
+       "source_path": "skills/scientific-brainstorming/references/facilitation_workflows.md",
+       "sha256": "bfb2acc43472f4649b10f2c3db02180fa9c86636f375f82d8bc36b28075a5ccc",
+       "bytes": 10016
+      },
+      "references/idea_evaluation.md": {
+       "source_path": "skills/scientific-brainstorming/references/idea_evaluation.md",
+       "sha256": "5a5fcb319cdcc151a9acd17e0e501d270e55f7a9fb6a829c87c43af5b5705d14",
+       "bytes": 12165
+      },
+      "references/responsible_ai.md": {
+       "source_path": "skills/scientific-brainstorming/references/responsible_ai.md",
+       "sha256": "d5b61b2555b72914d1e2cfb6e84496ce80fc2d24a3001c9eefa04cca336b9830",
+       "bytes": 10584
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "39e269e877d30d90a4aa21017c82187a344c7490eaba788fcf1d27c579c3b1be",
+       "bytes": 3203
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "scientific-critical-thinking",
+   "title": "Scientific Critical Thinking",
+   "description": "Evaluates scientific claims and evidence quality. Applies to experimental design validity, biases and confounders, statistical interpretation, evidence grading frameworks (GRADE, Cochrane Risk of Bias), and teaching critical analysis. Supports evidence appr...",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "analysis",
+    "applies",
+    "appraisal",
+    "belongs",
+    "bias",
+    "biases",
+    "claims",
+    "cochrane",
+    "confounders",
+    "critical",
+    "design",
+    "evaluates"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "1.5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "scientific-critical-thinking",
+     "source_path": "skills/scientific-critical-thinking/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/scientific-critical-thinking/SKILL.md",
+       "sha256": "563af70571b7dcd6a96bf2e303bedfdcba623b4e9f082d58f04aacbc961fdae4",
+       "bytes": 13146
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/common_biases.md": {
+       "source_path": "skills/scientific-critical-thinking/references/common_biases.md",
+       "sha256": "641e8e8e6dfadac1643ea8691b7d3e4e58cf013f134cd42c71301878096a5a39",
+       "bytes": 12368
+      },
+      "references/core_capabilities.md": {
+       "source_path": "skills/scientific-critical-thinking/references/core_capabilities.md",
+       "sha256": "0f337b96aa2d7453433a17824368fbd0638b9469d4f90a5fd23f4167c9dee180",
+       "bytes": 16975
+      },
+      "references/evidence_hierarchy.md": {
+       "source_path": "skills/scientific-critical-thinking/references/evidence_hierarchy.md",
+       "sha256": "534fbe991ecfb2d162f755004dc528118ce74a78862917c2911595a522d76e6c",
+       "bytes": 17435
+      },
+      "references/experimental_design.md": {
+       "source_path": "skills/scientific-critical-thinking/references/experimental_design.md",
+       "sha256": "eca7e42025393984c07676f3d4bc354d217e5604dc2209c76215d31953a7c74c",
+       "bytes": 18227
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "426627b3593264f9745cf91c97e5e3de70986969d11296b868013ea5469b440e",
+       "bytes": 3997
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "ignored_tool_grants": "Read Write Edit",
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "experimental-design",
+   "title": "Experimental Design",
+   "description": "Designs experiments and studies BEFORE data is collected — choosing a design, randomizing, blocking, and laying out treatment combinations so results are interpretable. Use whenever someone is planning a study, asks how to assign subjects/samples to groups,...",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "adaptive",
+    "already",
+    "analysis",
+    "analyzing",
+    "assign",
+    "avoid",
+    "batch",
+    "before",
+    "best",
+    "blocking",
+    "choosing",
+    "chosen"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "1.5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "experimental-design",
+     "source_path": "skills/experimental-design/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/experimental-design/SKILL.md",
+       "sha256": "db2de0f3d29b7729776a91e923c9c83801298f5ad8e88fe44570045fbefcc248",
+       "bytes": 16328
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/design_types.md": {
+       "source_path": "skills/experimental-design/references/design_types.md",
+       "sha256": "1f36f14160bc9895773a2922402869202866410c9130f2b32c5a54e5f5a6e71b",
+       "bytes": 7972
+      },
+      "references/factorial_and_doe.md": {
+       "source_path": "skills/experimental-design/references/factorial_and_doe.md",
+       "sha256": "a59fa2279c439c096a66955b4923ad68c00d6046570665e6f6d36e807fa1de63",
+       "bytes": 9069
+      },
+      "references/randomization_and_blocking.md": {
+       "source_path": "skills/experimental-design/references/randomization_and_blocking.md",
+       "sha256": "fabcfae913397fb8c3018b959b67ddf8fe47322b40cbf4155d898fa11738e9ae",
+       "bytes": 7831
+      },
+      "references/sequential_and_adaptive.md": {
+       "source_path": "skills/experimental-design/references/sequential_and_adaptive.md",
+       "sha256": "83085e2cde0942de23670d3aabb30768fb576a6aa99c2e4ac6f7790b00977051",
+       "bytes": 6530
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "231baae7dbbdf530c94402598856f49c6c554d5cf6085baa9dcfda15d415e2dd",
+       "bytes": 3301
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "ignored_tool_grants": "Read Write Edit Bash",
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "research-grants",
+   "title": "Research Grants",
+   "description": "Supports research proposal preparation and review for NSF, NIH, DOE, DARPA, and Taiwan NSTC, including opportunity-specific requirements, aims, review criteria, budgets, broader impacts, forms, and resubmissions. Use for investigator-authored grant developm...",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "aims",
+    "authored",
+    "broader",
+    "budgets",
+    "compliance",
+    "criteria",
+    "critiques",
+    "darpa",
+    "development",
+    "forms",
+    "grant",
+    "grants"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "1.5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "research-grants",
+     "source_path": "skills/research-grants/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/research-grants/SKILL.md",
+       "sha256": "3ca7ea8075bbe8008389660cc4a5769d66ac9ec638f3f61a955a5d7b20aeba85",
+       "bytes": 17328
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/README.md": {
+       "source_path": "skills/research-grants/references/README.md",
+       "sha256": "c1dc961d3ea576cd4d06e76a47d1a4236b7e9d77bf90a612302125938db9bc5c",
+       "bytes": 2493
+      },
+      "references/broader_impacts.md": {
+       "source_path": "skills/research-grants/references/broader_impacts.md",
+       "sha256": "de888b798004a3c0174d8dfd99626c8654a9ca53f78e2dcd4d2e242bed9873e1",
+       "bytes": 24394
+      },
+      "references/core_components.md": {
+       "source_path": "skills/research-grants/references/core_components.md",
+       "sha256": "73b5915fa8fb905949233d3e2cdc118525ac9b448cb0fb05407ee3d7ecf44cdb",
+       "bytes": 16469
+      },
+      "references/darpa_guidelines.md": {
+       "source_path": "skills/research-grants/references/darpa_guidelines.md",
+       "sha256": "f7bc5c2d0b461275599a157a074a90b71169415ebdeea3417549952b09598fc6",
+       "bytes": 7145
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "8477c500021a576d5369613adbc0e1e1156423f10eec8873e296fe456e7cae23",
+       "bytes": 3272
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "ignored_tool_grants": "Read Write Edit Bash",
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "statistical-analysis",
+   "title": "Statistical Analysis",
+   "description": "Guided statistical analysis for research data - test selection, assumption checking, effect sizes, power analysis, Bayesian alternatives, and APA-formatted reporting. Use whenever a user wants to compare groups, test a hypothesis, analyze experimental or su...",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "alternatives",
+    "analysis",
+    "analyze",
+    "anova",
+    "apis",
+    "assumption",
+    "assumptions",
+    "bayesian",
+    "check",
+    "checking",
+    "compare",
+    "compute"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "2.0",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "statistical-analysis",
+     "source_path": "skills/statistical-analysis/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/statistical-analysis/SKILL.md",
+       "sha256": "e112848726b3713267cac65e4e2c15491a0a26ee1ed628db01195f7e43f97997",
+       "bytes": 23585
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/assumptions_and_diagnostics.md": {
+       "source_path": "skills/statistical-analysis/references/assumptions_and_diagnostics.md",
+       "sha256": "6e1ebc110c092845b93e5c6d28f38c8a990780105ba1865f0bd47c007620b073",
+       "bytes": 14654
+      },
+      "references/bayesian_statistics.md": {
+       "source_path": "skills/statistical-analysis/references/bayesian_statistics.md",
+       "sha256": "34d62e1b20dd82a11497be40e07c93e4fdb555d56e4944e200f881c1b7629cbf",
+       "bytes": 14557
+      },
+      "references/effect_sizes_and_power.md": {
+       "source_path": "skills/statistical-analysis/references/effect_sizes_and_power.md",
+       "sha256": "5e1321c9058b2931a1bd2a753c7a8f4295f58274412d62e99a34eabd478e42b2",
+       "bytes": 20907
+      },
+      "references/reporting_standards.md": {
+       "source_path": "skills/statistical-analysis/references/reporting_standards.md",
+       "sha256": "0a30a1bec63231c94c9c285977acaa4218c50a34c8385857d18f62c61ac817b7",
+       "bytes": 21469
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "207caccddf2245359270df5dd9a4f165372d05fcb98eb0bdda068fa1a0ca3f40",
+       "bytes": 3968
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "citation-management",
+   "title": "Citation Management",
+   "description": "Comprehensive citation management for academic research. Search OpenAlex, PubMed, and Google Scholar for papers, extract accurate metadata, validate citations, and generate properly formatted BibTeX entries. This skill should be used when you need to find p...",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "academic",
+    "accuracy",
+    "accurate",
+    "bibtex",
+    "citation",
+    "citations",
+    "comprehensive",
+    "convert",
+    "dois",
+    "ensure",
+    "entries",
+    "extract"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "2.3",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "citation-management",
+     "source_path": "skills/citation-management/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/citation-management/SKILL.md",
+       "sha256": "dc79fe1e8438dcf598040615d5323360c6a7ed0b868fc3ffc82512c871a1e3ff",
+       "bytes": 16630
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/api_contracts.md": {
+       "source_path": "skills/citation-management/references/api_contracts.md",
+       "sha256": "3e82a14f77133a215831d2627b65c93199589782f6907fc42af3c75f2ab3c5a8",
+       "bytes": 6712
+      },
+      "references/best_practices.md": {
+       "source_path": "skills/citation-management/references/best_practices.md",
+       "sha256": "df90d19c8f639590a6a430a889160b478dce61f4a5c0a5a36df5ab1be749b6b1",
+       "bytes": 2723
+      },
+      "references/bibtex_formatting.md": {
+       "source_path": "skills/citation-management/references/bibtex_formatting.md",
+       "sha256": "6337a8d2b87de96bf0f72c076feb0fc5d61ed9c342d9c8f19b3633efbfec6fed",
+       "bytes": 19394
+      },
+      "references/citation_validation.md": {
+       "source_path": "skills/citation-management/references/citation_validation.md",
+       "sha256": "f235f82e02db282f0abdd23fd8d2973d870d427d355979e869f736259ba95774",
+       "bytes": 18996
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "389c349ca1af371ac95698e1fa8741a34a67c68109ebb0b76540d14eb79af58d",
+       "bytes": 3208
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "ignored_tool_grants": "Read Write Edit Bash WebSearch WebFetch",
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "scholar-evaluation",
+   "title": "Scholar Evaluation",
+   "description": "Provides qualitative-first, evidence-traceable developmental review of scholarly works and audit low-stakes research-assessment rubrics with optional local quality controls. Never use for ranking people or consequential decisions.",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "assessment",
+    "audit",
+    "consequential",
+    "controls",
+    "decisions",
+    "developmental",
+    "evaluation",
+    "evidence",
+    "first",
+    "local",
+    "never",
+    "optional"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "2.4",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "scholar-evaluation",
+     "source_path": "skills/scholar-evaluation/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/scholar-evaluation/SKILL.md",
+       "sha256": "9abc66a9ba13f6cf0f61614ddfff17822b5be2cc7118f52ef2631323dac8c94e",
+       "bytes": 12418
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/evaluation_framework.md": {
+       "source_path": "skills/scholar-evaluation/references/evaluation_framework.md",
+       "sha256": "86028eb58c9fdf5a0bb34ffd37a3567c49bfafa7cb9e9ebecb3e88ddd5ecbac9",
+       "bytes": 10599
+      },
+      "references/local_tooling.md": {
+       "source_path": "skills/scholar-evaluation/references/local_tooling.md",
+       "sha256": "762ce1f939680cc99e7f6f05964dbd1205c905e929a51adea8bb8c5809758ca8",
+       "bytes": 9341
+      },
+      "references/responsible_assessment.md": {
+       "source_path": "skills/scholar-evaluation/references/responsible_assessment.md",
+       "sha256": "5730df99eb16deab151777d7bfb88253da3eb60e1d8184bb5ae39a1dd4e09406",
+       "bytes": 9848
+      },
+      "references/security_validation.md": {
+       "source_path": "skills/scholar-evaluation/references/security_validation.md",
+       "sha256": "093d3ff3cf7309db0a4262f77d5f3496120548dd75b169856a4a0a009ed60e22",
+       "bytes": 4294
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "1d45c094427ec7c006e3323536b537f9ba099d24d7def6180ccbbabacd8cf5f3",
+       "bytes": 3204
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "ignored_tool_grants": "Read Write Bash Glob Python",
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "venue-templates",
+   "title": "Venue Templates",
+   "description": "Prepares journal manuscripts, conference papers, research posters, and grant documents using venue-specific formatting guidance and bundled LaTeX scaffolds. Supports selecting an official template, checking current page or anonymity rules, adapting academic...",
+   "source": "https://github.com/K-Dense-AI/claude-scientific-skills",
+   "category": "research",
+   "roles": [
+    "agent:research"
+   ],
+   "keywords": [
+    "academic",
+    "adapting",
+    "anonymity",
+    "bundled",
+    "checking",
+    "conference",
+    "current",
+    "documents",
+    "formatting",
+    "grant",
+    "guidance",
+    "inspecting"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+   "revisions": [
+    {
+     "revision": "c21d13b3cc2894680229ba9959a53281acb9200e",
+     "version": "1.6",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "venue-templates",
+     "source_path": "skills/venue-templates/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/venue-templates/SKILL.md",
+       "sha256": "8607993327f451cc6b9d7ca7502c0e7d5f5060954fec12e2ea779d96841e78b5",
+       "bytes": 13335
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE.md",
+       "sha256": "09b02a3c9df3053c55531d503357a9c7cde275970e6c3ceaa1ddf5f0e90b40c1",
+       "bytes": 1068
+      },
+      "references/cell_press_style.md": {
+       "source_path": "skills/venue-templates/references/cell_press_style.md",
+       "sha256": "f8f30f312b2c098d9c5fc0b0cc2ab93e44c5d1f511c314171c193bd42ce2905e",
+       "bytes": 6090
+      },
+      "references/conferences_formatting.md": {
+       "source_path": "skills/venue-templates/references/conferences_formatting.md",
+       "sha256": "3babe847025e4d4eb4f469119739031ea9709ad48936150177eb941130d08ae7",
+       "bytes": 8879
+      },
+      "references/cs_conference_style.md": {
+       "source_path": "skills/venue-templates/references/cs_conference_style.md",
+       "sha256": "5cca948eef8aef571f6c5eb2b3a25b338c60fbac297eec5907e5d6e32d448c96",
+       "bytes": 6442
+      },
+      "references/current_sources.md": {
+       "source_path": "skills/venue-templates/references/current_sources.md",
+       "sha256": "648984f031181a1e5cf431677f2095af5771f6757eb050de00b8c417053922b0",
+       "bytes": 12121
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "a8bf2a6ba4908f920042346ed625ca114b9ba5fec61715a534b08cecf1450fd3",
+       "bytes": 3786
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "cold-email",
+   "title": "Cold Email",
+   "description": "When the user wants to write or run B2B cold outbound, or asks whether an opener, reason to reach out, or email works or why nobody replies: cold emails, follow-ups, sending domains, deliverability, LinkedIn, cadences. Send from secondary domains, verify li...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "outreach",
+   "roles": [
+    "agent:outreach"
+   ],
+   "keywords": [
+    "cadences",
+    "call",
+    "channel",
+    "cold",
+    "deliverability",
+    "domains",
+    "email",
+    "emails",
+    "enablement",
+    "every",
+    "first",
+    "follow"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.2.7",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "cold-email",
+     "source_path": "skills/cold-email/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/cold-email/SKILL.md",
+       "sha256": "329849d503883f364dbc94c5ce9d46683b335d4c3599d8cffa89be2d5dad594a",
+       "bytes": 12574
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/benchmarks.md": {
+       "source_path": "skills/cold-email/references/benchmarks.md",
+       "sha256": "97591ba8256dd0486f494ef22c580f08445dda3d9deb58395d89c1b6435ae95d",
+       "bytes": 6578
+      },
+      "references/deliverability.md": {
+       "source_path": "skills/cold-email/references/deliverability.md",
+       "sha256": "539d55150c8be7b9cc893701d4f8c91837a471ab4d21fc3bd721f77bc2fc5edc",
+       "bytes": 8286
+      },
+      "references/follow-up-sequences.md": {
+       "source_path": "skills/cold-email/references/follow-up-sequences.md",
+       "sha256": "a72408232976f7af74a3ea4bc03f93bf34e7dc44fb7dabd2f1f56a24b8a3f664",
+       "bytes": 3947
+      },
+      "references/frameworks.md": {
+       "source_path": "skills/cold-email/references/frameworks.md",
+       "sha256": "15f24de52a2be96fc051fa867ce2a626e79a4433a111a894e68e9f4cf1e9fb3b",
+       "bytes": 5778
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "9687c6414e8dc03b182cd981bdb5cd781f09c43d5dd9a90924f774604544f0bc",
+       "bytes": 3637
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "emails",
+   "title": "Emails",
+   "description": "When the user wants to create or improve automated email sequences, or asks what to send, when, or whether an email or flow is working: welcome, onboarding, nurture, and win-back flows. No AI tells like 'it's not X, it's Y', 'no X, no Y, no Z' lists, or fak...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "outreach",
+   "roles": [
+    "agent:outreach"
+   ],
+   "keywords": [
+    "automated",
+    "back",
+    "cold",
+    "create",
+    "email",
+    "emails",
+    "fake",
+    "flow",
+    "flows",
+    "improve",
+    "lines",
+    "lists"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.1.9",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "emails",
+     "source_path": "skills/emails/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/emails/SKILL.md",
+       "sha256": "5687682141748000282747e85ef6501c0ad4c78731e138afc9b712ebb91ae750",
+       "bytes": 11226
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/copy-guidelines.md": {
+       "source_path": "skills/emails/references/copy-guidelines.md",
+       "sha256": "c0295eead3210e7ffb214f545a960ffcc126b211732f1b468776fbb84cf720e5",
+       "bytes": 2429
+      },
+      "references/email-types.md": {
+       "source_path": "skills/emails/references/email-types.md",
+       "sha256": "a5dd4f0555a7b21d2ff426948d15657825b9d16265652563f5e272d2e1879bfd",
+       "bytes": 14250
+      },
+      "references/sequence-templates.md": {
+       "source_path": "skills/emails/references/sequence-templates.md",
+       "sha256": "f8f318f10e29abcd009cbee29e2bd178981d96c973099b508d30af6c10ab8d79",
+       "bytes": 3909
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "127896f766c6603fd110281902d2ad2f7c2655d36cae722da77193eb89ca0357",
+       "bytes": 3910
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "prospecting",
+   "title": "Prospecting",
+   "description": "When the user wants to find and qualify prospects for outbound, or asks who to target first, which signal to prioritize, or where to spot buyers with the problem: buying signals, enrichment, verification, account research. Verify emails before a sequence, n...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "outreach",
+   "roles": [
+    "agent:outreach"
+   ],
+   "keywords": [
+    "account",
+    "audiences",
+    "before",
+    "buyers",
+    "buying",
+    "cold",
+    "competitor",
+    "contacts",
+    "data",
+    "define",
+    "email",
+    "emails"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "1.8.0",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "prospecting",
+     "source_path": "skills/prospecting/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/prospecting/SKILL.md",
+       "sha256": "57d825ef97609dd3019a6c7d7c808d00b180fa7065d1a2fa507bd4133f5ff7b3",
+       "bytes": 20091
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/account-research.md": {
+       "source_path": "skills/prospecting/references/account-research.md",
+       "sha256": "cf09a7f41b4963d919dcdf96d659fe898a1ade5328ab481864419f6dd1d4bba9",
+       "bytes": 3771
+      },
+      "references/b2b-prospecting.md": {
+       "source_path": "skills/prospecting/references/b2b-prospecting.md",
+       "sha256": "b7a05da9d1584cc8d21432a43fe1ba802c4f9a6c601e3885d4117cc9d4d52f37",
+       "bytes": 4978
+      },
+      "references/compliance.md": {
+       "source_path": "skills/prospecting/references/compliance.md",
+       "sha256": "ef2f869b4f1d43c0f1eb6cd63b069f7a975b732cfe607ad68378fb5353239556",
+       "bytes": 11906
+      },
+      "references/data-sources.md": {
+       "source_path": "skills/prospecting/references/data-sources.md",
+       "sha256": "95d7b160c6b300411cf9772adf7b1cdcccd1099af2d48692eb5f66970e6f465e",
+       "bytes": 13764
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "d974d8426fb7968e0359f66ec587f4918a93cfe1dc66f5173f65778321e3d190",
+       "bytes": 3709
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "copywriting",
+   "title": "Copywriting",
+   "description": "When the user wants to write or rewrite page copy (homepage, landing, pricing, feature), or asks which headline, promise, or message to lead with. Diagnoses the input first (blank brief, real voice, or point edit) and changes only what it calls for. Claims ...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "outreach",
+   "roles": [
+    "agent:outreach"
+   ],
+   "keywords": [
+    "blank",
+    "brief",
+    "calls",
+    "changes",
+    "claim",
+    "claims",
+    "copy",
+    "copywriting",
+    "declined",
+    "diagnoses",
+    "edit",
+    "editing"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.3.6",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "copywriting",
+     "source_path": "skills/copywriting/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/copywriting/SKILL.md",
+       "sha256": "86dc0466493e8ac59ab17a8f28fd1403e2a322921ed2a8f96b2d0c442ad99d01",
+       "bytes": 15238
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/ai-tells.md": {
+       "source_path": "skills/copywriting/references/ai-tells.md",
+       "sha256": "b98c3a19b3a75c714d69e80a0076e4c07244b0e833c2ce81ff2631224fb7f7b2",
+       "bytes": 20804
+      },
+      "references/copy-frameworks.md": {
+       "source_path": "skills/copywriting/references/copy-frameworks.md",
+       "sha256": "4db06c481a904be3e4571ad8f671532c97ec186ddf0fb8aee3e3a56ef8e3d441",
+       "bytes": 14409
+      },
+      "references/natural-transitions.md": {
+       "source_path": "skills/copywriting/references/natural-transitions.md",
+       "sha256": "9bd61b0de5be2c4de4ce130c68236b4f290b12737823827a458bb2b4c8584683",
+       "bytes": 5561
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "5b46a3249ce50edd8fad837145bf4ebf60e8d4df3ca6a2031cce2be58a9e8f0a",
+       "bytes": 3478
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "sales-enablement",
+   "title": "Sales Enablement",
+   "description": "When the user wants sales collateral, or asks what to give a champion or rep, or how to answer an objection or make the case: decks, one-pagers, objection handling, demo scripts, talk tracks, battle cards, proposals, win-loss. For public comparison pages, s...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "outreach",
+   "roles": [
+    "agent:outreach"
+   ],
+   "keywords": [
+    "answer",
+    "battle",
+    "buyer",
+    "cards",
+    "case",
+    "champion",
+    "cold",
+    "collateral",
+    "comparison",
+    "competitors",
+    "copy",
+    "copywriting"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.4.4",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "sales-enablement",
+     "source_path": "skills/sales-enablement/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/sales-enablement/SKILL.md",
+       "sha256": "6869bac9c9f5e404bc01de85800f8d90ccfb2c06d25fb2bafe1d3d4f2e61fc36",
+       "bytes": 20947
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/cold-call-scripts.md": {
+       "source_path": "skills/sales-enablement/references/cold-call-scripts.md",
+       "sha256": "cc4e3248070804539f8c1de01fd63918d8e40a6ad858dea2a519d50a060e268f",
+       "bytes": 4133
+      },
+      "references/deck-frameworks.md": {
+       "source_path": "skills/sales-enablement/references/deck-frameworks.md",
+       "sha256": "265eea6c1b358d10f2dd22fd987789a9d115c14d30bf77a9086734ac60659336",
+       "bytes": 7730
+      },
+      "references/demo-scripts.md": {
+       "source_path": "skills/sales-enablement/references/demo-scripts.md",
+       "sha256": "505616ebf73d30fe84a844540727ab8f3aeae29ebcda8c8ace28a18ada003da3",
+       "bytes": 11769
+      },
+      "references/objection-library.md": {
+       "source_path": "skills/sales-enablement/references/objection-library.md",
+       "sha256": "e0cdfeffc41afbdbe2c014bcd9b3c024318eac9bd23159e871ec796aba29e0b2",
+       "bytes": 13393
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "7d3743a9a13975d3e26291c7e55f0c4343d158f3f26db427e5044ce4426c5b33",
+       "bytes": 3244
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "public-relations",
+   "title": "Public Relations",
+   "description": "When the user wants press and media coverage, or asks what to say to a reporter, whether a story is newsworthy, or how to handle a crisis: pitches, press releases, media lists, HARO, op-eds, podcast guest prep, newsjacking (public relations, not pull reques...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "outreach",
+   "roles": [
+    "agent:outreach"
+   ],
+   "keywords": [
+    "cold",
+    "coverage",
+    "crisis",
+    "directories",
+    "directory",
+    "email",
+    "guest",
+    "handle",
+    "haro",
+    "launch",
+    "launches",
+    "lists"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "1.3.1",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "public-relations",
+     "source_path": "skills/public-relations/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/public-relations/SKILL.md",
+       "sha256": "72bfaf639021d84635c60495931b8872fd25925ea407e3b398ff7d00dd5ee3ae",
+       "bytes": 9809
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/crisis-communications.md": {
+       "source_path": "skills/public-relations/references/crisis-communications.md",
+       "sha256": "55a00b7d23af710a4fe23b695707c1cc361ac94673bcd93ca76a2be0c0834aea",
+       "bytes": 8599
+      },
+      "references/journalist-pitching.md": {
+       "source_path": "skills/public-relations/references/journalist-pitching.md",
+       "sha256": "ba0b853771cbf6eb29540694b0dee72a393cd79b46d7fd2d9b70c8bbcf85c663",
+       "bytes": 11065
+      },
+      "references/media-outlets.md": {
+       "source_path": "skills/public-relations/references/media-outlets.md",
+       "sha256": "49c727db10a86d0d227275b970a131d677961ef7cf16e0fc8ced588688133899",
+       "bytes": 9307
+      },
+      "references/newsjacking.md": {
+       "source_path": "skills/public-relations/references/newsjacking.md",
+       "sha256": "73930fd20a8fcf73f6d47c28d9a1574f241006434267b9043e8ab0461f0f2d42",
+       "bytes": 8650
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "ca8783fce2bd7c73b1fb0e0a04bd0f4969b74f69e624c38efc83363001a55b6f",
+       "bytes": 3179
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "seo-audit",
+   "title": "SEO Audit",
+   "description": "When the user wants to audit or diagnose SEO, or asks why traffic dropped, a page won't rank, or whether a setup like canonicals, hreflang, or redirects is right: technical SEO, indexing, Google updates, on-page and titles, Core Web Vitals, local SEO. Start...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "audit",
+    "canonicals",
+    "core",
+    "data",
+    "diagnose",
+    "dropped",
+    "google",
+    "here",
+    "hreflang",
+    "indexing",
+    "just",
+    "local"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.2.10",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "seo-audit",
+     "source_path": "skills/seo-audit/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/seo-audit/SKILL.md",
+       "sha256": "91bad6e5a85a8fef21c8d03876978e4e4e15c23a0785bb7471100d9f3a4beea8",
+       "bytes": 19593
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/ai-writing-detection.md": {
+       "source_path": "skills/seo-audit/references/ai-writing-detection.md",
+       "sha256": "f1e273f56ce7e2215ff218bf903680ddcec0fd026ab90c3ebfb3439ed0edfaa4",
+       "bytes": 6528
+      },
+      "references/international-seo.md": {
+       "source_path": "skills/seo-audit/references/international-seo.md",
+       "sha256": "0603022cca968acf7889fc224221aa0e70955ba64355bc18b06f7e86b32f45e5",
+       "bytes": 14898
+      },
+      "references/local-seo-pages-and-measurement.md": {
+       "source_path": "skills/seo-audit/references/local-seo-pages-and-measurement.md",
+       "sha256": "20607ef91c4b8b37346f42130a6f51ed4ce64dc2731b6e1328b5b14f16917fe3",
+       "bytes": 4036
+      },
+      "references/local-seo-profile-and-citations.md": {
+       "source_path": "skills/seo-audit/references/local-seo-profile-and-citations.md",
+       "sha256": "83b1b63eb6083e7aab1f56c4928335ea2a235e837861a9e9e8043b6af162a1f3",
+       "bytes": 3971
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "201ef9ea5960160f66f8e70bac88118c80b70f532418b4e2450f3fca3c5d8dae",
+       "bytes": 3279
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "ai-seo",
+   "title": "AI SEO",
+   "description": "When the user wants to get cited and recommended in AI answers (ChatGPT, Perplexity, AI Overviews), or asks why AI cites a competitor, which content gets cited, or whether llms.txt or a page format is worth it: AEO, GEO, AI visibility, agent-readable sites....",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "agent",
+    "answers",
+    "audit",
+    "chatgpt",
+    "cited",
+    "cites",
+    "competitor",
+    "content",
+    "data",
+    "format",
+    "gets",
+    "llms"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.12.7",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "ai-seo",
+     "source_path": "skills/ai-seo/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/ai-seo/SKILL.md",
+       "sha256": "1eb9e2c4d35adc3b98e10703c03909a92d2e45244095287f88e023ce7c307024",
+       "bytes": 37764
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/agent-defaults.md": {
+       "source_path": "skills/ai-seo/references/agent-defaults.md",
+       "sha256": "4f009f323b381553961914bf7d67755ee3c178dd10f1570f61fe306cd0054b21",
+       "bytes": 9344
+      },
+      "references/agent-readiness.md": {
+       "source_path": "skills/ai-seo/references/agent-readiness.md",
+       "sha256": "2d2d3b47c4efa6151bd463f8bdbd346101d7e9606946d7479f97aeb694cc7561",
+       "bytes": 19036
+      },
+      "references/ai-attribution.md": {
+       "source_path": "skills/ai-seo/references/ai-attribution.md",
+       "sha256": "accaf004e50fd92d16e5e1b57ce0aa5f5c0f88d1ba7bb2ce6939de29fe3e1728",
+       "bytes": 4302
+      },
+      "references/answer-accuracy.md": {
+       "source_path": "skills/ai-seo/references/answer-accuracy.md",
+       "sha256": "9c9115a720c6891fc7e0122d465ed38643170b026fa461de5971feb642f0da57",
+       "bytes": 5705
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "ca5242ddb123a4b0fa4546323d2961a033077c629a1ab0e6ad55466c3bdf4efb",
+       "bytes": 3233
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "cro",
+   "title": "CRO",
+   "description": "When the user wants more conversions from a page or form, or asks why a page isn't converting, what to change first, or whether to add or remove a field or element: landing and pricing pages, lead forms, or a URL shared for feedback. For signup flows, see s...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "activation",
+    "change",
+    "conversions",
+    "converting",
+    "element",
+    "feedback",
+    "field",
+    "first",
+    "flows",
+    "form",
+    "forms",
+    "landing"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.0.6",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "cro",
+     "source_path": "skills/cro/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/cro/SKILL.md",
+       "sha256": "0f8588aba125de102498ca3bbaa0151c8ebffa0a7ad85c14d992ef16db02fb2d",
+       "bytes": 6815
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/experiments.md": {
+       "source_path": "skills/cro/references/experiments.md",
+       "sha256": "bbcc356c0af36cfaa4556bf9e929deac30c65cafb37f909d7c51d4777fe254ca",
+       "bytes": 7850
+      },
+      "references/form.md": {
+       "source_path": "skills/cro/references/form.md",
+       "sha256": "49b8f29b3da1ae6510572288cad3eb1f3d43a969373443be98b38639746587e6",
+       "bytes": 10332
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "25b161b27efaf7ec6add603cf0304f0377348d0dd6094b8bb7731929e3824b51",
+       "bytes": 3378
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "competitor-profiling",
+   "title": "Competitor Profiling",
+   "description": "When the user wants to research competitors into dated profiles, or asks what a rival charges, claims, or is doing, or whether a conclusion about them is fair: positioning, pricing, features, reviews, SEO, observed facts kept apart from inference. For compa...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "accounts",
+    "apart",
+    "battle",
+    "cards",
+    "charges",
+    "claims",
+    "comparison",
+    "competitor",
+    "competitors",
+    "conclusion",
+    "dated",
+    "doing"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.1.9",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "competitor-profiling",
+     "source_path": "skills/competitor-profiling/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/competitor-profiling/SKILL.md",
+       "sha256": "ebe96d2a92094b6da24b7b1be489302dcd547f4aabf5b820778605cbb4ef741d",
+       "bytes": 17396
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/templates.md": {
+       "source_path": "skills/competitor-profiling/references/templates.md",
+       "sha256": "710d78cb519012eb7e39f63643e22d7b9026c91c569262b44c45535c10717a91",
+       "bytes": 4668
+      },
+      "references/tool-reference.md": {
+       "source_path": "skills/competitor-profiling/references/tool-reference.md",
+       "sha256": "fda64910bc1b3a2bc7df21c15701220849b4b79a58a51f9d3ccae1b7311dbd79",
+       "bytes": 13132
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "9217dcdbcdf22bd5711dc1671695f3621c97b9bcf3336134e17864dc4094af2e",
+       "bytes": 3239
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "pricing",
+   "title": "Pricing",
+   "description": "When the user wants to set pricing and packaging, or asks what to charge, whether to raise prices, or how to move existing customers: tiers, value metrics, per-seat vs usage, freemium and trials, willingness to pay, pricing pages. For in-app upgrade screens...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "charge",
+    "courses",
+    "customers",
+    "existing",
+    "freemium",
+    "high",
+    "metrics",
+    "move",
+    "offers",
+    "packaging",
+    "pages",
+    "paywalls"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.1.7",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "pricing",
+     "source_path": "skills/pricing/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/pricing/SKILL.md",
+       "sha256": "4f0a939631eca1b4bbee22bf6bc88b35ac06c33bfa8e4e837c8767a4bf6f5b54",
+       "bytes": 12949
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/pricing-models.md": {
+       "source_path": "skills/pricing/references/pricing-models.md",
+       "sha256": "2cdb900b74f56a796c0331725e73eff4ecd84f8021b42efbb0a5b4903d1d9b16",
+       "bytes": 4681
+      },
+      "references/pricing-page-teardown.md": {
+       "source_path": "skills/pricing/references/pricing-page-teardown.md",
+       "sha256": "b58a3bffa58ae7c3a475aba33887daaa98e0dc0de57ea948314256b08aa306ad",
+       "bytes": 7283
+      },
+      "references/research-methods.md": {
+       "source_path": "skills/pricing/references/research-methods.md",
+       "sha256": "90337058da40c2fcf858bfee9ee8905ad1dc3a5f90d1878f9a8e9ab79193631b",
+       "bytes": 6677
+      },
+      "references/tier-structure.md": {
+       "source_path": "skills/pricing/references/tier-structure.md",
+       "sha256": "b59910d37cceb74484f28b065963daa60f5c4fb1ffc36a0584d0f3cad11f3e30",
+       "bytes": 7199
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "5a67c2bceb5b7f2ee7090b535cab91d0898429ff73f52b5e3dcf10618fc2f513",
+       "bytes": 3643
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "marketing-psychology",
+   "title": "Marketing Psychology",
+   "description": "When the user wants to apply psychology to marketing, or asks why buyers behave or value things as they do, or whether a persuasion tactic is honest: biases, mental models, anchoring, social proof, scarcity, loss aversion, framing. For a page, see cro. For ...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "anchoring",
+    "apply",
+    "aversion",
+    "behave",
+    "biases",
+    "buyers",
+    "copy",
+    "copywriting",
+    "framing",
+    "honest",
+    "loss",
+    "marketing"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.0.3",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "marketing-psychology",
+     "source_path": "skills/marketing-psychology/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/marketing-psychology/SKILL.md",
+       "sha256": "755efd52954ecbbddc6fd0fe07cfa4999b63544bf716f2b5587a50c6f26228c0",
+       "bytes": 21597
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "aa6458da5c264635623117778c2d364c94cebea8092e44e9b0a3b66dbf942533",
+       "bytes": 2955
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "content-strategy",
+   "title": "Content Strategy",
+   "description": "When the user wants to plan content, or asks which topic or piece to prioritize, what to write about, or why posts bring no customers: topic clusters, editorial calendars, roadmaps tied to customers and search. For writing pieces, see copywriting. For SEO a...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "audit",
+    "audits",
+    "bring",
+    "calendars",
+    "clusters",
+    "content",
+    "copywriting",
+    "customers",
+    "editorial",
+    "piece",
+    "pieces",
+    "plan"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.1.8",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "content-strategy",
+     "source_path": "skills/content-strategy/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/content-strategy/SKILL.md",
+       "sha256": "6bc1c8df711a6c9466e312dca9c99a895bd76989b7a52d0f39dca340db3bc5f5",
+       "bytes": 19040
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/content-distribution.md": {
+       "source_path": "skills/content-strategy/references/content-distribution.md",
+       "sha256": "1861a1aab0627ab29c279000879a9889242da1ba85e677acdc759c66a6241778",
+       "bytes": 5576
+      },
+      "references/headless-cms.md": {
+       "source_path": "skills/content-strategy/references/headless-cms.md",
+       "sha256": "efc796ae9596d1efcb876683db2d9b7c10c83e76e1cb69e527097907d5b4fc3f",
+       "bytes": 8583
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "b9912ebf91dd88ccc621d8bc9ac4512f6ef4fd03d60d5144c3163e1381c2d0a3",
+       "bytes": 3213
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "launch",
+   "title": "Launch",
+   "description": "When the user wants to plan a product or feature launch, or asks whether it's ready, when to announce, or how to get noticed: Product Hunt, beta and early access, waitlists, release go-to-market, launch checklists, release notes. For marketing after launch,...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "access",
+    "after",
+    "announce",
+    "beta",
+    "checklists",
+    "early",
+    "feature",
+    "hunt",
+    "ideas",
+    "launch",
+    "market",
+    "marketing"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.2.4",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "launch",
+     "source_path": "skills/launch/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/launch/SKILL.md",
+       "sha256": "9d93f17367df59103fd932462cb170d1cfa5561d44e00423a52f7dadbce1bc3d",
+       "bytes": 15250
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/shipped-changes.md": {
+       "source_path": "skills/launch/references/shipped-changes.md",
+       "sha256": "873c79d17d3f428147348a9cc2a5e3d6bb8282cf13fc8a143d539840e8abaa96",
+       "bytes": 4703
+      },
+      "references/site-launch-qa.md": {
+       "source_path": "skills/launch/references/site-launch-qa.md",
+       "sha256": "aac0447d0d518468e86e971f4e781b61ee05e81dada402e2edcef709cc6418ab",
+       "bytes": 3793
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "a7cbdeb4b41b001e556fc72404b33ba5578450ceeba28fe009fe211861afd6d3",
+       "bytes": 3472
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "product-marketing",
+   "title": "Product Marketing",
+   "description": "When the user wants to create or update the product marketing context doc (.agents/product-marketing.md), or asks what belongs in it or whether positioning or ICP is clear enough: product, ICP, positioning, competitors, customer language, brand voice. Use i...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "agents",
+    "audience",
+    "before",
+    "belongs",
+    "brand",
+    "changes",
+    "clear",
+    "competitors",
+    "context",
+    "create",
+    "customer",
+    "enough"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.2.3",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "product-marketing",
+     "source_path": "skills/product-marketing/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/product-marketing/SKILL.md",
+       "sha256": "8dbccc22998b3cac194c3509fa93d119163b82c9b0a1ce573e6737e5a5ccf555",
+       "bytes": 13569
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/brand-voice.md": {
+       "source_path": "skills/product-marketing/references/brand-voice.md",
+       "sha256": "932f3453db2761f03050792e39800150495dab449750b40913a4314ea97e7672",
+       "bytes": 8361
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "c3339bd3d69218126eb50b9ce211f0d29fb8ac33f3bd9c111b1eb31598ed08aa",
+       "bytes": 3224
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "offers",
+   "title": "Offers",
+   "description": "When the user wants to design or improve the offer itself, or asks why it isn't selling or how to add urgency honestly: value stacking, bonuses, guarantees, scarcity, payment plans, upsells. Best for services, courses, coaching, and high-ticket B2B; for sel...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "best",
+    "bonuses",
+    "coaching",
+    "collateral",
+    "copywriting",
+    "courses",
+    "design",
+    "enablement",
+    "first",
+    "guarantees",
+    "high",
+    "honestly"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "1.0.6",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "offers",
+     "source_path": "skills/offers/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/offers/SKILL.md",
+       "sha256": "d5de835c90e65c9fc117508760ca6df5d8d0ab546ffe6933beab089c944ba71c",
+       "bytes": 9593
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/bonus-stacking.md": {
+       "source_path": "skills/offers/references/bonus-stacking.md",
+       "sha256": "872abbfd14501fd0b097f5ae62b9931571152d43b6690b57df5e65ab48aedfbd",
+       "bytes": 7758
+      },
+      "references/examples.md": {
+       "source_path": "skills/offers/references/examples.md",
+       "sha256": "f1033e181845effe8c659800aaf68523686be6bdcb1c5e256c87008e8ea638af",
+       "bytes": 10203
+      },
+      "references/guarantee-design.md": {
+       "source_path": "skills/offers/references/guarantee-design.md",
+       "sha256": "daa421558b664fe5a335c6cb764d47755799662c79606551a848bba864255c29",
+       "bytes": 8173
+      },
+      "references/offer-anatomy.md": {
+       "source_path": "skills/offers/references/offer-anatomy.md",
+       "sha256": "0810080788bedc9b40dc0aba53109991aa816397f4b45e813289985eb8a64cad",
+       "bytes": 8857
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "0e6d29af982af52757044cbf22a4a8cb2b1f18c2ddd10c179475398e443f5e9c",
+       "bytes": 3259
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "lead-magnets",
+   "title": "Lead Magnets",
+   "description": "When the user wants to plan or improve a lead magnet, or asks what to give away for emails or how much to ask in return (gating, form fields): checklists, templates, ebooks, gated guides, content upgrades. For interactive tools, see free-tools. For the foll...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "away",
+    "capture",
+    "checklists",
+    "content",
+    "ebooks",
+    "emails",
+    "fields",
+    "follow",
+    "form",
+    "free",
+    "gated",
+    "gating"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.1.5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "lead-magnets",
+     "source_path": "skills/lead-magnets/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/lead-magnets/SKILL.md",
+       "sha256": "858b6c0735e7c79b191416344eb3bb57cfdc2743ddc9d50b4bcbef820a9e98e1",
+       "bytes": 10863
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/benchmarks.md": {
+       "source_path": "skills/lead-magnets/references/benchmarks.md",
+       "sha256": "becdf4bcde17e788ead10794c797294548c712ea1074e042336da93433a61187",
+       "bytes": 4234
+      },
+      "references/content-to-skill-corpus-design.md": {
+       "source_path": "skills/lead-magnets/references/content-to-skill-corpus-design.md",
+       "sha256": "63ecb58aaa18ebcacfbc4cdefdc8075a3f33793a59c79fa73b784ad0dfa93881",
+       "bytes": 5008
+      },
+      "references/content-to-skill-release.md": {
+       "source_path": "skills/lead-magnets/references/content-to-skill-release.md",
+       "sha256": "87bcc9218232b73b824e8cebac1e64deacffa755779ce2cc0db799c92873c891",
+       "bytes": 4792
+      },
+      "references/content-to-skill.md": {
+       "source_path": "skills/lead-magnets/references/content-to-skill.md",
+       "sha256": "dacbfff6d538ee37167f20034165dbf3a273d8bd1607def6450c649e40ebafa9",
+       "bytes": 8406
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "1a58b059e6840e8c0545decd6ee3859cbcb2ef31a6d06e0603ca7f951844cb6a",
+       "bytes": 3996
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "social",
+   "title": "Social",
+   "description": "When the user wants organic social content for LinkedIn, X, Instagram, TikTok, or Facebook, or asks what to post, which format to favor, or from which account: posts, threads, carousels, short-form video scripts, calendars, build-in-public posts from commit...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "account",
+    "broetry",
+    "build",
+    "calendars",
+    "carousels",
+    "commits",
+    "content",
+    "creative",
+    "facebook",
+    "favor",
+    "form",
+    "format"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.6.1",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "social",
+     "source_path": "skills/social/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/social/SKILL.md",
+       "sha256": "d432139c55f101161116037978f3a4e73e83019788f5de62aea05308e849e991",
+       "bytes": 19326
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/carousel-frameworks.md": {
+       "source_path": "skills/social/references/carousel-frameworks.md",
+       "sha256": "e703aa530ec9f68cdf5b58e8e0d4d1a5cc3f22b9e2d3e3222f16a9763d423247",
+       "bytes": 11124
+      },
+      "references/chinese-platforms.md": {
+       "source_path": "skills/social/references/chinese-platforms.md",
+       "sha256": "71e814cd2af184350f626b547ee852774f74e07e91a68f019ad7b6567770865c",
+       "bytes": 14886
+      },
+      "references/listening-sources-template.md": {
+       "source_path": "skills/social/references/listening-sources-template.md",
+       "sha256": "c68bc6f57b0a48c432b1ce72c9324d41a04d0e7784d0bab91afb4a6065a43e38",
+       "bytes": 3479
+      },
+      "references/listening.md": {
+       "source_path": "skills/social/references/listening.md",
+       "sha256": "f0101e9401fec8a60177f922b35453ffbedc1c04c97c0ab196c7777e811fb2a8",
+       "bytes": 14476
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "d8c4499f33c4204b66a0156a8e83592609ff68e95863f65f944702169be16a56",
+       "bytes": 3210
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "site-architecture",
+   "title": "Site Architecture",
+   "description": "When the user wants to plan or restructure a website, or asks which pages they need or where something belongs: hierarchy, navigation, URL structure, internal linking, website builders and migrations. Not XML sitemaps (see seo-audit). For structured data, s...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "architecture",
+    "audit",
+    "belongs",
+    "builders",
+    "data",
+    "hierarchy",
+    "internal",
+    "linking",
+    "migrations",
+    "navigation",
+    "need",
+    "pages"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.1.3",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "site-architecture",
+     "source_path": "skills/site-architecture/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/site-architecture/SKILL.md",
+       "sha256": "0c71871aea12689012b4d85aaaf24a4752d3f0e985603c4992d5c0bf0fce57ea",
+       "bytes": 13554
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/mermaid-templates.md": {
+       "source_path": "skills/site-architecture/references/mermaid-templates.md",
+       "sha256": "362190c7d3f419d5f445170f1fb17beecc163937d2068922893b7a69eeb25f0f",
+       "bytes": 4922
+      },
+      "references/navigation-patterns.md": {
+       "source_path": "skills/site-architecture/references/navigation-patterns.md",
+       "sha256": "2efa772709b753e33d5018c007147ca30aaa95a04b04dc0df6227ea5a053078b",
+       "bytes": 10733
+      },
+      "references/platforms-and-migration.md": {
+       "source_path": "skills/site-architecture/references/platforms-and-migration.md",
+       "sha256": "391f12c5994e1e577db75cd6044e038a276f14eda1c2ebc7f6a92293fbc59448",
+       "bytes": 9915
+      },
+      "references/site-type-templates.md": {
+       "source_path": "skills/site-architecture/references/site-type-templates.md",
+       "sha256": "3c3cd7ce5e31c502dc071baf82bb58cb30f5edf4a2fd8ca052fbc8f3777db140",
+       "bytes": 9624
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "9d0093d6549d35de9e788a2f986e1cbf6a62f9da6dff1fe406be7d0e2cac8d44",
+       "bytes": 3236
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "schema",
+   "title": "Schema",
+   "description": "When the user wants to add, fix, or validate schema markup (JSON-LD), or asks which type fits a page or whether some markup is allowed: product, review, recipe, FAQ, rich result eligibility (FAQ no longer earns Google rich results), Search Console errors. F...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "allowed",
+    "audit",
+    "broader",
+    "console",
+    "earns",
+    "eligibility",
+    "errors",
+    "fits",
+    "google",
+    "json",
+    "longer",
+    "markup"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "2.0.5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "schema",
+     "source_path": "skills/schema/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/schema/SKILL.md",
+       "sha256": "673fa46bad2f2d4649955c473b11778bd2d258317662df670b31414e28725a84",
+       "bytes": 6914
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/schema-examples.md": {
+       "source_path": "skills/schema/references/schema-examples.md",
+       "sha256": "9b093bce816fac8494c8ccfd588eeb0c00e1308fe99bb46388ff222664ed94be",
+       "bytes": 9298
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "b7e447f17343c25e143583e013d9ad2629a484160e458ac6d7e9b9a91a6fc6ab",
+       "bytes": 2761
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "marketing-plan",
+   "title": "Marketing Plan",
+   "description": "When the user wants a full marketing or go-to-market plan for a client, an advised company, or their own product, or asks how to sequence or prioritize several initiatives with a fixed team and budget: channels, budget, team, goals across AARRR, market sizi...",
+   "source": "https://github.com/coreyhaines31/marketingskills",
+   "category": "growth",
+   "roles": [
+    "agent:business"
+   ],
+   "keywords": [
+    "aarrr",
+    "across",
+    "advised",
+    "budget",
+    "channels",
+    "client",
+    "company",
+    "first",
+    "fixed",
+    "full",
+    "goals",
+    "ideas"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+   "revisions": [
+    {
+     "revision": "2bf95edb4ebd37198ab7fd18b99ba95c2145ec64",
+     "version": "1.2.6",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "marketing-plan",
+     "source_path": "skills/marketing-plan/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/marketing-plan/SKILL.md",
+       "sha256": "9f4b07b78d58ea5c5da23e91e05304047df60685485c16c28352c0fb99a80ac0",
+       "bytes": 25123
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "b70d71e24e40fce5da8f4b6f9cd862096a048e433db7f3c8cac5e348e6d34591",
+       "bytes": 1069
+      },
+      "references/aarrr-framework.md": {
+       "source_path": "skills/marketing-plan/references/aarrr-framework.md",
+       "sha256": "5c7bf583c2aa62e193789b6b1a88a978bf3ba9dc0c8c6653b53f7f62c0c1a0e3",
+       "bytes": 10766
+      },
+      "references/budget-planning.md": {
+       "source_path": "skills/marketing-plan/references/budget-planning.md",
+       "sha256": "4351fa1712b66e3e527b71ec9a2e01a68edb43e77b6d310bb424756c6d1a17f7",
+       "bytes": 10265
+      },
+      "references/client-types.md": {
+       "source_path": "skills/marketing-plan/references/client-types.md",
+       "sha256": "06e3d0a6f3e9b7195a8c0b43d5186769d1554d1dfd8b1212aca220f9ce09fc01",
+       "bytes": 11386
+      },
+      "references/current-state-rubric.md": {
+       "source_path": "skills/marketing-plan/references/current-state-rubric.md",
+       "sha256": "8ab1d4a4d16ec01c2bf61d83807c0abd857aadd82f3eeaf4e4842b4bbeff1f03",
+       "bytes": 11656
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "b4eb2233705620ca9b2b278775006275764973d8710adad6b2c287131d6a0719",
+       "bytes": 2978
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "accessibility-engineering",
+   "title": "Accessibility Engineering",
+   "description": "Audits existing interfaces for WCAG 2.2 AA conformance and remediates the violations found. Use when auditing a page or component for accessibility, running axe-core or pa11y, triaging a11y violations, or checking screen reader and contrast issues before sh...",
+   "source": "https://github.com/addyosmani/agent-skills",
+   "category": "engineering",
+   "roles": [
+    "agent:engineering"
+   ],
+   "keywords": [
+    "accessibility",
+    "auditing",
+    "audits",
+    "before",
+    "checking",
+    "component",
+    "conformance",
+    "contrast",
+    "core",
+    "engineering",
+    "existing",
+    "found"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+   "revisions": [
+    {
+     "revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+     "version": "upstream-e997ac5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "accessibility-engineering",
+     "source_path": "skills/accessibility-engineering/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/accessibility-engineering/SKILL.md",
+       "sha256": "75890ff5b6ec110606d023905a2905294b5fd87de60ae7b5f675099ee24dcebe",
+       "bytes": 7846
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "6f202f8bd568cd730dbb2b0d1f8e243bc74c2fa1f64dbce9b2c7ea08bd5c9fd7",
+       "bytes": 1068
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "fe633d618b54024714f68223c035374f265ebcaae610aa7308efec360f881ecc",
+       "bytes": 3305
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "performance-optimization",
+   "title": "Performance Optimization",
+   "description": "Optimizes application performance across frontend, backend, queries, and databases. Use when performance requirements exist, when you suspect performance regressions, when Core Web Vitals or load times need improvement, when N+1 query patterns need fixing, ...",
+   "source": "https://github.com/addyosmani/agent-skills",
+   "category": "engineering",
+   "roles": [
+    "agent:engineering"
+   ],
+   "keywords": [
+    "across",
+    "application",
+    "backend",
+    "bottlenecks",
+    "core",
+    "databases",
+    "exist",
+    "fixing",
+    "frontend",
+    "improvement",
+    "load",
+    "need"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+   "revisions": [
+    {
+     "revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+     "version": "upstream-e997ac5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "performance-optimization",
+     "source_path": "skills/performance-optimization/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/performance-optimization/SKILL.md",
+       "sha256": "5f1e070d962230de8bab53768da2a72300a4ea2f11a7a81bbdf5b0e3c297d0e0",
+       "bytes": 16785
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "6f202f8bd568cd730dbb2b0d1f8e243bc74c2fa1f64dbce9b2c7ea08bd5c9fd7",
+       "bytes": 1068
+      },
+      "references/optimization-patterns.md": {
+       "source_path": "skills/performance-optimization/references/optimization-patterns.md",
+       "sha256": "2960077018e29187de159ba026ce4e7e74fd18d52fdef7046f352fc184f78b80",
+       "bytes": 9694
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "6cc3396236722a3f4115c879fb1e7eadd4bd9148f259092000e6d8bfc0c4b33a",
+       "bytes": 3769
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "security-and-hardening",
+   "title": "Security And Hardening",
+   "description": "Hardens code against vulnerabilities. Use when auditing an input handler for vulnerabilities, when handling user input, authentication, data storage, or external integrations, or when checking a login flow is safe against the OWASP Top Ten. Use when buildin...",
+   "source": "https://github.com/addyosmani/agent-skills",
+   "category": "engineering",
+   "roles": [
+    "agent:engineering"
+   ],
+   "keywords": [
+    "accepts",
+    "against",
+    "assessing",
+    "audit",
+    "auditing",
+    "authentication",
+    "building",
+    "ccpa",
+    "chain",
+    "checking",
+    "code",
+    "compliance"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+   "revisions": [
+    {
+     "revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+     "version": "upstream-e997ac5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "security-and-hardening",
+     "source_path": "skills/security-and-hardening/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/security-and-hardening/SKILL.md",
+       "sha256": "61eb8050566ffab5ab0f891c247cacae615f685b83f0d9e02283561761ea692b",
+       "bytes": 17595
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "6f202f8bd568cd730dbb2b0d1f8e243bc74c2fa1f64dbce9b2c7ea08bd5c9fd7",
+       "bytes": 1068
+      },
+      "references/hardening-patterns.md": {
+       "source_path": "skills/security-and-hardening/references/hardening-patterns.md",
+       "sha256": "873ee9a5a7471c09e828923975acb5f2acde3ccabbe53f6d68380e3f8c7508a5",
+       "bytes": 14097
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "520dbc693123aa0115e360d29951babf964498bb7b78fa1e6dc7e20d9603925c",
+       "bytes": 3270
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "api-and-interface-design",
+   "title": "API And Interface Design",
+   "description": "Guides stable API and interface design. Use when designing APIs, module boundaries, or any public interface. Use when creating REST or GraphQL endpoints, defining type contracts between modules, or establishing boundaries between frontend and backend.",
+   "source": "https://github.com/addyosmani/agent-skills",
+   "category": "engineering",
+   "roles": [
+    "agent:engineering"
+   ],
+   "keywords": [
+    "apis",
+    "backend",
+    "between",
+    "boundaries",
+    "contracts",
+    "creating",
+    "defining",
+    "design",
+    "designing",
+    "endpoints",
+    "establishing",
+    "frontend"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+   "revisions": [
+    {
+     "revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+     "version": "upstream-e997ac5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "api-and-interface-design",
+     "source_path": "skills/api-and-interface-design/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/api-and-interface-design/SKILL.md",
+       "sha256": "cc5e2166c484b2c297e8253f56e7525e5031f81d66101ca4e760ef378ea6bad0",
+       "bytes": 14938
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "6f202f8bd568cd730dbb2b0d1f8e243bc74c2fa1f64dbce9b2c7ea08bd5c9fd7",
+       "bytes": 1068
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "3175bfb8078a619bdc731ee44093e9d7b0b3adb0ba4fca91a1321ae71b9c0d8a",
+       "bytes": 3908
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "documentation-and-adrs",
+   "title": "Documentation And ADRs",
+   "description": "Records decisions and documentation, and detects when documentation has drifted from the code it describes. Use when you need to document an architecture decision (ADR) or the reasoning behind a design choice, when changing public APIs, shipping features, w...",
+   "source": "https://github.com/addyosmani/agent-skills",
+   "category": "engineering",
+   "roles": [
+    "agent:engineering"
+   ],
+   "keywords": [
+    "accurate",
+    "adrs",
+    "again",
+    "apis",
+    "architecture",
+    "behind",
+    "cannot",
+    "changing",
+    "check",
+    "choice",
+    "code",
+    "date"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+   "revisions": [
+    {
+     "revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+     "version": "upstream-e997ac5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "documentation-and-adrs",
+     "source_path": "skills/documentation-and-adrs/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/documentation-and-adrs/SKILL.md",
+       "sha256": "a55e540b4544237c2d76873965869e2e6add1e7eee935324f194411eee11e096",
+       "bytes": 12594
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "6f202f8bd568cd730dbb2b0d1f8e243bc74c2fa1f64dbce9b2c7ea08bd5c9fd7",
+       "bytes": 1068
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "1ee73a4a45fc177d35e5b38b3c615039fed140884894a09a0b955b314d208b21",
+       "bytes": 3264
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "idea-refine",
+   "title": "Idea Refine",
+   "description": "Refines raw ideas into sharp, actionable concepts through structured divergent and convergent thinking. Use when an idea is still vague, when you need to stress-test assumptions before committing to a plan, or when you want to expand options before convergi...",
+   "source": "https://github.com/addyosmani/agent-skills",
+   "category": "planning",
+   "roles": [
+    "agent:planning"
+   ],
+   "keywords": [
+    "actionable",
+    "assumptions",
+    "before",
+    "committing",
+    "concepts",
+    "convergent",
+    "converging",
+    "divergent",
+    "expand",
+    "idea",
+    "ideas",
+    "ideate"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+   "revisions": [
+    {
+     "revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+     "version": "upstream-e997ac5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "idea-refine",
+     "source_path": "skills/idea-refine/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/idea-refine/SKILL.md",
+       "sha256": "c226c1cd369bef2671073f5fd1f4108731691f725ef28f8c8c01d247c214d0c3",
+       "bytes": 9404
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "6f202f8bd568cd730dbb2b0d1f8e243bc74c2fa1f64dbce9b2c7ea08bd5c9fd7",
+       "bytes": 1068
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "1be7bb79757a65111f49fc353a673cff4cbe19716c2cb731e46f392541d72d5a",
+       "bytes": 3745
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "planning-and-task-breakdown",
+   "title": "Planning And Task Breakdown",
+   "description": "Breaks work into ordered tasks. Use when you have a spec or clear requirements and need to break work into implementable tasks. Use when a task feels too large to start, when you need to estimate scope, or when parallel work is possible.",
+   "source": "https://github.com/addyosmani/agent-skills",
+   "category": "planning",
+   "roles": [
+    "agent:planning"
+   ],
+   "keywords": [
+    "break",
+    "breakdown",
+    "breaks",
+    "clear",
+    "estimate",
+    "feels",
+    "have",
+    "implementable",
+    "large",
+    "need",
+    "ordered",
+    "parallel"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+   "revisions": [
+    {
+     "revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+     "version": "upstream-e997ac5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "planning-and-task-breakdown",
+     "source_path": "skills/planning-and-task-breakdown/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/planning-and-task-breakdown/SKILL.md",
+       "sha256": "79a81f25f4e32ad94fb654e6fa85f63cc69455f1ff2edc8704647d4e0d6c23e1",
+       "bytes": 10678
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "6f202f8bd568cd730dbb2b0d1f8e243bc74c2fa1f64dbce9b2c7ea08bd5c9fd7",
+       "bytes": 1068
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "900c8a7bb37ad1e7be22768eecfc3f2236e93328202729c2d073c37d20cc371b",
+       "bytes": 3180
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "spec-driven-development",
+   "title": "Spec Driven Development",
+   "description": "Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when drafting a PRD or requirements document with objectives and scope, or when requirements are unclear, ambiguous, or only ex...",
+   "source": "https://github.com/addyosmani/agent-skills",
+   "category": "planning",
+   "roles": [
+    "agent:planning"
+   ],
+   "keywords": [
+    "ambiguous",
+    "backlog",
+    "before",
+    "capabilities",
+    "capability",
+    "change",
+    "coding",
+    "creates",
+    "decomposing",
+    "deferring",
+    "development",
+    "document"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+   "revisions": [
+    {
+     "revision": "e997ac5b9a74eab332d5e9793bb38a38c8cfdd74",
+     "version": "upstream-e997ac5",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "spec-driven-development",
+     "source_path": "skills/spec-driven-development/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/spec-driven-development/SKILL.md",
+       "sha256": "516eaa5fbe8b1dd2e3a675f0a4361443d3828c41aec04750ae4b3143bb4f82ed",
+       "bytes": 17003
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "6f202f8bd568cd730dbb2b0d1f8e243bc74c2fa1f64dbce9b2c7ea08bd5c9fd7",
+       "bytes": 1068
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "b72598fc038e987191f9689ec1e2b330c969bef045c75a7b65882086e8a36a7b",
+       "bytes": 3259
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+    }
+   ]
+  },
+  {
+   "skill_id": "brainstorming",
+   "title": "Brainstorming",
+   "description": "You MUST use this before any creative work - creating features, building components, adding functionality, modifying behavior, or planning anything new, in software or out of it (a talk, a business, a renovation).",
+   "source": "https://github.com/obra/superpowers",
+   "category": "planning",
+   "roles": [
+    "agent:planning"
+   ],
+   "keywords": [
+    "adding",
+    "anything",
+    "before",
+    "behavior",
+    "brainstorming",
+    "building",
+    "business",
+    "components",
+    "creating",
+    "creative",
+    "features",
+    "functionality"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "22f0b463e7a5e579904dd6211a520321035526f7",
+   "revisions": [
+    {
+     "revision": "22f0b463e7a5e579904dd6211a520321035526f7",
+     "version": "upstream-22f0b46",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "brainstorming",
+     "source_path": "skills/brainstorming/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/brainstorming/SKILL.md",
+       "sha256": "2c9ca71f94886f9ca9f4aef055f7cafb3e1a9bdf3aeebf8f4cb547c69405d207",
+       "bytes": 15190
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+       "bytes": 1070
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "baca3cf6683fa5838b6dadbfe20a6a1780f0f56e1fce8b2fa83c89145d6711b2",
+       "bytes": 3050
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "writing-plans",
+   "title": "Writing Plans",
+   "description": "Use when you have a spec or requirements for a multi-step task, before touching code",
+   "source": "https://github.com/obra/superpowers",
+   "category": "planning",
+   "roles": [
+    "agent:planning"
+   ],
+   "keywords": [
+    "before",
+    "code",
+    "have",
+    "multi",
+    "plans",
+    "requirements",
+    "spec",
+    "step",
+    "task",
+    "touching",
+    "writing"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "22f0b463e7a5e579904dd6211a520321035526f7",
+   "revisions": [
+    {
+     "revision": "22f0b463e7a5e579904dd6211a520321035526f7",
+     "version": "upstream-22f0b46",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "writing-plans",
+     "source_path": "skills/writing-plans/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/writing-plans/SKILL.md",
+       "sha256": "a6c67c1900064347c2a329990dd3c555657c51c3ec53b259a08aa01a2c26139a",
+       "bytes": 10335
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+       "bytes": 1070
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "0b9b31b10800f1f866bc1f0f1cfeb77196550ef3f65ce504a113b01cc07ed153",
+       "bytes": 2980
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "systematic-debugging",
+   "title": "Systematic Debugging",
+   "description": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes",
+   "source": "https://github.com/obra/superpowers",
+   "category": "planning",
+   "roles": [
+    "agent:planning"
+   ],
+   "keywords": [
+    "before",
+    "behavior",
+    "debugging",
+    "encountering",
+    "failure",
+    "fixes",
+    "proposing",
+    "systematic",
+    "test",
+    "unexpected"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "22f0b463e7a5e579904dd6211a520321035526f7",
+   "revisions": [
+    {
+     "revision": "22f0b463e7a5e579904dd6211a520321035526f7",
+     "version": "upstream-22f0b46",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "systematic-debugging",
+     "source_path": "skills/systematic-debugging/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/systematic-debugging/SKILL.md",
+       "sha256": "51c6435d98c83c42c96ba7c35725a0b2c376cd487fb1a4e6bd0ddbe7e33ef202",
+       "bytes": 9530
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+       "bytes": 1070
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "8de55ff269f4af8a597577023a1fd14e90418a7dfb5cf790a0a9c817e4c2afdc",
+       "bytes": 3652
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "verification-before-completion",
+   "title": "Verification Before Completion",
+   "description": "Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires running verification commands and confirming output before making any success claims; evidence before assertions always",
+   "source": "https://github.com/obra/superpowers",
+   "category": "planning",
+   "roles": [
+    "agent:planning"
+   ],
+   "keywords": [
+    "always",
+    "assertions",
+    "before",
+    "claim",
+    "claims",
+    "commands",
+    "committing",
+    "complete",
+    "completion",
+    "confirming",
+    "creating",
+    "evidence"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "22f0b463e7a5e579904dd6211a520321035526f7",
+   "revisions": [
+    {
+     "revision": "22f0b463e7a5e579904dd6211a520321035526f7",
+     "version": "upstream-22f0b46",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "verification-before-completion",
+     "source_path": "skills/verification-before-completion/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/verification-before-completion/SKILL.md",
+       "sha256": "2befe7fc55bcadaa3d97dd9e8efeb633d2561c0ebe74c5a8b17c4d9e7e4520b3",
+       "bytes": 3646
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "a37e0e9697144819e1d965176ac4ae5bc3fa02d11e7812036bbcadf6dafe2400",
+       "bytes": 1070
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "f233c9fe97a7792872c693f40adaed89ad337e17fab05d2d3877049381482d9b",
+       "bytes": 2828
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "theme-factory",
+   "title": "Theme Factory",
+   "description": "Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the...",
+   "source": "https://github.com/anthropics/skills",
+   "category": "design",
+   "roles": [
+    "agent:design"
+   ],
+   "keywords": [
+    "apply",
+    "artifact",
+    "artifacts",
+    "been",
+    "colors",
+    "creating",
+    "docs",
+    "factory",
+    "fonts",
+    "generate",
+    "html",
+    "landing"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba",
+   "revisions": [
+    {
+     "revision": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba",
+     "version": "upstream-e4bb5d9",
+     "license": "Apache-2.0",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "theme-factory",
+     "source_path": "skills/theme-factory/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/theme-factory/SKILL.md",
+       "sha256": "c35893e221e28895c52143cc11bf30e41a44817796b39d4b15727dadc9796552",
+       "bytes": 3124
+      },
+      "LICENSE.txt": {
+       "source_path": "skills/theme-factory/LICENSE.txt",
+       "sha256": "bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362",
+       "bytes": 11345
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "222d400907fce2ce7fe672e6885e438f5f1053d6d5ea827b0b21f97afc0f7087",
+       "bytes": 2568
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, Apache-2.0 license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  },
+  {
+   "skill_id": "internal-comms",
+   "title": "Internal Comms",
+   "description": "A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updat...",
+   "source": "https://github.com/anthropics/skills",
+   "category": "outreach",
+   "roles": [
+    "agent:outreach"
+   ],
+   "keywords": [
+    "asked",
+    "claude",
+    "comms",
+    "communications",
+    "company",
+    "faqs",
+    "formats",
+    "incident",
+    "internal",
+    "kinds",
+    "leadership",
+    "likes"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba",
+   "revisions": [
+    {
+     "revision": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba",
+     "version": "upstream-e4bb5d9",
+     "license": "Apache-2.0",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "internal-comms",
+     "source_path": "skills/internal-comms/SKILL.md",
+     "reviewed_on": "2026-11-27",
+     "files": {
+      "SKILL.md": {
+       "source_path": "skills/internal-comms/SKILL.md",
+       "sha256": "067b7587a344a928fc6534ef66b1bcd591fc7c26d207ea7ca3334aeb678d6475",
+       "bytes": 1511
+      },
+      "LICENSE.txt": {
+       "source_path": "skills/internal-comms/LICENSE.txt",
+       "sha256": "bc6b3af2f331cbc7fb0da1344efb2cbe5877a31498b4d70dbc7000f3405a1362",
+       "bytes": 11345
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "da7b261f7731d8a585e24ced755bb0c29c34a2cd7b40a00f69eb93b485d672cf",
+       "bytes": 3093
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "Pinned commit, SHA-256 files, Apache-2.0 license and privilege review; NOVA guide compiled by model"
+    }
+   ]
+  }
+ ]
+}

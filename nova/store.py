@@ -94,29 +94,32 @@ class Store:
         return [self.view(row) for row in self.db.execute("SELECT * FROM tasks ORDER BY created DESC LIMIT 100")]
 
     def submit(self, spec: MissionInput):
+        with self.db:
+            return self.submit_in_transaction(spec)
+
+    def submit_in_transaction(self, spec):
         payload = spec.model_dump(mode="json")
         identity = {k: v for k, v in payload.items() if k not in {"title", "priority"}}
         fingerprint = hashlib.sha256(encoded(identity).encode()).hexdigest()
-        with self.db:
-            if self.stopped():
-                raise NovaError("stopped", "Emergency stop is active.")
-            if spec.depends_on:
-                self.get(spec.depends_on)
-            existing = self.db.execute(
-                "SELECT id FROM tasks WHERE fingerprint=? AND state NOT IN ('failed','completed','cancelled')",
-                (fingerprint,),
-            ).fetchone()
-            if existing:
-                return self.view(self.get(existing["id"])), False
-            now = time.time()
-            task_id = uuid4().hex[:12]
-            self.db.execute(
-                "INSERT INTO tasks(id,fingerprint,title,spec,state,priority,due,created,updated,depends_on) "
-                "VALUES(?,?,?,?,?,?,?,?,?,?)",
-                (task_id, fingerprint, spec.title, encoded(payload), State.QUEUED, spec.priority,
-                 spec.run_at or now, now, now, spec.depends_on),
-            )
-            self.event("task", "Mission queued", task_id, state=State.QUEUED)
+        if self.stopped():
+            raise NovaError("stopped", "Emergency stop is active.")
+        if spec.depends_on:
+            self.get(spec.depends_on)
+        existing = self.db.execute(
+            "SELECT id FROM tasks WHERE fingerprint=? AND state NOT IN ('failed','completed','cancelled')",
+            (fingerprint,),
+        ).fetchone()
+        if existing:
+            return self.view(self.get(existing["id"])), False
+        now = time.time()
+        task_id = uuid4().hex[:12]
+        self.db.execute(
+            "INSERT INTO tasks(id,fingerprint,title,spec,state,priority,due,created,updated,depends_on) "
+            "VALUES(?,?,?,?,?,?,?,?,?,?)",
+            (task_id, fingerprint, spec.title, encoded(payload), State.QUEUED, spec.priority,
+             spec.run_at or now, now, now, spec.depends_on),
+        )
+        self.event("task", "Mission queued", task_id, state=State.QUEUED)
         return self.view(self.get(task_id)), True
 
     def stopped(self):

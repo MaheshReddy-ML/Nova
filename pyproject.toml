@@ -1,23 +1,29 @@
 [project]
 name = "nova-local"
-version = "0.1.0"
+version = "2.0.0"
 requires-python = ">=3.12,<3.13"
 dependencies = [
   "beautifulsoup4",
   "fastapi",
+  "fastrtc-moonshine-onnx>=20241016",
   "httpx",
   "nvidia-riva-client>=2.21.1",
+  "openwakeword>=0.4.0",
   "playwright",
   "pydantic-settings",
+  "python-docx>=1.2.0",
+  "python-pptx>=1.0.2",
+  "pyyaml>=6.0.4",
   "uvicorn",
   "websockets>=17.4",
+  "xlsxwriter>=3.2",
 ]
 
 [project.scripts]
 nova = "nova.cli:main"
 
 [dependency-groups]
-dev = ["pytest", "pytest-asyncio"]
+dev = ["openpyxl>=3.1.5", "pytest", "pytest-asyncio"]
 
 [build-system]
 requires = ["hatchling"]
@@ -27,5 +33,6 @@ build-backend = "hatchling.build"
 packages = ["nova"]
 
 [tool.pytest.ini_options]
+testpaths = ["tests"]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"

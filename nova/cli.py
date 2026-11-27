@@ -113,6 +113,43 @@ def benchmark(settings):
     }, indent=2))
 
 
+def check_email(settings, send_test):
+    import smtplib
+    import ssl
+
+    if not settings.smtp_host or not settings.smtp_username:
+        print("Email is not configured. Set EMAIL_HOST, EMAIL_USER and EMAIL_PASS (or the SMTP_* names) in .env.")
+        return 1
+    print(f"Server {settings.smtp_host}:{settings.smtp_port} ({settings.smtp_security}) as {settings.smtp_username}")
+    context = ssl.create_default_context()
+    try:
+        if settings.smtp_security == "ssl":
+            client = smtplib.SMTP_SSL(settings.smtp_host, settings.smtp_port, timeout=15, context=context)
+        else:
+            client = smtplib.SMTP(settings.smtp_host, settings.smtp_port, timeout=15)
+            client.starttls(context=context)
+        client.login(settings.smtp_username, settings.smtp_password.get_secret_value())
+        client.quit()
+    except smtplib.SMTPAuthenticationError:
+        print("Login failed. For Gmail, EMAIL_PASS must be a 16-character app password (Google Account > Security > App passwords).")
+        return 1
+    except (OSError, smtplib.SMTPException) as exc:
+        print(f"Could not reach the mail server: {type(exc).__name__}")
+        return 1
+    print("Login OK.")
+    if send_test:
+        if not settings.owner_emails:
+            print("Add ADMIN_EMAILS to .env to receive the test message.")
+            return 1
+        from .outreach import Outreach
+
+        Outreach.deliver_message(type("O", (), {"settings": settings})(), {
+            "from": settings.smtp_from, "recipient": settings.owner_emails[0], "subject": "NOVA email check",
+            "body": "NOVA can send email from this mailbox."})
+        print(f"Test email sent to {settings.owner_emails[0]}.")
+    return 0
+
+
 def main():
     parser = argparse.ArgumentParser(prog="nova")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -122,12 +159,16 @@ def main():
     probe.add_argument("--voice-fixture", type=Path, help="Save a synthesized status question for Chromium acceptance")
     commands.add_parser("first-mission", help="Queue the sourced Hyderabad website mission")
     commands.add_parser("benchmark", help="Measure local status latency and compare fixed context sizes")
+    mail = commands.add_parser("check-email", help="Verify the SMTP login from .env")
+    mail.add_argument("--send-test", action="store_true", help="Also send a test message to the first ADMIN_EMAILS address")
     args = parser.parse_args()
     settings = Settings()
     if args.command == "check-nvidia":
         raise SystemExit(asyncio.run(check(settings, args.speech or args.voice_fixture is not None, args.voice_fixture)))
     if args.command == "first-mission":
         raise SystemExit(first_mission(settings))
+    if args.command == "check-email":
+        raise SystemExit(check_email(settings, args.send_test))
     if args.command == "benchmark":
         benchmark(settings)
         return

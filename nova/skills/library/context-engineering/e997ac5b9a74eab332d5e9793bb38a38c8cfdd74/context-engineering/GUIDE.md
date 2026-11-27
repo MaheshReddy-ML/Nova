@@ -1,0 +1,1 @@
+Use the objective, constraints, and relevant verified evidence. Make missing inputs explicit. Prefer existing workflow checkpoints and small testable steps. Return a short plan with dependencies, risks, and a concrete acceptance check for each deliverable.

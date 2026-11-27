@@ -1,0 +1,1 @@
+Make the next visitor action obvious. Use verified audience, offering and goal. Pick an industry-specific composition, readable type and one accent. Reuse accessible components. At narrow and wide sizes verify hierarchy, keyboard focus and working actions. Output the chosen direction and any observed gaps.

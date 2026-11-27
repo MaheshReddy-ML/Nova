@@ -44,9 +44,12 @@ class Candidate(StrictModel):
 
 class MissionInput(StrictModel):
     title: str = Field(min_length=3, max_length=140)
-    workflow: Literal["website", "brief"] = "website"
+    workflow: Literal["website", "research", "topic", "brief"] = "website"
     candidates: list[Candidate] = Field(default_factory=list, max_length=5)
     directory_url: str | None = Field(default=None, min_length=10, max_length=500)
+    business_search: str | None = Field(default=None, min_length=3, max_length=100)
+    design_assist: bool = False
+    prepare_contact: bool = False
     objective: str = Field(default="", max_length=1600)
     priority: Annotated[int, Field(ge=0, le=9)] = 5
     depends_on: str | None = Field(default=None, pattern=r"^[a-f0-9]{12}$")
@@ -54,15 +57,15 @@ class MissionInput(StrictModel):
 
     @model_validator(mode="after")
     def require_workflow_inputs(self):
-        if self.workflow == "website":
-            if bool(self.candidates) == bool(self.directory_url):
-                raise ValueError("Add a website list or a public directory URL")
+        if self.workflow in {"website", "research"}:
+            if sum(bool(value) for value in (self.candidates, self.directory_url, self.business_search)) != 1:
+                raise ValueError("Provide one input method using a website list, a public directory, or a business search")
             if self.directory_url:
                 Candidate.public_web_url(self.directory_url)
             if len({item.url.rstrip("/") for item in self.candidates}) != len(self.candidates):
                 raise ValueError("Each website must be unique")
-        elif not self.objective or self.candidates or self.directory_url:
-            raise ValueError("A brief requires an objective and accepts no website list")
+        elif not self.objective or self.candidates or self.directory_url or self.business_search or self.design_assist or self.prepare_contact:
+            raise ValueError("This workflow requires an objective and accepts no website list")
         return self
 
 
@@ -70,6 +73,11 @@ class Brief(StrictModel):
     summary: str = Field(min_length=4, max_length=2000)
     assumptions: list[Annotated[str, Field(min_length=2, max_length=400)]] = Field(max_length=5)
     next_steps: list[Annotated[str, Field(min_length=2, max_length=400)]] = Field(min_length=1, max_length=5)
+
+
+class DesignChoice(StrictModel):
+    priority_index: int = Field(ge=0, le=2)
+    focus: Literal["clarity", "readability", "next_step"]
 
 
 class Control(StrictModel):

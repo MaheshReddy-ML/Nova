@@ -1,5 +1,7 @@
 # NOVA implementation progress
 
+The current release is NOVA 2.0. See the [upgrade report](UPGRADE.md) for completed upgrades, measured results, and operating limits. The entries below describe the prior MVP baseline.
+
 ## Working
 
 - Local FastAPI service, SQLite WAL checkpoints, prioritized missions, dependencies, one-shot scheduling, pause, resume, cancellation, recovery, retry limits, and emergency stop.
@@ -17,7 +19,7 @@
 - A separate live directory test discovered and audited five linked business homepages and generated a verified concept. A local status query responded while research was waiting on a public website. [Public directory used for the check](https://cleanlabelguide.com/clean-eating/craft-workshop-venues-hyderabad)
 - 13 automated tests passed. The synthetic context benchmark compared conservative request sizes of 8,973 and 143 estimated tokens and measured local status latency below 0.01 ms at P95 on the fixture.
 
-## Scope remaining
+## Scope remaining at the MVP checkpoint
 
 - Physical microphone and speaker testing, reliable speaker-mode hands-free interruption, and repeated end-to-end latency benchmarks.
 - Scheduled repeat missions, additional search and crawl providers, full CRM and finance workflows, Telegram notifications, richer model-guided design, and live vision and embedding integration.

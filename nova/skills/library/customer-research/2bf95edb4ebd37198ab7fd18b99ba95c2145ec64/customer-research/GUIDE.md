@@ -1,0 +1,1 @@
+Start with the business and the owner's research question. Compare official public pages, deduplicate company domains, and retain source links. Separate observable issues from customer intent or causes. Recommend one verifiable improvement and flag gaps. Use NOVA's existing public read-only tools.

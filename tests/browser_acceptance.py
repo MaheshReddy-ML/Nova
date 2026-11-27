@@ -28,7 +28,8 @@ async def verify(args):
         await page.goto(args.url)
         await expect(page.get_by_text("Live connection", exact=True)).to_be_visible()
         await expect(page.get_by_role("heading", name="Mission control")).to_be_visible()
-        await page.screenshot(path=output / "console-desktop.png", full_page=True)
+        await expect(page.get_by_role("button", name="Send", exact=True)).to_be_enabled()
+        await page.screenshot(path=output / "console-desktop.png", full_page=True, animations="disabled")
         await page.get_by_role("button", name="New mission").click()
         await expect(page.get_by_role("dialog")).to_be_visible()
         await page.get_by_role("button", name="Use Hyderabad studio list").click()
@@ -36,9 +37,23 @@ async def verify(args):
         await page.get_by_role("button", name="Close", exact=True).click()
         await page.get_by_role("textbox", name="Message NOVA").fill("What are you doing?")
         await page.get_by_role("button", name="Send", exact=True).click()
+        if await page.locator("#voice-detail").is_hidden():
+            await page.locator("#voice-expand").click()
         await expect(page.locator("#response")).to_contain_text(re.compile("Mission status|There are no missions"))
         await page.get_by_role("link", name="Projects", exact=True).click()
         await expect(page.get_by_role("heading", name="Projects")).to_be_visible()
+        studios = page.get_by_role("button", name="Open Design Studio")
+        if await studios.count():
+            await studios.first.click()
+            await expect(page.get_by_role("heading", name="Design Studio")).to_be_visible()
+            embedded = page.frame_locator(".studio-frame")
+            await expect(embedded.get_by_text("Unofficial demonstration", exact=False)).to_be_visible()
+            if await embedded.get_by_role("button", name="Test enquiry").count():
+                await embedded.get_by_label("Sample name").fill("Alex")
+                await embedded.get_by_label("Enquiry topic").select_option(label="Availability")
+                await embedded.get_by_role("button", name="Test enquiry").click()
+                await expect(embedded.get_by_role("status")).to_contain_text("Demo complete")
+            await page.screenshot(path=output / "studio-desktop.png", full_page=True, animations="disabled")
         preview = page.get_by_role("link", name="Preview").first
         if await preview.count():
             async with page.expect_popup() as popup:
@@ -51,10 +66,19 @@ async def verify(args):
                 await demo.get_by_role("button", name="Test enquiry").click()
                 await expect(demo.get_by_role("status")).to_contain_text("Demo complete")
             await demo.close()
+        await page.get_by_role("link", name="Communications", exact=True).click()
+        await expect(page.get_by_role("heading", name="Communications")).to_be_visible()
+        await page.get_by_role("link", name="Skills Observatory", exact=True).click()
+        await expect(page.get_by_role("heading", name="Skills observatory")).to_be_visible()
+        await expect(page.get_by_role("button", name="Impeccable", exact=True)).to_be_visible()
+        assert await page.locator("#voice-dock").is_visible()
+        await page.screenshot(path=output / "skills-desktop.png", full_page=True, animations="disabled")
         await page.get_by_role("link", name="Overview", exact=True).click()
         await page.set_viewport_size({"width": 390, "height": 844})
+        if await page.locator("#voice-detail").is_visible():
+            await page.locator("#voice-expand").click()
         assert await page.evaluate("document.documentElement.scrollWidth === innerWidth")
-        await page.screenshot(path=output / "console-mobile.png", full_page=True)
+        await page.screenshot(path=output / "console-mobile.png", full_page=True, animations="disabled")
 
         result = {"dashboard_desktop": True, "dashboard_mobile": True, "fixture_voice": False}
         if args.voice_fixture:
@@ -63,6 +87,8 @@ async def verify(args):
             await page.reload()
             await expect(page.get_by_role("button", name="Send", exact=True)).to_be_enabled()
             await expect(page.get_by_text("Live connection", exact=True)).to_be_visible()
+            if await page.locator("#voice-detail").is_hidden():
+                await page.locator("#voice-expand").click()
             await page.get_by_role("button", name="Enable microphone").click()
             await expect(page.get_by_role("button", name="Disable microphone")).to_be_visible()
             await expect(page.locator("#response")).to_contain_text("You said: What are you doing?", timeout=13000)
