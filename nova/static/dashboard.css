@@ -286,7 +286,7 @@ body[data-stopped] .topbar { background: linear-gradient(90deg, rgba(239, 79, 95
 .score-ring[data-tone="none"] strong { color: var(--text-3); }
 
 /* Stepper: a mission's pipeline. States: done, current, waiting (needs owner), paused, failed, pending. */
-.stepper { display: flex; list-style: none; margin: 0; padding: 0; min-width: 0; }
+.stepper { display: flex; list-style: none; margin: 0; padding: 0; min-width: 0; container-type: inline-size; }
 .stepper li { position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 6px; padding-right: var(--sp-2); }
 .stepper li:last-child { flex: 0 0 auto; padding-right: 0; }
 .stepper li::after { content: ""; position: absolute; top: 9px; left: 24px; right: 4px; height: 2px; border-radius: 2px; background: var(--border-2); }
@@ -314,6 +314,15 @@ body[data-stopped] .topbar { background: linear-gradient(90deg, rgba(239, 79, 95
 .stepper.compact .step-dot .icon { width: 10px; height: 10px; }
 .stepper.compact .step-dot::before { width: 6px !important; height: 6px !important; }
 .stepper.compact .step-label { font-size: var(--fs-11); font-weight: 550; overflow: visible; letter-spacing: -.01em; }
+.step-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Narrow cards: seven labels collided ("ShortlistConcept"). Keep only the step that needs attention labelled;
+   the dots still show done / failed for every step, and each dot has its own accessible name. */
+@container (max-width: 640px) {
+  .stepper li:not(:is([data-state="current"], [data-state="waiting"], [data-state="failed"], [data-state="paused"])) .step-label { visibility: hidden; }
+  .stepper li:is([data-state="current"], [data-state="waiting"], [data-state="failed"], [data-state="paused"]) .step-label { overflow: visible; }
+  .stepper li:last-child .step-label { position: absolute; right: 0; top: 26px; text-align: right; }
+  .stepper li:last-child { padding-bottom: 20px; }
+}
 
 /* Stage track (customer pipeline) */
 .stage-track { display: flex; align-items: center; gap: var(--sp-3); }
