@@ -179,7 +179,7 @@ def create_app(settings=None, *, transport=None, research_factory=PublicResearch
         )}
         model_caps = runtime.gateway
         models = store.cached("nvidia:catalogue")
-        voices = store.cached(f"nvidia:voices:{settings.tts_base_url}")
+        voices = store.cached(runtime.gateway.voices_key())
         last = store.db.execute("SELECT COALESCE(MAX(id),0) FROM events").fetchone()[0]
         stats = {row["kind"]: row["count"] for row in store.db.execute(
             "SELECT kind, COUNT(*) AS count FROM events WHERE kind IN ('tool','cache','notification') GROUP BY kind"
@@ -191,7 +191,8 @@ def create_app(settings=None, *, transport=None, research_factory=PublicResearch
             "routes": {item.value: next((model for model in (model_caps.configured(item), default)
                                         if models and model in models), None)
                        for item, default in FALLBACK.items()},
-            "voice": {"enabled": settings.voice_enabled, "preferred": settings.tts_voice,
+            "voice": {"enabled": settings.voice_enabled, "provider": runtime.gateway.speech_provider,
+                      "preferred": settings.deepgram_voice if runtime.gateway.deepgram_active else settings.tts_voice,
                       "asr_streaming": runtime.gateway.asr_streaming, "tts_streaming": runtime.gateway.tts_streaming,
                       "voices": voices or [],
                       "language": settings.tts_language},

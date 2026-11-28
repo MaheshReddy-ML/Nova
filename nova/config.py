@@ -36,6 +36,11 @@ class Settings(BaseSettings):
     tts_voice: str = "Magpie-Multilingual.EN-US.Sofia"
     tts_language: str = "en-US"
     tts_base_url: str = TTS_HOST
+    # Text to speech provider. "auto" uses Deepgram Aura when DEEPGRAM_API_KEY is set, otherwise NVIDIA Magpie.
+    # If Deepgram fails mid-session (network, credits), Nova falls back to NVIDIA Magpie for that phrase.
+    tts_provider: Literal["auto", "deepgram", "nvidia"] = "auto"
+    deepgram_api_key: SecretStr = SecretStr("")
+    deepgram_voice: str = Field("aura-2-athena-en", pattern=r"^aura(-2)?-[a-z]+-[a-z]{2}$")
     telegram_bot_token: SecretStr = SecretStr("")
     telegram_owner_chat_id: str = ""
     wikidata_contact: str = ""
@@ -142,6 +147,14 @@ class Settings(BaseSettings):
                 logging.getLogger("nova.config").warning("EMAIL_FROM is not a full email address; sending from EMAIL_USER instead")
             self.smtp_from = self.smtp_username
         return self
+
+    @property
+    def speech_provider(self) -> Literal["deepgram", "nvidia"]:
+        key = self.deepgram_api_key.get_secret_value().strip()
+        has_key = bool(key) and key.lower() not in {"your_deepgram_api_key", "your_deepgram_api_key_here", "replace_me"}
+        if self.tts_provider == "deepgram" or (self.tts_provider == "auto" and has_key):
+            return "deepgram"
+        return "nvidia"
 
     @property
     def owner_emails(self) -> list[str]:

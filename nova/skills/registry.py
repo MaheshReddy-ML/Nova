@@ -496,17 +496,35 @@ class SkillRegistry:
                 active.append(SkillGuide(skill.skill_id, skill.title, revision_id, guide, estimate))
         return active
 
-    @staticmethod
-    def _stems(text, minimum=3):
+    # Function words and conversational filler. Without this list, "what", "this" or "find" matched skills on their own
+    # (e.g. "what's the weather" offered six marketing playbooks).
+    STOPWORDS = frozenset("""
+        about after again also and any are because been before being both but can could did does doing done each else
+        every few find for from get give got had has have having help her here hers him his how into its just let like
+        make many more most much must need now off once only other our ours out over own please really same she should
+        show some such tell than that the their them then there these they this those through too under until upon very
+        want was way were what when where which while who whom why will with would you your yours hey nova okay thanks
+        thank something anything everything someone
+    """.split())
+
+    @classmethod
+    def _stems(cls, text, minimum=3):
         stems = set()
         for word in re.findall(rf"[a-z]{{{minimum},}}", text.casefold()):
+            if word in cls.STOPWORDS:
+                continue
             for suffix in ("ations", "ation", "ing", "ers", "ies", "es", "ed", "er", "s"):
-                if word.endswith(suffix) and len(word) - len(suffix) >= 4:
+                if word.endswith(suffix) and len(word) - len(suffix) >= 3:
                     word = word[: -len(suffix)] + ("y" if suffix == "ies" else "")
+                    # debugging -> debugg -> debug, planning -> plann -> plan, so they meet "debug" and "plan".
+                    if suffix in {"ing", "ed", "er", "ers"} and len(word) > 3 and word[-1] == word[-2] \
+                            and word[-1] not in "aeiouls":
+                        word = word[:-1]
                     break
             if word.endswith("e") and len(word) > 4:
                 word = word[:-1]
-            stems.add(word)
+            if word not in cls.STOPWORDS:
+                stems.add(word)
         return stems
 
     def _agent_index(self):
@@ -541,7 +559,10 @@ class SkillRegistry:
             score = sum(3 * weight[word] for word in words & name) + sum(weight[word] for word in (words & body) - name)
             if score > 0:
                 skill = self.catalog[skill_id]
-                hint = re.split(r"(?<=[.;:])\s|\. Use", skill.description)[0][:72].rstrip(" .,;:")
+                hint = re.split(r"(?<=[.;:])\s|\. Use", skill.description)[0]
+                if len(hint) > 90:  # Cut at a word boundary so the system prompt never shows half a word.
+                    hint = hint[:90].rsplit(" ", 1)[0] + "…"
+                hint = hint.rstrip(" .,;:")
                 ranked.append((score, skill.priority, skill_id, hint))
         if not ranked:
             return []

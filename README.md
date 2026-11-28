@@ -111,6 +111,7 @@ Copy `.env.example` to `.env`. Everything has a sensible default except your key
 | Setting | Purpose |
 | --- | --- |
 | `NVIDIA_API_KEY` | Models, voice recognition and speech ([NVIDIA Build](https://build.nvidia.com/)) |
+| `DEEPGRAM_API_KEY`, `DEEPGRAM_VOICE`, `TTS_PROVIDER` | Nova's speaking voice through [Deepgram Aura-2](https://developers.deepgram.com/docs/tts-models) (default `aura-2-athena-en`). Without a key, Nova speaks with NVIDIA Magpie |
 | `EMAIL_HOST`, `EMAIL_USER`, `EMAIL_PASS`, `ADMIN_EMAILS` | Sending email. For Gmail, use an [app password](https://myaccount.google.com/apppasswords) |
 | `OWNER_NAME`, `BUSINESS_NAME`, `BUSINESS_ABOUT`, `BUSINESS_WEBSITE` | How Nova introduces you in outreach and signatures |
 | `BRAVE_SEARCH_API_KEY` | Reliable web search (free tier). Without it, Nova falls back to DuckDuckGo, which can rate-limit |

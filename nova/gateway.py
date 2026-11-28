@@ -6,7 +6,7 @@ import math
 import re
 import time
 from collections import OrderedDict
-from contextlib import asynccontextmanager
+from contextlib import aclosing, asynccontextmanager
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from enum import StrEnum
@@ -45,6 +45,11 @@ FALLBACK = {
 }
 
 
+DEEPGRAM_URL = "https://api.deepgram.com/v1"
+DEEPGRAM_VOICE = re.compile(r"aura(-2)?-[a-z]+-[a-z]{2}")
+PCM_PACKET = 6400  # 0.2 s of 16 kHz mono 16-bit audio; always even so the browser can read whole samples
+
+
 def thinking_off(model):
     """Nemotron chat templates accept enable_thinking; other providers may reject unknown template arguments."""
     return {"chat_template_kwargs": {"enable_thinking": False}} if model.startswith("nvidia/") else {}
@@ -71,6 +76,8 @@ class Gateway:
         self.embedding_cache = OrderedDict()
         self.channel = None
         self.asr_streaming = self.tts_streaming = settings.speech_streaming
+        self.deepgram_active = settings.speech_provider == "deepgram"
+        self.voice_warmup = None
 
     def headers(self):
         key = self.settings.nvidia_api_key.get_secret_value()
@@ -79,6 +86,8 @@ class Gateway:
         return {"Authorization": f"Bearer {key}"}
 
     async def close(self):
+        if self.voice_warmup and not self.voice_warmup.done():
+            self.voice_warmup.cancel()
         if self.channel:
             await self.channel.close()
         await self.client.aclose()
@@ -464,11 +473,72 @@ class Gateway:
                 raise NovaError("empty_response", "NVIDIA returned no visual critique.")
             return {"model": model, "critique": answer.strip()[:2600], "source": "local preview screenshot"}
 
+    @property
+    def speech_provider(self):
+        return "deepgram" if self.deepgram_active else "nvidia"
+
+    def voices_key(self):
+        return "deepgram:voices" if self.deepgram_active else f"nvidia:voices:{self.settings.tts_base_url}"
+
+    def deepgram_headers(self):
+        key = self.settings.deepgram_api_key.get_secret_value().strip()
+        if not key:
+            raise NovaError("no_credentials", "Deepgram credentials are missing.")
+        return {"Authorization": f"Token {key}"}
+
+    @staticmethod
+    async def deepgram_check(response):
+        status = response.status_code
+        if 200 <= status < 300:
+            return
+        await response.aread()
+        if status in {401, 403}:
+            raise NovaError("invalid_credentials", "Deepgram rejected the configured API key.")
+        if status == 402:
+            raise NovaError("quota", "Deepgram credits are exhausted for this project.")
+        if status == 429:
+            raise NovaError("rate_limited", "Deepgram rate limited speech.", transient=True, retry_after=5)
+        if status >= 500:
+            raise NovaError("speech_network", f"Deepgram returned HTTP {status}.", transient=True)
+        raise NovaError("speech_provider", f"Deepgram rejected the speech request (HTTP {status}).")
+
+    async def deepgram_voices(self):
+        """Feminine Aura voices for the configured language, newest generation first."""
+        try:
+            response = await self.client.get(f"{DEEPGRAM_URL}/models", headers=self.deepgram_headers())
+            await self.deepgram_check(response)
+            body = response.json()
+        except httpx.HTTPError as exc:
+            raise NovaError("network", "Could not connect to Deepgram.", transient=True) from exc
+        except ValueError as exc:
+            raise NovaError("provider_response", "Deepgram sent an invalid response.") from exc
+        language = self.settings.tts_language.split("-")[0].lower()
+        names = {item.get("canonical_name") for item in body.get("tts", []) if isinstance(item, dict)
+                 and "feminine" in (item.get("metadata") or {}).get("tags", [])
+                 and any(str(code).lower().startswith(language) for code in item.get("languages") or [])}
+        voices = sorted((name for name in names if isinstance(name, str) and DEEPGRAM_VOICE.fullmatch(name)),
+                        key=lambda name: (not name.startswith("aura-2-"), name))
+        if not voices:
+            raise NovaError("speech_unavailable", "Deepgram did not list any matching voices.")
+        return voices
+
+    async def warm_voices(self):
+        try:
+            await self.voices()
+        except NovaError as exc:
+            self.store.log("voice", "Could not list Deepgram voices", reason=exc.code)
+        finally:
+            self.voice_warmup = None
+
     async def voices(self, refresh=False):
         async with self.discovery:
-            key = f"nvidia:voices:{self.settings.tts_base_url}"
+            key = self.voices_key()
             if not refresh and (cached := self.store.cached(key)) is not None:
                 return cached
+            if self.deepgram_active:
+                voices = await self.deepgram_voices()
+                self.store.cache(key, voices, 3600)
+                return voices
             body = await self.get_json(f"{self.settings.tts_base_url}/v1/audio/list_voices")
             if not isinstance(body, dict):
                 raise NovaError("provider_response", "NVIDIA returned unexpected voice data.")
@@ -479,13 +549,20 @@ class Gateway:
             self.store.cache(key, voices, 3600)
             return voices
 
-    async def normalize_speech(self, text, voice):
+    async def normalize_speech(self, text, voice, provider="nvidia"):
         if not self.settings.voice_enabled:
             raise NovaError("voice_disabled", "Voice is disabled in the service configuration.")
         text = re.sub(r"`[^`]*`", "", re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text))
         text = re.sub(r"[#*_~]+", "", text).strip()[:450]
         if not text:
             return "", None
+        if provider == "deepgram":
+            if self.voice_warmup is None and self.store.cached(self.voices_key()) is None:
+                self.voice_warmup = asyncio.create_task(self.warm_voices())  # Fills the dashboard voice picker.
+            # A voice picked in the dashboard wins; anything else (e.g. a stale Magpie name) uses the configured voice.
+            return text, voice if isinstance(voice, str) and DEEPGRAM_VOICE.fullmatch(voice) else self.settings.deepgram_voice
+        if isinstance(voice, str) and DEEPGRAM_VOICE.fullmatch(voice):
+            voice = None  # Falling back from Deepgram: use the configured Magpie voice.
         voices = await self.voices()
         supported = [item for item in voices if f".{self.settings.tts_language.upper()}." in item.upper()]
         selected = voice or self.settings.tts_voice
@@ -506,6 +583,12 @@ class Gateway:
             self.audio_cache.popitem(last=False)
 
     async def synthesize(self, text, voice=None):
+        if self.deepgram_active:
+            try:
+                return await self.deepgram_synthesize(text, voice)
+            except NovaError as exc:
+                if not self.deepgram_fallback(exc):
+                    raise
         text, selected = await self.normalize_speech(text, voice)
         if not text:
             return b""
@@ -553,7 +636,89 @@ class Gateway:
                            for row in result.get("results", []) if row.get("alternatives")]
             return " ".join(transcripts).strip()[:1400]
 
+    def deepgram_fallback(self, exc):
+        """Decide whether a Deepgram failure should fall back to NVIDIA Magpie (True) or surface (False)."""
+        if exc.code in {"voice_disabled", "stopped", "speech_budget"}:
+            return False
+        if not exc.transient:
+            self.deepgram_active = False  # Bad key or exhausted credits: stop retrying Deepgram this session.
+        self.store.log("voice", "Deepgram unavailable; speaking with NVIDIA Magpie", reason=exc.code)
+        return True
+
+    async def deepgram_synthesize(self, text, voice=None):
+        text, selected = await self.normalize_speech(text, voice, "deepgram")
+        if not text:
+            return b""
+        key = self.audio_key("dg-wav", selected, text)
+        if key in self.audio_cache:
+            self.audio_cache.move_to_end(key)
+            return self.audio_cache[key]
+        params = {"model": selected, "encoding": "linear16", "sample_rate": 24000, "container": "wav"}
+        async with self.invocation(Capability.TTS, selected, lane="speech") as metrics:
+            began = time.perf_counter()
+            async with self.client.stream("POST", f"{DEEPGRAM_URL}/speak", params=params,
+                                          headers=self.deepgram_headers(), json={"text": text}) as response:
+                await self.deepgram_check(response)
+                data = bytearray()
+                async for chunk in response.aiter_bytes():
+                    metrics.setdefault("first_ms", round((time.perf_counter() - began) * 1000))
+                    data.extend(chunk)
+                    if len(data) > 2_500_000:
+                        raise NovaError("audio_limit", "Deepgram audio exceeded the playback limit.")
+            if data[:4] != b"RIFF" or data[8:12] != b"WAVE":
+                raise NovaError("audio_format", "Deepgram did not return WAV audio.")
+        self.cache_audio(key, bytes(data))
+        return bytes(data)
+
+    async def deepgram_stream(self, text, voice=None):
+        """Stream Deepgram Aura as raw 16 kHz PCM, the same packets the browser plays for NVIDIA Magpie."""
+        text, selected = await self.normalize_speech(text, voice, "deepgram")
+        if not text:
+            return
+        key = self.audio_key("dg-pcm", selected, text)
+        if key in self.audio_cache:
+            self.audio_cache.move_to_end(key)
+            audio = self.audio_cache[key]
+            for offset in range(0, len(audio), PCM_PACKET):
+                yield "pcm", audio[offset:offset + PCM_PACKET]
+            return
+        params = {"model": selected, "encoding": "linear16", "sample_rate": 16000, "container": "none"}
+        data = bytearray()
+        pending = bytearray()
+        async with self.invocation(Capability.TTS, selected, lane="speech") as metrics:
+            began = time.perf_counter()
+            async with self.client.stream("POST", f"{DEEPGRAM_URL}/speak", params=params,
+                                          headers=self.deepgram_headers(), json={"text": text}) as response:
+                await self.deepgram_check(response)
+                async for chunk in response.aiter_bytes():
+                    if not chunk:
+                        continue
+                    metrics.setdefault("first_ms", round((time.perf_counter() - began) * 1000))
+                    data.extend(chunk)
+                    if len(data) > 2_000_000:
+                        raise NovaError("audio_limit", "Deepgram audio exceeded the playback limit.")
+                    pending.extend(chunk)
+                    while len(pending) >= PCM_PACKET:
+                        yield "pcm", bytes(pending[:PCM_PACKET])
+                        del pending[:PCM_PACKET]
+            if len(pending) >= 2:
+                yield "pcm", bytes(pending[:len(pending) - len(pending) % 2])
+            if not data:
+                raise NovaError("empty_audio", "Deepgram returned no speech audio.")
+        self.cache_audio(key, bytes(data[:len(data) - len(data) % 2]))
+
     async def stream_speech(self, text, voice=None):
+        if self.deepgram_active:
+            started = False
+            try:
+                async with aclosing(self.deepgram_stream(text, voice)) as stream:
+                    async for packet in stream:
+                        started = True
+                        yield packet
+                return
+            except NovaError as exc:
+                if started or not self.deepgram_fallback(exc):
+                    raise
         if self.tts_streaming:
             text, selected = await self.normalize_speech(text, voice)
             if not text:

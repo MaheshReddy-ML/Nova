@@ -207,3 +207,17 @@ def test_agent_skills_frontmatter_rejects_nonconforming_values(frontmatter):
 def test_small_nested_metadata_is_accepted():
     data, _ = parse_frontmatter(b"---\nname: known\ndescription: OK\nmetadata:\n  version: 1\n  extra:\n    env: X\n---\n\nContent.\n", "known")
     assert data["metadata"]["version"] == 1
+
+
+def test_agent_catalog_matches_word_forms_and_ignores_filler(tmp_path):
+    from nova.skills.registry import SkillRegistry
+    from nova.store import Store
+
+    registry = SkillRegistry(Store(tmp_path / "match.db").db, context_budget=550)
+    pick = lambda query: [item["id"] for item in registry.agent_catalog(query)]
+    assert "systematic-debugging" in pick("debug my python training loop")
+    assert "planning-and-task-breakdown" in pick("plan my week")
+    assert pick("what's the weather") == [] and pick("tell me a joke") == []
+    assert "ai-seo" not in pick("how do I cite these papers")
+    assert all(not item["hint"].endswith(("-", " ")) and len(item["hint"]) <= 91
+               for item in registry.agent_catalog("write a cold email and plan a launch", 8))

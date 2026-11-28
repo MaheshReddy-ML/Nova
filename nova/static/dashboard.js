@@ -872,12 +872,20 @@ function renderState() {
   }), "NVIDIA request metrics will appear here.", JSON.stringify(usage));
   $("voice-toggle").disabled = !voice.enabled;
   $("voice-mode").textContent = (voice.asr_streaming ? "NVIDIA live transcription. " : "NVIDIA transcribes after each utterance. ") +
+    (voice.provider === "deepgram" ? "Deepgram Aura speaks. " : "NVIDIA Magpie speaks. ") +
     "With speakers, use Stop audio before speaking over playback.";
   const select = $("voice-choice");
   const last = select.value;
-  const available = voice.voices.filter((name) => name.toUpperCase().includes("." + voice.language.toUpperCase() + "."));
+  const deepgram = voice.provider === "deepgram";
+  // Deepgram voices arrive pre-filtered by language (aura-2-athena-en); Magpie names carry it inline (….EN-US.Sofia).
+  const available = deepgram ? voice.voices
+    : voice.voices.filter((name) => name.toUpperCase().includes("." + voice.language.toUpperCase() + "."));
+  const voiceLabel = (name) => deepgram
+    ? name.split("-").slice(-2, -1)[0].replace(/^./, (c) => c.toUpperCase()) + (name.startsWith("aura-2-") ? "" : " (Aura 1)")
+    : name.split(".").slice(2).join(" · ");
   if (available.join("|") !== select.dataset.options) {
-    select.replaceChildren(new Option("Configured Magpie voice", ""), ...available.map((name) => new Option(name.split(".").slice(2).join(" · "), name)));
+    const configured = deepgram ? "Configured voice (" + voiceLabel(voice.preferred) + ", Deepgram)" : "Configured Magpie voice";
+    select.replaceChildren(new Option(configured, ""), ...available.map((name) => new Option(voiceLabel(name), name)));
     select.value = available.includes(last) ? last : "";
     select.dataset.options = available.join("|");
   }
@@ -1845,7 +1853,7 @@ function playNext() {
 function playPCM(base64) {
   if (!micEnabled || !audioContext || !playbackGain || recording || playback) return;
   const currentTime = audioContext.currentTime;
-  if (pcmSources.size >= 160 || scheduledUntil > currentTime + 18) return;
+  if (pcmSources.size >= 240 || scheduledUntil > currentTime + 45) return;
   const bytes = Uint8Array.from(atob(base64), (character) => character.charCodeAt(0));
   if (!bytes.length || bytes.length % 2) return;
   const samples = new Int16Array(bytes.buffer);

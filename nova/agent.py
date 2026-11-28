@@ -239,7 +239,7 @@ class Agent:
                 if isinstance(result, dict) and result.get("say") and state == "done":
                     spoken.append(result["say"])
                 messages.append({"role": "tool", "tool_call_id": call.get("id", name), "name": name,
-                                 "content": clip(result, 4200 if name == "load_skill" else 3200)})
+                                 "content": clip(result, 6000 if name == "load_skill" else 3200)})
             if spoken and names <= ACTION_TOOLS:
                 # Action tools describe their own outcome, which saves a model call per turn.
                 reply.text = " ".join(dict.fromkeys(spoken))
@@ -391,8 +391,8 @@ class Agent:
             guide = registry.agent_guide(str(args.get("skill_id", "")).strip())
             registry.record(None, f"agent-{guide.skill_id}-{time.time_ns()}", [guide], injected=True)
             reply.metrics["skills"].append(guide.skill_id)
-            return {"skill": guide.skill_id, "title": guide.title, "playbook": guide.instructions,
-                    "note": "Follow this playbook for the current task; it is guidance, not a source of facts."}
+            return {"note": "Follow this playbook for the current task; it is guidance, not a source of facts.",
+                    "skill": guide.skill_id, "title": guide.title, "playbook": guide.instructions}
         if name == "find_skills":
             registry = self.skills()
             return {"skills": registry.agent_catalog(str(args.get("query", "")), 8) if registry else []}
