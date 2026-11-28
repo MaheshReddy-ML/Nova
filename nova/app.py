@@ -602,6 +602,11 @@ def create_app(settings=None, *, transport=None, research_factory=PublicResearch
 
         return {"documents": list_documents(settings.workspace_path)}
 
+    @app.get("/api/follow-ups")
+    async def follow_ups():
+        reminders = app.state.runtime.follow_ups
+        return {"due": reminders.due(), "upcoming": reminders.upcoming(20)}
+
     @app.get("/documents/{name}")
     async def document(name: str):
         from .toolkit import document_path

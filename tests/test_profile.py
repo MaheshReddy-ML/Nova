@@ -38,3 +38,15 @@ def test_profile_api(tmp_path):
         assert client.get("/api/profile").json()["goals"] == ["Postgraduate research"]
         assert client.get("/api/state").json()["me"]["name"] == "Asha Rao"
         assert client.put("/api/profile", headers=headers, json={"name": "x", "unknown": 1}).status_code == 409
+
+
+def test_follow_up_api_lists_due_and_upcoming(tmp_path):
+    settings = Settings(_env_file=None, nvidia_api_key="test", database_path=tmp_path / "nova.db", workspace_path=tmp_path / "w")
+    with TestClient(create_app(settings)) as client:
+        assert client.get("/api/follow-ups").json() == {"due": [], "upcoming": []}
+        from nova.store import Store
+        from nova.toolkit import FollowUps
+
+        FollowUps(Store(tmp_path / "nova.db")).schedule("Clay Studio", days=2, note="Share the concept")
+        listed = client.get("/api/follow-ups").json()
+        assert listed["due"] == [] and [row["business"] for row in listed["upcoming"]] == ["Clay Studio"]

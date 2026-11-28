@@ -2,17 +2,53 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#07090f">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#060b16">
 <title>Nova · Agent Console</title>
 <link rel="icon" type="image/svg+xml" href="/static/brand/mark.svg">
 <link rel="stylesheet" href="/static/dashboard.css">
 <script src="/static/dashboard.js" type="module"></script>
 </head>
 <body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-overview" viewBox="0 0 24 24"><path d="M4 13h6V4H4zm0 7h6v-5H4zm10 0h6v-9h-6zm0-16v5h6V4z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 19v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 17.5V19M10 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 8v-1.3a3.3 3.3 0 0 0-2.5-3.2M15.5 5.2a3 3 0 0 1 0 5.6"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><path d="M4 6h16v12H4zM4 7l8 6 8-6"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3 7h18v12H3zM3 11h18M7 15h3"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-memory" viewBox="0 0 24 24"><path d="M12 4a8 8 0 1 0 8 8M12 8v4l3 2M20 4v4h-4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4l9 16H3zM12 10v4M12 17.5v.01"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3zM5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+  <symbol id="i-ear" viewBox="0 0 24 24"><path d="M7 9a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-5.5 1.6M10 9.5a2 2 0 0 1 4 0"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><path d="M7 7h10v10H7z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M5 5h14v10H9l-4 4z"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><path d="M5 12h.01M12 12h.01M19 12h.01"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5z"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9S9.5 5.5 12 3z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.7-4.3L4 8M4 4v4h4M4 13a8 8 0 0 0 14.7 4.3L20 16M20 20v-4h-4"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8M14 5v4M8 15v4"/></symbol>
+</svg>
 <a class="skip" href="#workspace">Skip to workspace</a>
 <div class="shell">
-  <aside class="sidebar">
+  <aside class="sidebar" aria-label="Main">
     <button id="sidebar-toggle" class="sidebar-toggle" type="button" aria-expanded="true" aria-controls="sidebar-nav" title="Collapse sidebar ( [ )">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="sr-only">Collapse sidebar</span></button>
     <a class="identity" href="#overview" aria-label="NOVA owner console">
@@ -20,87 +56,148 @@
       <span class="identity-text"><strong class="wordmark">Nova</strong><small>Autonomous agent</small></span>
     </a>
     <nav id="sidebar-nav" aria-label="Workspace">
-      <a href="#overview" aria-current="page" title="Overview"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h6V4H4zm0 7h6v-5H4zm10 0h6v-9h-6zm0-16v5h6V4z"/></svg><span class="nav-label">Overview</span></a>
-      <a href="#profile" title="Profile"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/></svg><span class="nav-label">Profile</span></a>
-      <a href="#leads" title="Customers"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16 19v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 17.5V19M10 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 8v-1.3a3.3 3.3 0 0 0-2.5-3.2M15.5 5.2a3 3 0 0 1 0 5.6"/></svg><span class="nav-label">Customers</span></a>
-      <a href="#projects" title="Projects"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span class="nav-label">Projects</span></a>
-      <a href="#communications" title="Communications"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4zM4 7l8 6 8-6"/></svg><span class="nav-label">Communications</span></a>
-      <a href="#approvals" title="Approvals"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l2 2 4-4M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg><span class="nav-label">Approvals</span><span id="review-count" class="nav-count" hidden></span></a>
-      <a href="#finance" title="Finance"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h18v12H3zM3 11h18M7 15h3"/></svg><span class="nav-label">Finance</span></a>
-      <a href="#skills" title="Skills Observatory"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z"/></svg><span class="nav-label">Skills Observatory</span></a>
-      <a href="#models" title="Model Observatory"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span class="nav-label">Model Observatory</span></a>
-      <a href="#memory" title="Memory"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4a8 8 0 1 0 8 8M12 8v4l3 2M20 4v4h-4"/></svg><span class="nav-label">Memory</span></a>
+      <p class="nav-group">Today</p>
+      <a class="nav-link" href="#overview" aria-current="page" title="Overview"><svg class="nav-icon" aria-hidden="true"><use href="#i-overview"/></svg><span class="nav-label">Overview</span></a>
+      <a class="nav-link" href="#approvals" title="Approvals"><svg class="nav-icon" aria-hidden="true"><use href="#i-shield"/></svg><span class="nav-label">Approvals</span><span id="review-count" class="nav-count js-review-count" hidden></span></a>
+      <a class="nav-link" href="#communications" title="Communications"><svg class="nav-icon" aria-hidden="true"><use href="#i-mail"/></svg><span class="nav-label">Communications</span></a>
+      <p class="nav-group">Business</p>
+      <a class="nav-link" href="#leads" title="Customers"><svg class="nav-icon" aria-hidden="true"><use href="#i-users"/></svg><span class="nav-label">Customers</span></a>
+      <a class="nav-link" href="#projects" title="Projects"><svg class="nav-icon" aria-hidden="true"><use href="#i-folder"/></svg><span class="nav-label">Projects</span></a>
+      <a class="nav-link" href="#documents" title="Documents"><svg class="nav-icon" aria-hidden="true"><use href="#i-doc"/></svg><span class="nav-label">Documents</span></a>
+      <a class="nav-link" href="#finance" title="Finance"><svg class="nav-icon" aria-hidden="true"><use href="#i-wallet"/></svg><span class="nav-label">Finance</span></a>
+      <p class="nav-group">Agent</p>
+      <a class="nav-link" href="#profile" title="Profile"><svg class="nav-icon" aria-hidden="true"><use href="#i-user"/></svg><span class="nav-label">Profile</span></a>
+      <a class="nav-link" href="#skills" title="Skills Observatory"><svg class="nav-icon" aria-hidden="true"><use href="#i-star"/></svg><span class="nav-label">Skills Observatory</span></a>
+      <a class="nav-link" href="#models" title="Model Observatory"><svg class="nav-icon" aria-hidden="true"><use href="#i-chart"/></svg><span class="nav-label">Model Observatory</span></a>
+      <a class="nav-link" href="#memory" title="Memory"><svg class="nav-icon" aria-hidden="true"><use href="#i-memory"/></svg><span class="nav-label">Memory</span></a>
     </nav>
     <a class="owner-chip" href="#profile" id="owner-chip" hidden><span class="avatar" id="owner-initials">MR</span><span class="owner-text"><strong id="owner-name"></strong><small id="owner-headline"></small></span></a>
     <div class="sidebar-foot"><span class="presence" aria-hidden="true"></span><span>Agent online</span><small id="version">NOVA</small></div>
   </aside>
-  <main id="workspace">
+  <main id="workspace" tabindex="-1">
     <header class="topbar">
+      <a class="topbar-brand" href="#overview" aria-label="Nova overview"><img src="/static/brand/mark.svg" alt="" width="30" height="30"><span class="wordmark">Nova</span></a>
       <div class="breadcrumb"><span class="prefix">Workspace</span><span class="divider" aria-hidden="true">/</span><strong id="breadcrumb">Overview</strong></div>
-      <div class="top-actions"><span id="feed-status" class="connection">Connecting</span><button id="stop" class="quiet danger" type="button">Emergency stop</button></div>
+      <div class="top-actions"><span id="feed-status" class="connection" role="status">Connecting</span><button id="stop" class="danger-outline sm" type="button">Emergency stop</button></div>
     </header>
     <div class="content">
-      <p id="banner" class="banner" role="status" hidden></p>
-      <section id="overview" class="view">
-        <div class="page-heading overview-heading">
-          <div><p class="eyebrow" id="greeting">Agent console</p><h1>What should we get done?</h1>
-            <p id="overview-sub">Say “Hey Nova”, talk or type. Nova researches, builds websites, writes insights and handles your outreach.</p></div>
-          <button id="open-mission" type="button" class="primary new-mission">New mission</button>
-        </div>
-        <div class="command-grid">
-          <div id="voice-home"></div>
-          <aside class="side-stack" aria-label="Agent status">
-            <section class="panel status-card" aria-labelledby="channels-title">
-              <div class="panel-heading"><h2 id="channels-title">Outreach channels</h2></div>
+      <p id="banner" class="toast" role="status" hidden></p>
+
+      <!-- ===================== Overview ===================== -->
+      <section id="overview" class="view" aria-labelledby="greeting">
+        <header class="hero">
+          <div class="hero-text">
+            <p class="eyebrow">Command centre</p>
+            <h1 id="greeting">Welcome back</h1>
+            <p id="overview-sub" class="hero-sub">Checking what needs you…</p>
+          </div>
+          <div class="hero-actions">
+            <button id="open-mission" type="button" class="primary new-mission"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>New mission</button>
+          </div>
+        </header>
+
+        <nav class="kpis" aria-label="Key numbers">
+          <a class="kpi" href="#overview" data-jump="needs-panel" data-tone="warn"><span class="kpi-label">Needs you</span><strong id="needs-count" class="kpi-value">–</strong><span class="kpi-hint">Decisions waiting</span></a>
+          <a class="kpi" href="#overview" data-jump="working-panel" data-tone="running"><span class="kpi-label">Active missions</span><strong id="active-count" class="kpi-value">–</strong><span class="kpi-hint">Running or queued</span></a>
+          <a class="kpi" href="#approvals" data-tone="gold"><span class="kpi-label">Pending approvals</span><strong id="pending-count" class="kpi-value">–</strong><span class="kpi-hint">Proposals to review</span></a>
+          <a class="kpi" href="#leads" data-tone="info"><span class="kpi-label">Qualified customers</span><strong id="qualified-count" class="kpi-value">–</strong><span class="kpi-hint">With a clear opportunity</span></a>
+          <a class="kpi" href="#overview" data-jump="missions-panel" data-filter-to="completed" data-tone="ok"><span class="kpi-label">Completed</span><strong id="completed-count" class="kpi-value">–</strong><span class="kpi-hint">Missions finished</span></a>
+        </nav>
+
+        <div class="overview-grid">
+          <div class="col-main">
+            <section class="panel" id="needs-panel" aria-labelledby="needs-title" tabindex="-1">
+              <header class="panel-head">
+                <div><h2 id="needs-title">Needs you</h2><p class="panel-sub">Decisions only you can make. Nova pauses on these until you act.</p></div>
+                <span id="needs-badge" class="count-badge" data-tone="warn" hidden></span>
+              </header>
+              <div id="needs-list" class="queue" aria-live="polite">
+                <div class="skeleton-row"></div><div class="skeleton-row"></div><div class="skeleton-row"></div>
+              </div>
+              <div id="upcoming-wrap" class="upcoming" hidden>
+                <h3 class="subhead">Coming up</h3>
+                <ul id="upcoming-list" class="upcoming-list"></ul>
+              </div>
+            </section>
+
+            <section class="panel" id="working-panel" aria-labelledby="working-title" tabindex="-1">
+              <header class="panel-head">
+                <div><h2 id="working-title">Nova is working on</h2><p class="panel-sub">Live missions and where each one is in its pipeline.</p></div>
+              </header>
+              <div id="working-list" class="working">
+                <div class="skeleton-row tall"></div>
+              </div>
+            </section>
+
+            <section class="panel missions" id="missions-panel" aria-labelledby="missions-title" tabindex="-1">
+              <header class="panel-head">
+                <div><h2 id="missions-title">Mission control</h2><p class="panel-sub">Every mission Nova has run. Open one for its evidence, stages and replay.</p></div>
+                <span id="mission-count" class="tip"></span>
+              </header>
+              <div class="mission-filters segmented-bar" aria-label="Filter missions">
+                <button type="button" data-filter="all" aria-pressed="true">All</button>
+                <button type="button" data-filter="active" aria-pressed="false">Active</button>
+                <button type="button" data-filter="scheduled" aria-pressed="false">Scheduled</button>
+                <button type="button" data-filter="completed" aria-pressed="false">Completed</button>
+                <button type="button" data-filter="failed" aria-pressed="false">Failed</button>
+              </div>
+              <div id="tasks" class="list">
+                <div class="skeleton-row tall"></div><div class="skeleton-row tall"></div>
+              </div>
+              <details class="schedules"><summary><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>Recurring schedules <span id="schedule-count" class="tip"></span></summary><div id="schedule-list" class="list"></div></details>
+            </section>
+          </div>
+
+          <div class="col-side">
+            <div id="voice-home"></div>
+
+            <section class="panel results" aria-labelledby="results-title">
+              <header class="panel-head">
+                <div><h2 id="results-title">Recent results</h2><p class="panel-sub">What Nova finished most recently.</p></div>
+              </header>
+              <article id="featured-project" class="feature" aria-label="Latest website project" hidden>
+                <div class="feature-visual"><img id="feature-image" alt="" loading="lazy"></div>
+                <div class="feature-body"><div><p class="feature-label"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Latest verified concept</p><h3 id="feature-title"></h3></div>
+                  <button id="feature-open" class="secondary sm" type="button">Open studio</button></div>
+              </article>
+              <ul id="results-list" class="results-list"><li class="skeleton-row"></li></ul>
+            </section>
+
+            <section class="panel status-card" aria-labelledby="health-title">
+              <header class="panel-head">
+                <div><h2 id="health-title">System health</h2><p class="panel-sub">Channels Nova can use and the model budget left.</p></div>
+              </header>
               <ul class="channel-list">
                 <li><span class="channel-dot" id="email-dot"></span><div><strong>Email</strong><small id="email-status">Checking…</small></div></li>
                 <li><span class="channel-dot" data-ok="true"></span><div><strong>WhatsApp</strong><small>Click-to-chat links with your message</small></div></li>
                 <li><span class="channel-dot" id="profile-dot"></span><div><strong>Sender profile</strong><small id="profile-status">Checking…</small></div></li>
                 <li><span class="channel-dot" id="outbox-dot"></span><div><strong>Outbox</strong><small id="outbox-status">No messages waiting</small></div></li>
               </ul>
+              <div class="meters">
+                <p class="meters-title">Model budget <span class="tip" id="agent-model"></span></p>
+                <div class="meter"><div class="meter-label"><span>Calls this hour</span><strong id="calls-used">0</strong></div><div class="bar"><i id="calls-bar"></i></div></div>
+                <div class="meter"><div class="meter-label"><span>Tokens in 24h</span><strong id="tokens-used">0</strong></div><div class="bar"><i id="tokens-bar"></i></div></div>
+              </div>
             </section>
-            <section class="panel status-card" aria-labelledby="budget-title">
-              <div class="panel-heading"><h2 id="budget-title">Model budget</h2><span class="tip" id="agent-model"></span></div>
-              <div class="meter"><div class="meter-label"><span>Calls this hour</span><strong id="calls-used">0</strong></div><div class="bar"><i id="calls-bar"></i></div></div>
-              <div class="meter"><div class="meter-label"><span>Tokens in 24h</span><strong id="tokens-used">0</strong></div><div class="bar"><i id="tokens-bar"></i></div></div>
+
+            <section class="panel activity" aria-labelledby="activity-title">
+              <header class="panel-head">
+                <div><h2 id="activity-title">Live activity</h2><p class="panel-sub">Everything Nova does, as it happens.</p></div>
+                <span class="tip" id="event-count"></span>
+              </header>
+              <ol id="events" class="timeline list"></ol>
             </section>
-            <section id="featured-project" class="feature panel" aria-label="Latest website project" hidden>
-              <div class="feature-visual"><img id="feature-image" alt="" loading="lazy"></div>
-              <div class="feature-body"><div><p class="feature-label">Latest verified concept</p><h2 id="feature-title"></h2></div>
-                <button id="feature-open" class="secondary" type="button">Open</button></div>
-            </section>
-          </aside>
-        </div>
-        <dl class="metrics" aria-label="Operational totals">
-          <div><dt>Active missions</dt><dd id="active-count">0</dd></div>
-          <div><dt>Completed</dt><dd id="completed-count">0</dd></div>
-          <div><dt>Qualified leads</dt><dd id="qualified-count">0</dd></div>
-          <div><dt>Pending approvals</dt><dd id="pending-count">0</dd></div>
-        </dl>
-        <div class="workgrid">
-          <section class="panel missions">
-            <div class="panel-heading"><h2>Missions</h2><span id="mission-count" class="tip"></span></div>
-            <div class="mission-filters" aria-label="Filter missions">
-              <button type="button" data-filter="all" aria-pressed="true">All</button>
-              <button type="button" data-filter="active" aria-pressed="false">Active</button>
-              <button type="button" data-filter="scheduled" aria-pressed="false">Scheduled</button>
-              <button type="button" data-filter="completed" aria-pressed="false">Completed</button>
-            </div>
-            <div id="tasks" class="list"></div>
-            <details class="schedules"><summary>Recurring schedules <span id="schedule-count" class="tip"></span></summary><div id="schedule-list" class="list"></div></details>
-          </section>
-          <section class="panel activity">
-            <div class="panel-heading"><h2>Live activity</h2><span class="tip" id="event-count"></span></div>
-            <ol id="events" class="timeline list"></ol>
-          </section>
+          </div>
         </div>
       </section>
-      <section id="profile" class="view" hidden>
+
+      <!-- ===================== Profile ===================== -->
+      <section id="profile" class="view" hidden aria-labelledby="profile-name">
         <article class="profile-hero panel">
           <div class="profile-id">
             <div class="profile-avatar" id="profile-avatar" aria-hidden="true">MR</div>
             <div>
-              <p class="eyebrow">Who NOVA works for</p>
+              <p class="eyebrow">Who Nova works for</p>
               <h1 id="profile-name">Your profile</h1>
               <p class="profile-headline" id="profile-headline"></p>
               <p class="profile-meta" id="profile-meta"></p>
@@ -117,6 +214,7 @@
             <button type="button" class="quiet" id="edit-profile">Edit profile</button>
           </div>
         </article>
+        <p class="section-note">Nova reads this profile on every request to tailor research, outreach and tone. Keep it current.</p>
         <div class="profile-grid">
           <section class="resume-section"><h2>Experience</h2><ol class="timeline-cv" id="profile-experience"></ol></section>
           <section class="resume-section"><h2>Research &amp; publications</h2><div id="profile-publications" class="pub-list"></div></section>
@@ -124,26 +222,46 @@
           <section class="resume-section"><h2>Technical skills</h2><div id="profile-skills"></div></section>
           <section class="resume-section"><h2>Direction</h2><ul id="profile-goals" class="goal-list"></ul><h3 class="sub-rule">Focus areas</h3><div id="profile-focus" class="chips"></div></section>
           <section class="resume-section"><h2>Achievements</h2><ul id="profile-achievements" class="plain-list"></ul><h3 class="sub-rule">Education</h3><div id="profile-education"></div></section>
-          <section class="resume-section"><h2>How NOVA works for you</h2><ul id="profile-rules" class="rule-list"></ul></section>
+          <section class="resume-section"><h2>How Nova works for you</h2><ul id="profile-rules" class="rule-list"></ul></section>
         </div>
       </section>
-      <section id="leads" class="view" hidden>
-        <div class="page-heading"><div><h1>Customers</h1><p>Verified business evidence and opportunity scores.</p></div></div>
-        <div id="lead-list" class="panel list"></div>
+
+      <!-- ===================== Customers ===================== -->
+      <section id="leads" class="view" hidden aria-labelledby="leads-title">
+        <header class="page-heading">
+          <div><p class="eyebrow">Business</p><h1 id="leads-title">Customers</h1>
+            <p>Businesses Nova has researched. The opportunity score shows how much Nova could improve their website: higher means a stronger pitch.</p></div>
+          <div class="heading-actions"><button type="button" class="primary" data-prompt="Search the web for pottery studios in Hyderabad without a booking system"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>Find new leads</button></div>
+        </header>
+        <div id="lead-summary" class="summary-strip" aria-live="polite"></div>
+        <div id="lead-list" class="lead-list">
+          <div class="skeleton-card"></div><div class="skeleton-card"></div>
+        </div>
       </section>
-      <section id="projects" class="view" hidden>
-        <div class="page-heading"><div><h1>Projects</h1><p>Review local sites, design decisions and verification evidence.</p></div></div>
+
+      <!-- ===================== Projects ===================== -->
+      <section id="projects" class="view" hidden aria-labelledby="projects-title">
+        <header class="page-heading">
+          <div><p class="eyebrow">Business</p><h1 id="projects-title">Projects</h1>
+            <p>Website concepts Nova built and verified in a real browser. Open the studio to review design decisions and evidence.</p></div>
+        </header>
         <div class="studio-layout">
-          <div id="project-list" class="panel list project-list"></div>
+          <div id="project-list" class="project-list">
+            <div class="skeleton-card tall"></div><div class="skeleton-card tall"></div><div class="skeleton-card tall"></div>
+          </div>
           <section id="studio-detail" class="panel studio" aria-labelledby="studio-title" hidden>
-            <div class="panel-heading"><h2 id="studio-title">Design Studio</h2><button id="close-studio" type="button" class="quiet">Close studio</button></div>
+            <header class="panel-head"><div><h2 id="studio-title">Design Studio</h2><p class="panel-sub">Live preview, verification evidence and revisions.</p></div><button id="close-studio" type="button" class="secondary sm"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>Close studio</button></header>
             <div id="studio-body" class="studio-body"></div>
           </section>
         </div>
       </section>
-      <section id="communications" class="view" hidden>
-        <div class="page-heading"><div><h1>Communications</h1><p>Emails NOVA wrote for you, ready to review and send, plus mission drafts.</p></div>
-          <div class="heading-actions"><button id="compose-email" type="button" class="primary">Compose email</button><button id="new-draft" type="button" class="secondary">Mission draft</button></div></div>
+
+      <!-- ===================== Communications ===================== -->
+      <section id="communications" class="view" hidden aria-labelledby="comms-title">
+        <header class="page-heading">
+          <div><p class="eyebrow">Today</p><h1 id="comms-title">Communications</h1>
+            <p>Emails Nova wrote for you. Nothing is sent until you press Send. Mission drafts are proposals from completed projects.</p></div>
+          <div class="heading-actions"><button id="compose-email" type="button" class="primary"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>Compose email</button><button id="new-draft" type="button" class="secondary">Mission draft</button></div></header>
         <div class="mail-app panel">
           <aside class="mail-sidebar" aria-label="Mail folders">
             <div class="mail-folders" role="tablist">
@@ -153,16 +271,16 @@
               <button type="button" role="tab" data-folder="missions" aria-selected="false">Mission drafts</button>
             </div>
             <label class="sr-only" for="mail-search">Search mail</label>
-            <input id="mail-search" type="search" placeholder="Search recipient, subject or text" autocomplete="off">
+            <div class="search-field"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="mail-search" type="search" placeholder="Search recipient, subject or text" autocomplete="off"></div>
             <div id="outbox-list" class="mail-list" role="listbox" aria-label="Messages"></div>
             <div id="draft-list" class="list mission-drafts" hidden></div>
             <span id="outbox-count" class="sr-only"></span>
           </aside>
           <section class="mail-reader" id="mail-reader" aria-live="polite">
-            <div class="mail-empty" id="mail-empty">
-              <div class="mail-empty-icon" aria-hidden="true"></div>
+            <div class="mail-empty empty-state" id="mail-empty">
+              <span class="empty-icon" aria-hidden="true"><svg class="icon"><use href="#i-mail"/></svg></span>
               <h2>No message selected</h2>
-              <p>Pick a message on the left, or ask NOVA: “Email claysutra.com about a redesign”.</p>
+              <p>Pick a message on the left, or ask Nova: “Email claysutra.com about a redesign”.</p>
             </div>
             <article id="mail-view" hidden>
               <header class="mail-head">
@@ -180,56 +298,128 @@
           </section>
         </div>
       </section>
-      <section id="approvals" class="view" hidden>
-        <div class="page-heading"><div><h1>Approvals</h1><p>Inspect the evidence and record a proposal decision.</p></div></div>
-        <div id="approval-list" class="panel list"></div>
-      </section>
-      <section id="finance" class="view" hidden>
-        <div class="page-heading"><div><h1>Finance</h1><p>Track invoices, recorded receipts and expenses.</p></div><button id="new-entry" type="button" class="primary">Record entry</button></div>
-        <dl id="finance-totals" class="metrics" aria-label="Financial totals"></dl>
-        <div class="panel"><div class="panel-heading"><h2>Ledger</h2><span id="finance-currency" class="tip"></span></div><div id="finance-list" class="list"></div></div>
-      </section>
-      <section id="skills" class="view" hidden>
-        <div class="page-heading"><div><h1>Skills observatory</h1><p>Open-source expert playbooks NOVA loads on demand: pinned, license-checked and hash-verified.</p></div></div>
-        <p id="skill-summary" class="section-summary" aria-live="polite"></p>
-        <form id="skill-form" class="chat standalone"><label class="sr-only" for="skill-query">Search skills</label><input id="skill-query" type="search" maxlength="150" placeholder="Search by name, capability or source"><button type="submit" class="secondary">Search</button></form>
-        <div id="skill-filters" class="mission-filters skill-filters" aria-label="Skill categories"></div>
-        <div id="skill-list" class="skill-grid"></div>
-      </section>
-      <section id="models" class="view" hidden>
-        <div class="page-heading"><div><h1>Model observatory</h1><p>NVIDIA routes and recorded inference usage.</p></div><button id="check-providers" type="button" class="secondary">Refresh NVIDIA access</button></div>
-        <div class="model-grid">
-          <div class="panel"><div class="panel-heading"><h2>Provider routes</h2></div><div id="routes" class="list"></div></div>
-          <div class="panel"><div class="panel-heading"><h2>Recorded usage</h2><span id="usage-total" class="tip"></span></div><div id="usage" class="list"></div></div>
+
+      <!-- ===================== Approvals ===================== -->
+      <section id="approvals" class="view" hidden aria-labelledby="approvals-title">
+        <header class="page-heading">
+          <div><p class="eyebrow">Today</p><h1 id="approvals-title">Approvals</h1>
+            <p>Proposals Nova prepared from verified concepts. Check the evidence, then approve or reject. Approving records your review; nothing is sent automatically.</p></div>
+        </header>
+        <div id="approval-list" class="approval-list">
+          <div class="skeleton-card"></div><div class="skeleton-card"></div>
         </div>
-        <section class="panel bench-panel"><div class="panel-heading"><h2>Model benchmark</h2><span class="tip" id="bench-note">Run uv run python tools/model_bench.py</span></div>
+      </section>
+
+      <!-- ===================== Documents ===================== -->
+      <section id="documents" class="view" hidden aria-labelledby="documents-title">
+        <header class="page-heading">
+          <div><p class="eyebrow">Business</p><h1 id="documents-title">Documents</h1>
+            <p>Long answers Nova saved for you: research summaries, proposals and reports. Files stay on this Mac.</p></div>
+          <div class="heading-actions"><button type="button" class="primary" data-prompt="Write a research summary of this week's most important developments in LLM evaluation and save it as a document"><svg class="icon" aria-hidden="true"><use href="#i-doc"/></svg>Ask Nova to write one</button></div>
+        </header>
+        <div id="document-list" class="doc-grid">
+          <div class="skeleton-card short"></div><div class="skeleton-card short"></div><div class="skeleton-card short"></div>
+        </div>
+      </section>
+
+      <!-- ===================== Finance ===================== -->
+      <section id="finance" class="view" hidden aria-labelledby="finance-title-h">
+        <header class="page-heading">
+          <div><p class="eyebrow">Business</p><h1 id="finance-title-h">Finance</h1>
+            <p>Invoices, payments received and expenses for your projects. Outstanding is what clients still owe you.</p></div>
+          <div class="heading-actions"><button id="new-entry" type="button" class="primary"><svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>Record entry</button></div>
+        </header>
+        <dl id="finance-totals" class="stat-grid" aria-label="Financial totals"></dl>
+        <section class="panel">
+          <header class="panel-head"><div><h2>Ledger</h2><p class="panel-sub">Every recorded entry, newest first.</p></div><span id="finance-currency" class="tip"></span></header>
+          <div id="finance-list" class="list"><div class="skeleton-row"></div><div class="skeleton-row"></div></div>
+        </section>
+      </section>
+
+      <!-- ===================== Skills ===================== -->
+      <section id="skills" class="view" hidden aria-labelledby="skills-title">
+        <header class="page-heading">
+          <div><p class="eyebrow">Agent</p><h1 id="skills-title">Skills observatory</h1>
+            <p>Open-source expert playbooks Nova loads on demand: pinned, license-checked and hash-verified. Open one to enable, update or evaluate it.</p></div>
+        </header>
+        <div class="toolbar">
+          <form id="skill-form" class="search-form" role="search"><label class="sr-only" for="skill-query">Search skills</label>
+            <div class="search-field"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="skill-query" type="search" maxlength="150" placeholder="Search by name, capability or source"></div>
+            <button type="submit" class="secondary">Search</button></form>
+          <p id="skill-summary" class="section-summary" aria-live="polite"></p>
+        </div>
+        <div id="skill-filters" class="mission-filters segmented-bar skill-filters" aria-label="Skill categories"></div>
+        <div id="skill-list" class="skill-grid">
+          <div class="skeleton-card short"></div><div class="skeleton-card short"></div><div class="skeleton-card short"></div>
+        </div>
+      </section>
+
+      <!-- ===================== Models ===================== -->
+      <section id="models" class="view" hidden aria-labelledby="models-title">
+        <header class="page-heading">
+          <div><p class="eyebrow">Agent</p><h1 id="models-title">Model observatory</h1>
+            <p>Which NVIDIA models Nova routes each job to, and how they have performed. Refresh access if routes show as unverified.</p></div>
+          <div class="heading-actions"><button id="check-providers" type="button" class="secondary"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg>Refresh NVIDIA access</button></div>
+        </header>
+        <div class="model-grid">
+          <section class="panel"><header class="panel-head"><div><h2>Provider routes</h2><p class="panel-sub">The model assigned to each capability.</p></div></header><div id="routes" class="list"></div></section>
+          <section class="panel"><header class="panel-head"><div><h2>Recorded usage</h2><p class="panel-sub">Latency, errors and tokens per capability.</p></div><span id="usage-total" class="tip"></span></header><div id="usage" class="list"></div></section>
+        </div>
+        <section class="panel bench-panel"><header class="panel-head"><div><h2>Model benchmark</h2><p class="panel-sub">Head-to-head results on Nova's real tasks.</p></div><span class="tip" id="bench-note">Run uv run python tools/model_bench.py</span></header>
           <div class="bench-scroll"><table class="bench-table" id="bench-table"></table></div></section>
       </section>
-      <section id="memory" class="view" hidden>
-        <div class="page-heading"><div><h1>Memory</h1><p>Search recorded observations from completed missions.</p></div></div>
-        <form id="memory-form" class="chat standalone"><label class="sr-only" for="memory-query">Search memory</label><input id="memory-query" type="search" maxlength="300" placeholder="Search observations"><button type="submit" class="secondary">Search</button></form>
-        <div id="memory-list" class="panel list"></div>
+
+      <!-- ===================== Memory ===================== -->
+      <section id="memory" class="view" hidden aria-labelledby="memory-title">
+        <header class="page-heading">
+          <div><p class="eyebrow">Agent</p><h1 id="memory-title">Memory</h1>
+            <p>Observations Nova recorded from completed missions. It recalls these in later conversations; delete anything that is wrong.</p></div>
+        </header>
+        <div class="toolbar">
+          <form id="memory-form" class="search-form" role="search"><label class="sr-only" for="memory-query">Search memory</label>
+            <div class="search-field"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="memory-query" type="search" maxlength="300" placeholder="Search observations"></div>
+            <button type="submit" class="secondary">Search</button></form>
+        </div>
+        <div id="memory-list" class="memory-list"><div class="skeleton-card short"></div><div class="skeleton-card short"></div></div>
       </section>
     </div>
+
     <div id="voice-anchor"></div>
     <section class="voice-dock" id="voice-dock" aria-labelledby="voice-heading">
       <div class="voice-inner">
         <div class="voice-heading">
           <div class="voice-label">
             <div class="orb" id="orb" data-state="ready" aria-hidden="true"><span></span><canvas id="waveform" width="144" height="46"></canvas></div>
-            <div><h2 id="voice-heading" class="wordmark">Nova</h2><span id="voice-state" class="pill" role="status">Ready</span><span id="voice-profile-status" class="voice-profile tip" hidden></span></div>
+            <div class="voice-title"><h2 id="voice-heading" class="wordmark">Nova</h2><span id="voice-state" class="pill" role="status">Ready</span><span id="voice-profile-status" class="voice-profile tip" hidden></span></div>
           </div>
           <div class="voice-actions">
-            <button id="wake-toggle" type="button" aria-pressed="false" class="mic-button wake-button">Wake word</button>
-            <button id="voice-toggle" type="button" aria-pressed="false" class="mic-button">Enable microphone</button>
-            <button id="interrupt" type="button" class="quiet">Stop audio</button>
-            <button id="voice-expand" type="button" class="quiet voice-expand" aria-expanded="false" aria-controls="voice-detail">Conversation</button>
+            <button id="wake-toggle" type="button" aria-pressed="false" class="mic-button wake-button"><svg class="icon" aria-hidden="true"><use href="#i-ear"/></svg><span class="btn-label">Wake word</span></button>
+            <button id="voice-toggle" type="button" aria-pressed="false" class="mic-button"><svg class="icon" aria-hidden="true"><use href="#i-mic"/></svg><span class="btn-label">Enable microphone</span></button>
+            <button id="interrupt" type="button" class="quiet sm stop-audio" title="Stop audio (Esc)"><svg class="icon" aria-hidden="true"><use href="#i-stop"/></svg><span class="btn-label">Stop audio</span></button>
+            <button id="voice-expand" type="button" class="quiet sm voice-expand" aria-expanded="false" aria-controls="voice-detail"><svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg><span class="btn-label">Conversation</span></button>
           </div>
         </div>
         <div id="voice-detail" class="voice-detail" hidden>
           <div id="response" class="response" aria-live="polite"></div>
+          <div class="conversation-empty" id="conversation-empty">
+            <p class="ce-lead">Say “Hey Nova”, talk or type. Nova knows your profile, missions and outbox.</p>
+            <div class="prompt-groups">
+              <div class="prompt-group"><h3><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>Catch up</h3>
+                <button type="button" data-prompt="Brief me">Brief me</button>
+                <button type="button" data-prompt="What needs my attention today?">What needs me?</button>
+                <button type="button" data-prompt="Email me a summary of today's missions">Email me a report</button></div>
+              <div class="prompt-group"><h3><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg>Grow the business</h3>
+                <button type="button" data-prompt="Search the web for pottery studios in Hyderabad without a booking system">Research leads</button>
+                <button type="button" data-prompt="What does claysutra.com offer?">Ask about a website</button>
+                <button type="button" data-prompt="Find the contact details for claysutra.com">Find contacts</button>
+                <button type="button" data-prompt="Email claysutra.com about a website redesign">Contact a business</button></div>
+              <div class="prompt-group"><h3><svg class="icon" aria-hidden="true"><use href="#i-spark"/></svg>Research</h3>
+                <button type="button" data-prompt="Find research opportunities abroad that fit my profile">Research opportunities</button>
+                <button type="button" data-prompt="Summarise this week's most important developments in LLM evaluation, with sources">Research insights</button></div>
+            </div>
+          </div>
           <div class="voice-detail-actions">
-            <details class="voice-settings"><summary>Voice settings</summary>
+            <details class="voice-settings"><summary><svg class="icon" aria-hidden="true"><use href="#i-sliders"/></svg>Voice settings</summary>
               <div class="voice-controls">
                 <label>Conversation mode <select id="voice-profile"><option value="auto">Automatic</option><option value="casual">Casual</option><option value="business">Business</option><option value="technical">Technical</option><option value="reporter">Reporter</option><option value="presentation">Presentation</option></select></label>
                 <label>Voice <select id="voice-choice"><option value="">Configured voice</option></select></label>
@@ -237,55 +427,74 @@
                 <label>Playback speed <input id="rate" type="range" min=".75" max="1.5" step=".05" value="1"></label>
                 <label class="check"><input id="headphones" type="checkbox"> Headphone barge-in</label>
                 <label class="check"><input id="notifications" type="checkbox"> Speak mission updates</label>
+                <p class="tip" id="voice-mode">With speakers, use Stop audio before speaking over playback.</p>
               </div>
-              <p class="tip" id="voice-mode">With speakers, use Stop audio before speaking over playback.</p>
             </details>
-            <button id="clear-conversation" type="button" class="quiet">Clear</button>
+            <button id="clear-conversation" type="button" class="quiet sm">Clear</button>
             <span id="voice-metrics" class="tip"></span>
           </div>
         </div>
         <form id="chat" class="chat">
           <label class="sr-only" for="text">Message NOVA</label>
-          <input id="text" name="text" placeholder="Ask anything, or tell NOVA what to do…" required maxlength="1400" autocomplete="off" aria-keyshortcuts="Alt+V">
+          <input id="text" name="text" placeholder="Ask anything, or tell Nova what to do…" required maxlength="1400" autocomplete="off" aria-keyshortcuts="Alt+V">
           <kbd class="voice-shortcut" title="Focus the composer">Alt V</kbd>
           <button id="send" class="primary" type="submit">Send</button>
         </form>
-        <div class="command-examples" aria-label="Example commands">
-          <button type="button" data-prompt="Brief me">Brief me</button>
-          <button type="button" data-prompt="Find research opportunities abroad that fit my profile">Research opportunities</button>
-          <button type="button" data-prompt="Summarise this week's most important developments in LLM evaluation, with sources">Research insights</button>
-          <button type="button" data-prompt="What does claysutra.com offer?">Ask about a website</button>
-          <button type="button" data-prompt="Find the contact details for claysutra.com">Find contacts</button>
-          <button type="button" data-prompt="Search the web for pottery studios in Hyderabad without a booking system">Research leads</button>
-          <button type="button" data-prompt="Email claysutra.com about a website redesign">Contact a business</button>
-          <button type="button" data-prompt="Email me a summary of today's missions">Email me a report</button>
-        </div>
       </div>
     </section>
   </main>
 </div>
+
+<nav class="tabbar" aria-label="Primary">
+  <a class="nav-link" href="#overview" aria-current="page"><svg class="nav-icon" aria-hidden="true"><use href="#i-overview"/></svg><span>Home</span></a>
+  <a class="nav-link" href="#approvals"><svg class="nav-icon" aria-hidden="true"><use href="#i-shield"/></svg><span>Approvals</span><span class="tab-count js-review-count" hidden></span></a>
+  <a class="nav-link" href="#leads"><svg class="nav-icon" aria-hidden="true"><use href="#i-users"/></svg><span>Customers</span></a>
+  <a class="nav-link" href="#communications"><svg class="nav-icon" aria-hidden="true"><use href="#i-mail"/></svg><span>Mail</span></a>
+  <button type="button" id="open-nav" class="tab-more" aria-haspopup="dialog" aria-controls="nav-sheet"><svg class="nav-icon" aria-hidden="true"><use href="#i-more"/></svg><span>More</span></button>
+</nav>
+<dialog id="nav-sheet" class="sheet" aria-labelledby="nav-sheet-title">
+  <header class="dialog-head"><h2 id="nav-sheet-title">Go to</h2><button class="quiet sm" data-close="nav-sheet" type="button">Close</button></header>
+  <nav class="sheet-nav" aria-label="All sections">
+    <a class="nav-link" href="#overview"><svg class="nav-icon" aria-hidden="true"><use href="#i-overview"/></svg>Overview</a>
+    <a class="nav-link" href="#approvals"><svg class="nav-icon" aria-hidden="true"><use href="#i-shield"/></svg>Approvals<span class="nav-count js-review-count" hidden></span></a>
+    <a class="nav-link" href="#communications"><svg class="nav-icon" aria-hidden="true"><use href="#i-mail"/></svg>Mail</a>
+    <a class="nav-link" href="#leads"><svg class="nav-icon" aria-hidden="true"><use href="#i-users"/></svg>Customers</a>
+    <a class="nav-link" href="#projects"><svg class="nav-icon" aria-hidden="true"><use href="#i-folder"/></svg>Projects</a>
+    <a class="nav-link" href="#documents"><svg class="nav-icon" aria-hidden="true"><use href="#i-doc"/></svg>Documents</a>
+    <a class="nav-link" href="#finance"><svg class="nav-icon" aria-hidden="true"><use href="#i-wallet"/></svg>Finance</a>
+    <a class="nav-link" href="#profile"><svg class="nav-icon" aria-hidden="true"><use href="#i-user"/></svg>Profile</a>
+    <a class="nav-link" href="#skills"><svg class="nav-icon" aria-hidden="true"><use href="#i-star"/></svg>Skills</a>
+    <a class="nav-link" href="#models"><svg class="nav-icon" aria-hidden="true"><use href="#i-chart"/></svg>Models</a>
+    <a class="nav-link" href="#memory"><svg class="nav-icon" aria-hidden="true"><use href="#i-memory"/></svg>Memory</a>
+  </nav>
+</dialog>
+
 <dialog id="mission-dialog" aria-labelledby="mission-dialog-title">
-  <div class="panel-heading"><h2 id="mission-dialog-title">New mission</h2><button class="quiet" data-close="mission-dialog" type="button">Close</button></div>
+  <header class="dialog-head"><div><h2 id="mission-dialog-title">New mission</h2><p class="panel-sub">Nova researches the sites, builds a concept, verifies it and prepares a proposal for your approval.</p></div><button class="quiet sm" data-close="mission-dialog" type="button">Close</button></header>
   <form id="mission-form" class="dialog-body">
     <label>Mission title<input id="mission-title" required minlength="3" maxlength="140" placeholder="Website review"></label>
     <div class="fields"><label>Workflow<select id="workflow"><option value="website">Website research and concept</option><option value="brief">NVIDIA planning brief</option></select></label>
       <label>Priority<select id="priority"><option value="3">Low</option><option value="5" selected>Normal</option><option value="8">High</option></select></label></div>
     <div id="candidate-fields"><label for="candidates">Public websites</label><textarea id="candidates" rows="4" placeholder="Business name | https://example.com/"></textarea>
-      <div class="field-note"><span>One business per line, up to five.</span><button id="load-preset" class="quiet" type="button">Use Hyderabad studio list</button></div>
+      <div class="field-note"><span>One business per line, up to five.</span><button id="load-preset" class="quiet sm" type="button">Use Hyderabad studio list</button></div>
       <label>Public directory URL instead<input id="directory-url" type="url" maxlength="500" placeholder="https://example.com/business-guide"></label>
       <label>Business name lookup <input id="business-search" maxlength="100" placeholder="Search public Wikidata records"></label>
       <label class="check"><input id="design-assist" type="checkbox"> Use NVIDIA to help prioritize design evidence</label></div>
     <label id="objective-field" hidden>Objective<textarea id="objective" rows="4" maxlength="1600"></textarea></label>
-    <div class="fields"><label>Start time <input id="run-at" type="datetime-local"></label><label>Dependency <select id="dependency"><option value="">None</option></select></label></div>
-    <label>Repeat interval in hours<input id="repeat-hours" type="number" min="1" step="1" inputmode="numeric" placeholder="Leave blank for a one-time mission"></label>
+    <details class="advanced"><summary>Schedule and dependencies</summary>
+      <div class="advanced-body">
+        <div class="fields"><label>Start time <input id="run-at" type="datetime-local"></label><label>Dependency <select id="dependency"><option value="">None</option></select></label></div>
+        <label>Repeat interval in hours<input id="repeat-hours" type="number" min="1" step="1" inputmode="numeric" placeholder="Leave blank for a one-time mission"></label>
+      </div>
+    </details>
     <p id="form-error" class="form-error" role="alert" hidden></p>
-    <button id="queue-mission" class="primary" type="submit">Queue mission</button>
+    <div class="dialog-actions"><button class="secondary" data-close="mission-dialog" type="button">Cancel</button><button id="queue-mission" class="primary" type="submit">Queue mission</button></div>
   </form>
 </dialog>
-<dialog id="details-dialog" class="wide-dialog" aria-labelledby="detail-title"><div class="panel-heading"><h2 id="detail-title">Mission details</h2><button class="quiet" data-close="details-dialog" type="button">Close</button></div><div id="detail-body" class="dialog-body"></div></dialog>
-<dialog id="skill-dialog" aria-labelledby="skill-title"><div class="panel-heading"><h2 id="skill-title">Skill details</h2><button class="quiet" data-close="skill-dialog" type="button">Close</button></div><div id="skill-detail" class="dialog-body"></div></dialog>
+<dialog id="details-dialog" class="wide-dialog" aria-labelledby="detail-title"><header class="dialog-head"><div><h2 id="detail-title">Mission details</h2><p class="panel-sub">Stages, evidence and a replay of every step.</p></div><button class="quiet sm" data-close="details-dialog" type="button">Close</button></header><div id="detail-body" class="dialog-body"></div></dialog>
+<dialog id="skill-dialog" aria-labelledby="skill-title"><header class="dialog-head"><h2 id="skill-title">Skill details</h2><button class="quiet sm" data-close="skill-dialog" type="button">Close</button></header><div id="skill-detail" class="dialog-body"></div></dialog>
 <dialog id="draft-dialog" aria-labelledby="draft-title">
-  <div class="panel-heading"><h2 id="draft-title">New draft</h2><button class="quiet" data-close="draft-dialog" type="button">Close</button></div>
+  <header class="dialog-head"><h2 id="draft-title">New draft</h2><button class="quiet sm" data-close="draft-dialog" type="button">Close</button></header>
   <form id="draft-form" class="dialog-body">
     <div id="draft-source" class="fields">
       <label>Completed project<select id="draft-project"></select></label>
@@ -298,11 +507,11 @@
       <label>Message<textarea id="draft-body" rows="12" maxlength="12000"></textarea></label>
     </div>
     <p id="draft-error" class="form-error" role="alert" hidden></p>
-    <div class="links"><button id="draft-save" class="primary" type="submit">Create draft</button><button id="draft-copy" class="secondary" type="button" hidden>Copy text</button></div>
+    <div class="dialog-actions"><button id="draft-copy" class="secondary" type="button" hidden>Copy text</button><button id="draft-save" class="primary" type="submit">Create draft</button></div>
   </form>
 </dialog>
 <dialog id="email-dialog" aria-labelledby="email-title">
-  <div class="panel-heading"><h2 id="email-title">Review email delivery</h2><button class="quiet" data-close="email-dialog" type="button">Close</button></div>
+  <header class="dialog-head"><div><h2 id="email-title">Review email delivery</h2><p class="panel-sub">Check the recipient and message. Nova sends only after you confirm.</p></div><button class="quiet sm" data-close="email-dialog" type="button">Close</button></header>
   <form id="email-form" class="dialog-body">
     <p id="email-provider" class="tip"></p>
     <label>Recipient<input id="email-recipient" type="email" required maxlength="254" list="public-email-addresses"></label>
@@ -310,11 +519,11 @@
     <div id="email-channels" class="links"></div>
     <div id="email-preview" class="mail-preview"></div>
     <p id="email-error" class="form-error" role="status" hidden></p>
-    <div class="links"><button class="primary" id="email-action" type="submit">Review recipient and message</button></div>
+    <div class="dialog-actions"><button class="primary" id="email-action" type="submit">Review recipient and message</button></div>
   </form>
 </dialog>
 <dialog id="outbox-dialog" class="compose-dialog" aria-labelledby="outbox-title">
-  <div class="panel-heading"><h2 id="outbox-title">Compose email</h2><button class="quiet" data-close="outbox-dialog" type="button">Close</button></div>
+  <header class="dialog-head"><h2 id="outbox-title">Compose email</h2><button class="quiet sm" data-close="outbox-dialog" type="button">Close</button></header>
   <div class="compose-grid">
     <form id="outbox-form" class="dialog-body compose-form">
       <p id="outbox-sender" class="tip"></p>
@@ -322,13 +531,13 @@
       <label>Subject<input id="outbox-subject" required minlength="3" maxlength="160"><small class="char-count" id="subject-count"></small></label>
       <label>Message<textarea id="outbox-body" rows="16" required minlength="12" maxlength="8000"></textarea><small class="char-count" id="body-count"></small></label>
       <div class="compose-assist">
-        <span class="tip">Ask NOVA:</span>
+        <span class="tip">Ask Nova:</span>
         <button type="button" class="chip-button" data-assist="shorter">Make it shorter</button>
         <button type="button" class="chip-button" data-assist="warmer">Warmer tone</button>
         <button type="button" class="chip-button" data-assist="specific">More specific</button>
       </div>
       <p id="outbox-error" class="form-error" role="alert" hidden></p>
-      <div class="links"><button id="outbox-send" class="primary" type="button">Send email</button><button id="outbox-save" class="secondary" type="submit">Save draft</button></div>
+      <div class="dialog-actions"><button id="outbox-save" class="secondary" type="submit">Save draft</button><button id="outbox-send" class="primary" type="button"><svg class="icon" aria-hidden="true"><use href="#i-send"/></svg>Send email</button></div>
     </form>
     <div class="compose-preview">
       <div class="compose-preview-bar"><span>Live preview</span><div class="segmented" role="group" aria-label="Preview width"><button type="button" data-width="desktop" aria-pressed="true">Desktop</button><button type="button" data-width="mobile" aria-pressed="false">Mobile</button></div></div>
@@ -337,16 +546,16 @@
   </div>
 </dialog>
 <dialog id="profile-dialog" class="wide-dialog" aria-labelledby="profile-dialog-title">
-  <div class="panel-heading"><h2 id="profile-dialog-title">Edit profile</h2><button class="quiet" data-close="profile-dialog" type="button">Close</button></div>
+  <header class="dialog-head"><h2 id="profile-dialog-title">Edit profile</h2><button class="quiet sm" data-close="profile-dialog" type="button">Close</button></header>
   <form id="profile-form" class="dialog-body">
-    <p class="tip">Stored only on this Mac in memory/profile.json. NOVA reads it on every request; phone and email never go to the model.</p>
+    <p class="tip">Stored only on this Mac in memory/profile.json. Nova reads it on every request; phone and email never go to the model.</p>
     <label>Profile (JSON)<textarea id="profile-json" rows="22" spellcheck="false" class="code-input"></textarea></label>
     <p id="profile-error" class="form-error" role="alert" hidden></p>
-    <button class="primary" type="submit">Save profile</button>
+    <div class="dialog-actions"><button class="primary" type="submit">Save profile</button></div>
   </form>
 </dialog>
 <dialog id="finance-dialog" aria-labelledby="finance-title">
-  <div class="panel-heading"><h2 id="finance-title">Record entry</h2><button class="quiet" data-close="finance-dialog" type="button">Close</button></div>
+  <header class="dialog-head"><h2 id="finance-title">Record entry</h2><button class="quiet sm" data-close="finance-dialog" type="button">Close</button></header>
   <form id="finance-form" class="dialog-body">
     <div class="fields"><label>Entry type<select id="finance-kind"><option value="invoice">Invoice</option><option value="payment">Payment received</option><option value="expense">Expense</option></select></label><label>Date<input id="finance-date" type="date" required></label></div>
     <div class="fields"><label>Reference<input id="finance-reference" required maxlength="100"></label><label>Amount in INR<input id="finance-amount" type="number" min=".01" step=".01" required></label></div>
@@ -354,7 +563,7 @@
     <label>Project<select id="finance-task"><option value="">None</option></select></label>
     <label>Note<textarea id="finance-note" rows="2" maxlength="500"></textarea></label>
     <p id="finance-error" class="form-error" role="alert" hidden></p>
-    <button id="save-entry" class="primary" type="submit">Record entry</button>
+    <div class="dialog-actions"><button id="save-entry" class="primary" type="submit">Record entry</button></div>
   </form>
 </dialog>
 </body>

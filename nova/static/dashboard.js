@@ -23,6 +23,21 @@ const el = (tag, value, className) => {
   if (className) node.className = className;
   return node;
 };
+const SVG = "http://www.w3.org/2000/svg";
+function icon(name, className = "icon") {
+  const svg = document.createElementNS(SVG, "svg");
+  svg.setAttribute("class", className);
+  svg.setAttribute("aria-hidden", "true");
+  const use = document.createElementNS(SVG, "use");
+  use.setAttribute("href", "#i-" + name);
+  svg.append(use);
+  return svg;
+}
+// A button or link with a leading icon. Text stays a real text node so accessible names are unchanged.
+function withIcon(node, name) {
+  node.prepend(icon(name));
+  return node;
+}
 const formatState = (state) => state.replaceAll("_", " ");
 const terminal = new Set(["completed", "failed", "cancelled"]);
 const money = new Intl.NumberFormat("en-IN", {style: "currency", currency: "INR", maximumFractionDigits: 0});
@@ -31,7 +46,7 @@ const clock = new Intl.DateTimeFormat(undefined, {hour: "2-digit", minute: "2-di
 const dateTime = new Intl.DateTimeFormat(undefined, {dateStyle:"medium", timeStyle:"short"});
 const titles = {
   overview:"Overview", profile:"Profile", leads:"Customers", projects:"Projects", communications:"Communications",
-  approvals:"Approvals", finance:"Finance", skills:"Skills observatory", models:"Model observatory", memory:"Memory",
+  approvals:"Approvals", documents:"Documents", finance:"Finance", skills:"Skills observatory", models:"Model observatory", memory:"Memory",
 };
 const localHeaders = {"Content-Type":"application/json", "x-nova-owner":"1"};
 let current;
@@ -41,6 +56,7 @@ let refreshTimer;
 let refreshGeneration = 0;
 let lastPage = "";
 let missionFilter = "all";
+let missionsExpanded = false;
 let detailTask = "";
 let detailRequest = 0;
 let detailRefresh;
@@ -49,6 +65,7 @@ let replayEvent = null;
 let studioRequest = 0;
 let skillsRequest = 0;
 let activeDraft = null;
+let followUps = {due:[], upcoming:[]};
 const listKeys = new Map();
 
 async function api(path, options) {
@@ -62,9 +79,99 @@ async function api(path, options) {
   return result;
 }
 const post = (path, value, method = "POST") => api(path, {method, headers:localHeaders, body:JSON.stringify(value)});
+let toastTimer = 0;
 function report(message) {
-  $("banner").textContent = message;
-  $("banner").hidden = false;
+  const toast = $("banner");
+  toast.textContent = message;
+  toast.hidden = false;
+  toast.classList.remove("leaving");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.hidden = true; }, Math.min(12000, 4200 + message.length * 45));
+}
+$("banner").addEventListener("click", () => { clearTimeout(toastTimer); $("banner").hidden = true; });
+
+/* ---------- Mission pipelines ----------
+   The stage list mirrors Runtime.plan(): optional discovery, one audit per site, then either a report
+   (research) or shortlist → concept → verify → proposal (website). Audits collapse into one step. */
+const STAGE_NAMES = {discover:"Discover", audit:"Audit", rank:"Shortlist", build:"Concept", verify:"Verify",
+  proposal:"Proposal", report:"Report", sources:"Sources", brief:"Brief", approval:"Approval"};
+function planStages(task) {
+  const spec = task.spec || {};
+  if (spec.workflow === "brief") return ["brief"];
+  if (spec.workflow === "topic") return ["sources"];
+  const ids = [];
+  if (spec.directory_url || spec.business_search) ids.push("discover");
+  const sites = Math.max(1, (spec.candidates || []).length);
+  for (let index = 1; index <= sites; index += 1) ids.push("audit_" + index);
+  ids.push(...(spec.workflow === "research" ? ["report"] : ["rank", "build", "verify", "proposal"]));
+  return ids;
+}
+function pipeline(task) {
+  const ids = planStages(task);
+  const cursor = task.state === "completed" ? ids.length : Math.min(task.cursor || 0, ids.length);
+  const groups = [];
+  ids.forEach((id, index) => {
+    const key = id.startsWith("audit_") ? "audit" : id;
+    let group = groups.at(-1);
+    if (!group || group.key !== key) groups.push(group = {key, name:STAGE_NAMES[key] || displayName(key), from:index, to:index});
+    group.to = index;
+  });
+  const live = {running:"current", planning:"current", verifying:"current", waiting_for_tool:"current",
+    failed:"failed", cancelled:"failed", paused:"paused", queued:"pending", retry_scheduled:"paused"};
+  for (const group of groups) {
+    const sites = group.to - group.from + 1;
+    if (group.key === "audit" && sites > 1) group.detail = Math.max(0, Math.min(sites, cursor - group.from)) + "/" + sites + " sites";
+    if (cursor > group.to) group.state = "done";
+    else if (cursor >= group.from) group.state = live[task.state] || "current";
+    else group.state = "pending";
+  }
+  const review = (current?.approvals || []).find((item) => item.task_id === task.id);
+  if (review && task.state === "completed") {
+    groups.push({key:"approval", name:"Approval",
+      state:review.state === "pending" ? "waiting" : review.state === "rejected" ? "failed" : "done",
+      detail:review.state === "pending" ? "Needs you" : displayName(review.state)});
+  }
+  return groups;
+}
+const stepWords = {done:"done", current:"in progress", failed:"stopped here", paused:"paused", waiting:"waiting for you", pending:"not started"};
+function stepper(task, compact = false) {
+  const groups = pipeline(task);
+  const list = el("ol", undefined, "stepper" + (compact ? " compact" : ""));
+  const active = groups.find((group) => !["done", "pending"].includes(group.state));
+  const doneCount = groups.filter((group) => group.state === "done").length;
+  list.setAttribute("aria-label", "Pipeline: " + doneCount + " of " + groups.length + " stages done" +
+    (active ? ", " + active.name + " " + stepWords[active.state] : ""));
+  for (const group of groups) {
+    const item = el("li");
+    item.dataset.state = group.state;
+    const dot = el("span", undefined, "step-dot");
+    dot.setAttribute("aria-hidden", "true");
+    if (group.state === "done") dot.append(icon("check"));
+    else if (group.state === "failed") dot.append(icon("x"));
+    const text = el("span", undefined, "step-text");
+    text.append(el("span", group.name, "step-label"));
+    if (group.detail && !compact) text.append(el("small", group.detail, "step-detail"));
+    item.title = group.name + " · " + stepWords[group.state] + (group.detail ? " · " + group.detail : "");
+    item.append(dot, text);
+    list.append(item);
+  }
+  return list;
+}
+const errorText = {no_evidence:"None of the sites could be inspected", research_provider_busy:"The research provider was busy",
+  model_unavailable:"The model was unavailable", stopped:"Stopped by emergency stop"};
+function failureReason(task) {
+  if (!task.error) return "";
+  return errorText[task.error] || displayName(task.error);
+}
+const workflowNames = {website:"Website concept", research:"Website research", topic:"Topic research", brief:"Planning brief"};
+const workflowIcons = {website:"globe", research:"search", topic:"spark", brief:"doc"};
+function dismissed() {
+  try { return new Set(JSON.parse(localStorage.getItem("nova.dismissed") || "[]")); } catch { return new Set(); }
+}
+function dismiss(id) {
+  const ids = dismissed();
+  ids.add(id);
+  try { localStorage.setItem("nova.dismissed", JSON.stringify([...ids].slice(-200))); } catch {}
 }
 function action(label, callback, className = "quiet") {
   const button = el("button", label, className);
@@ -88,17 +195,51 @@ function link(label, href) {
   anchor.rel = "noopener noreferrer";
   return anchor;
 }
-function pill(state) {
-  const badge = el("span", formatState(state), "pill");
+function pill(state, label) {
+  const badge = el("span", label || displayName(state), "pill");
   badge.dataset.state = state;
   return badge;
+}
+function emptyState(iconName, title, text, ...actions) {
+  const box = el("div", undefined, "empty-state");
+  const badge = el("span", undefined, "empty-icon");
+  badge.setAttribute("aria-hidden", "true");
+  badge.append(icon(iconName));
+  box.append(badge, el("h3", title));
+  if (text) box.append(el("p", text));
+  if (actions.length) {
+    const row = el("div", undefined, "empty-actions");
+    row.append(...actions);
+    box.append(row);
+  }
+  return box;
+}
+function promptButton(label, prompt, className = "secondary sm") {
+  const button = el("button", label, className);
+  button.type = "button";
+  button.addEventListener("click", () => sendText(prompt));
+  return button;
+}
+function scoreRing(score, label = "Opportunity score") {
+  const value = Math.max(0, Math.min(100, Number(score) || 0));
+  const ring = el("div", undefined, "score-ring");
+  ring.dataset.tone = value >= 40 ? "high" : value > 0 ? "mid" : "none";
+  ring.style.setProperty("--value", value);
+  ring.setAttribute("role", "img");
+  ring.setAttribute("aria-label", label + " " + value + " out of 100");
+  ring.append(el("strong", String(value)), el("small", "/100"));
+  return ring;
+}
+function hostOf(url) {
+  try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url || ""; }
 }
 function renderList(id, data, emptyMessage, signature) {
   if (signature !== undefined && listKeys.get(id) === signature) return;
   listKeys.set(id, signature);
   const container = $(id);
   const focused = container.contains(document.activeElement) ? document.activeElement.dataset.focus : null;
-  container.replaceChildren(...(data.length ? data : [el("p", emptyMessage, "empty")]));
+  const empty = emptyMessage instanceof Node ? emptyMessage : el("p", emptyMessage, "empty");
+  container.replaceChildren(...(data.length ? data : [empty]));
   if (focused) container.querySelector('[data-focus="' + CSS.escape(focused) + '"]')?.focus({preventScroll:true});
 }
 function renderEvents(latest) {
@@ -166,9 +307,13 @@ function queueRefresh() {
 }
 async function refresh() {
   const generation = ++refreshGeneration;
-  const next = await api("/api/state");
+  const [next, reminders] = await Promise.all([
+    api("/api/state"),
+    api("/api/follow-ups").catch(() => ({due:[], upcoming:[]})),
+  ]);
   if (generation !== refreshGeneration) return;
   current = next;
+  followUps = reminders;
   if (!feed) {
     events = current.recent_events;
     renderEvents();
@@ -183,9 +328,11 @@ function controls(task) {
     const verb = task.state === "paused" ? "resume" : "pause";
     for (const name of [verb, "cancel"]) {
       const button = action(name[0].toUpperCase() + name.slice(1), async () => {
+        if (name === "cancel" && !confirm("Cancel “" + task.title + "”? Saved steps are kept, but the mission stops.")) return;
         await post("/api/tasks/" + task.id + "/control", {action:name});
         await refresh();
-      });
+      }, name === "cancel" ? "quiet sm danger" : "secondary sm");
+      withIcon(button, name === "cancel" ? "x" : name === "pause" ? "pause" : "play");
       button.dataset.focus = task.id + "-" + name;
       row.append(button);
     }
@@ -198,7 +345,9 @@ function artifacts(task, build) {
   const paths = [["Preview","index.html"], ["Desktop","desktop.png"], ["Mobile","mobile.png"], ["Proposal","proposal.json"]];
   if (build?.revision) paths.push(["Tablet","tablet.png"], ["Design brief","design.json"], ["Verification","verification.json"], ["Delivery notes","delivery.md"]);
   for (const [name, file] of paths) {
-    items.append(link(name, base + file));
+    const anchor = link(name, base + file);
+    anchor.className = "file-link";
+    items.append(anchor);
   }
   return items;
 }
@@ -415,29 +564,55 @@ function renderMissions(tasks) {
     if (missionFilter === "all") return true;
     if (missionFilter === "active") return !terminal.has(task.state) && !scheduled(task);
     if (missionFilter === "scheduled") return scheduled(task);
+    if (missionFilter === "failed") return ["failed", "cancelled"].includes(task.state);
     return task.state === "completed";
   });
   $("mission-count").textContent = filtered.length ? filtered.length + " " + (filtered.length === 1 ? "mission" : "missions") : "";
-  renderList("tasks", filtered.map((task) => {
-    const row = el("article", undefined, "task");
-    const head = el("div", undefined, "task-head");
-    const inspect = action(task.title, () => inspectTask(task.id), "task-title");
-    inspect.dataset.focus = task.id + "-inspect";
-    head.append(inspect, pill(scheduled(task) ? "scheduled" : task.state));
-    const dependency = task.depends_on && tasks.find((record) => record.id === task.depends_on);
-    const details = el("div", undefined, "task-tools");
-    const count = task.cursor ? task.cursor + " saved " + (task.cursor === 1 ? "step" : "steps") : "No saved steps";
-    details.append(el("span", [displayName(task.spec.workflow), count, scheduled(task) ? formatDate(task.due) : ""].filter(Boolean).join(" · "), "tip"));
-    row.append(head, details);
-    if (task.depends_on) {
-      const predecessor = action("Depends on " + (dependency?.title || task.depends_on), () => inspectTask(task.depends_on), "quiet");
-      predecessor.dataset.focus = task.id + "-dependency";
-      row.append(predecessor);
-    }
-    row.append(controls(task));
-    return row;
-  }), missionFilter === "all" ? "Queue a website review or planning brief to start." : "No missions match this view.",
-    JSON.stringify([missionFilter, filtered, filtered.map((task) => scheduled(task))]));
+  const limit = missionsExpanded ? filtered.length : 6;
+  const rows = filtered.slice(0, limit).map((task) => missionRow(task, tasks));
+  if (filtered.length > limit) {
+    const more = action("Show all " + filtered.length + " missions", () => { missionsExpanded = true; renderMissions(current.tasks); }, "link-button more-link");
+    more.dataset.focus = "missions-more";
+    rows.push(more);
+  }
+  renderList("tasks", rows,
+    missionFilter === "all" ? emptyState("bolt", "No missions yet", "Queue a website review or a planning brief and Nova will take it from there.")
+      : el("p", "No missions match this view.", "empty"),
+    JSON.stringify([missionFilter, missionsExpanded, filtered, filtered.map((task) => scheduled(task)), current?.approvals?.map((item) => [item.task_id, item.state])]));
+}
+function missionRow(task, tasks = current?.tasks || [], full = false) {
+  const row = el("article", undefined, "task");
+  const state = scheduled(task) ? "scheduled" : task.state;
+  row.dataset.state = state;
+  const badge = el("span", undefined, "task-icon");
+  badge.setAttribute("aria-hidden", "true");
+  badge.append(icon(workflowIcons[task.spec.workflow] || "bolt"));
+  const body = el("div", undefined, "task-body");
+  const head = el("div", undefined, "task-head");
+  const inspect = action(task.title, () => inspectTask(task.id), "task-title");
+  inspect.dataset.focus = task.id + (full ? "-live" : "-inspect");
+  head.append(inspect, pill(state));
+  const sites = (task.spec.candidates || []).length;
+  const meta = [workflowNames[task.spec.workflow] || displayName(task.spec.workflow),
+    sites > 1 ? sites + " sites" : "",
+    scheduled(task) ? "starts " + formatDate(task.due) : (task.updated ? ago(task.updated) : "")].filter(Boolean).join(" · ");
+  body.append(head, el("p", meta, "task-meta"), stepper(task, !full));
+  if (["failed", "cancelled"].includes(task.state) && task.error) body.append(el("p", failureReason(task), "task-error"));
+  if (task.depends_on) {
+    const dependency = tasks.find((record) => record.id === task.depends_on);
+    const predecessor = action("Depends on " + (dependency?.title || task.depends_on), () => inspectTask(task.depends_on), "link-button");
+    predecessor.dataset.focus = task.id + "-dependency";
+    body.append(predecessor);
+  }
+  const tools = controls(task);
+  if (full || tools.childElementCount) {
+    const details = action("Details", () => inspectTask(task.id), "quiet sm");
+    details.dataset.focus = task.id + "-details" + (full ? "-live" : "");
+    tools.prepend(details);
+  }
+  if (tools.childElementCount) body.append(tools);
+  row.append(badge, body);
+  return row;
 }
 function websiteProjects(tasks = current?.tasks || []) {
   return tasks.filter((task) => task.state === "completed" && task.spec.workflow === "website");
@@ -578,7 +753,7 @@ function renderAgentStatus() {
     $("owner-name").textContent = me.name;
     $("owner-headline").textContent = me.headline.split("·")[0].trim();
   }
-  if (owner) $("greeting").textContent = $("greeting").textContent.split(",")[0] + ", " + owner;
+  if (owner) $("greeting").textContent = ($("greeting").dataset.base || "Welcome back") + ", " + owner;
   $("email-dot").dataset.ok = email.configured ? "true" : "false";
   $("email-status").textContent = email.configured ? "Sending as " + email.sender + " · " + email.sent_last_hour + "/" + email.hourly_limit + " this hour"
     : "Not configured — set EMAIL_HOST, EMAIL_USER, EMAIL_PASS";
@@ -790,84 +965,479 @@ $("outbox-send").addEventListener("click", async () => {
   finally { $("outbox-send").disabled = false; }
 });
 $("compose-email").addEventListener("click", () => openOutbox());
-function renderState() {
-  const {tasks, counts, leads, approvals, usage, routes, voice} = current;
-  $("version").textContent = "v" + current.version;
-  $("active-count").textContent = Object.entries(counts).filter(([state]) => !terminal.has(state) && state !== "paused").reduce((a, [, value]) => a + value, 0);
-  $("completed-count").textContent = counts.completed || 0;
-  $("qualified-count").textContent = new Set(leads.filter((lead) => lead.score > 0).map((lead) => lead.url)).size;
-  const pending = approvals.filter((review) => review.state === "pending").length;
-  $("pending-count").textContent = pending;
-  $("review-count").hidden = !pending;
-  $("review-count").textContent = pending;
-  $("stop").textContent = current.stopped ? "Reset emergency stop" : "Emergency stop";
-  renderAgentStatus();
-  $("open-mission").disabled = current.stopped;
-  renderMissions(tasks);
-  renderList("lead-list", leads.map((lead) => {
-    const row = el("article", undefined, "record");
-    const flags = el("ul");
-    flags.append(...(lead.evidence.findings || []).map((flag) => el("li", flag.observation)));
-    row.append(el("h3", lead.name), el("p", lead.score + "/100 · " + formatState(lead.stage), "tip"),
-      link("Public source", lead.url));
-    if (flags.children.length) row.append(flags);
-    if (lead.evidence.scope) row.append(el("p", lead.evidence.scope, "tip"));
-    if (lead.evidence.source_directory) row.append(link("Directory source", lead.evidence.source_directory));
-    if (lead.stage !== "archived" && (!lead.allowed_stages || lead.allowed_stages.length)) row.append(leadControl(lead));
+/* ---------- Overview: command centre ---------- */
+function needItem({key, kind, tone, iconName, title, meta, actions}) {
+  const row = el("article", undefined, "need");
+  row.dataset.tone = tone;
+  const badge = el("span", undefined, "need-icon");
+  badge.setAttribute("aria-hidden", "true");
+  badge.append(icon(iconName));
+  const body = el("div", undefined, "need-body");
+  body.append(el("span", kind, "need-kind"), el("h3", title));
+  if (meta) body.append(el("p", meta, "need-meta"));
+  const buttons = el("div", undefined, "need-actions");
+  actions.forEach((button, index) => { button.dataset.focus = key + "-" + index; });
+  buttons.append(...actions);
+  row.append(badge, body, buttons);
+  return row;
+}
+async function decideApproval(approval, approved) {
+  if (!approved && !confirm("Reject the proposal for " + approval.payload.business + "? You can still review the evidence later.")) return;
+  await post("/api/approvals/" + approval.task_id, {digest:approval.digest, approved});
+  report(approved ? "Proposal approved for " + approval.payload.business + "." : "Proposal rejected.");
+  await refresh();
+}
+function showApproval(taskId) {
+  location.hash = "approvals";
+  routePage();
+  requestAnimationFrame(() => {
+    const card = $("approval-" + taskId);
+    if (!card) return;
+    card.scrollIntoView({block:"center", behavior:"instant"});
+    card.classList.add("flash");
+    card.querySelector("button")?.focus({preventScroll:true});
+  });
+}
+function followUpCompose(item) {
+  openOutbox({recipient:item.recipient || "", business:item.business, subject:"Following up", body:""});
+}
+function renderNeeds() {
+  const items = [];
+  const week = Date.now() / 1000 - 7 * 86400;
+  for (const approval of current.approvals.filter((review) => review.state === "pending")) {
+    const draft = approval.payload.proposal || {};
+    const facts = [Number.isFinite(draft.proposed_price_inr) ? money.format(draft.proposed_price_inr) + " estimate" : "",
+      draft.effort_hours ? draft.effort_hours + " hours" : "",
+      draft.verification?.length ? "verified on " + draft.verification.join(", ") : ""].filter(Boolean).join(" · ");
+    items.push(needItem({key:"approval-" + approval.task_id, kind:"Approval", tone:"gold", iconName:"shield",
+      title:"Approve the proposal for " + approval.payload.business, meta:facts, actions:[
+        withIcon(action("Approve", () => decideApproval(approval, true), "primary sm"), "check"),
+        action("Review", () => showApproval(approval.task_id), "secondary sm"),
+        action("Reject", () => decideApproval(approval, false), "quiet sm danger"),
+      ]}));
+  }
+  for (const message of current.outbox.filter((item) => ["awaiting_confirmation", "needs_recipient", "failed"].includes(item.status))) {
+    const who = message.business && message.business !== "Owner" ? message.business : message.recipient;
+    const meta = [message.recipient ? "To " + message.recipient : "No recipient yet", who !== message.recipient ? who : "", "written " + ago(message.updated)]
+      .filter(Boolean).join(" · ");
+    const base = {key:"mail-" + message.id, kind:"Email", iconName:"mail", meta};
+    if (message.status === "needs_recipient") {
+      items.push(needItem({...base, tone:"warn", title:"Add a recipient for “" + message.subject + "”", actions:[
+        action("Add recipient", () => openOutbox(message), "primary sm"),
+        action("Open in mail", () => openOutboxMessage(message.id), "secondary sm"),
+      ]}));
+    } else if (message.status === "failed") {
+      items.push(needItem({...base, tone:"danger", kind:"Email failed", title:"“" + message.subject + "” was not delivered", actions:[
+        action("Review", () => openOutboxMessage(message.id), "primary sm"),
+      ]}));
+    } else {
+      items.push(needItem({...base, tone:"info", title:"Ready to send: “" + message.subject + "”", actions:[
+        withIcon(action("Review & send", () => openOutboxMessage(message.id), "primary sm"), "send"),
+        action("Edit", () => openOutbox(message), "secondary sm"),
+      ]}));
+    }
+  }
+  for (const item of followUps.due || []) {
+    items.push(needItem({key:"follow-" + item.id, kind:"Follow-up due", tone:"warn", iconName:"clock",
+      title:"Follow up with " + item.business, meta:[item.note, "due " + ago(item.due)].filter(Boolean).join(" · "), actions:[
+        action("Draft with Nova", () => sendText("Draft a follow-up email to " + item.business +
+          (item.recipient ? " at " + item.recipient : "") + (item.note ? ". Context: " + item.note : "")), "primary sm"),
+        action("Write it myself", () => followUpCompose(item), "secondary sm"),
+        action("Mark done", () => sendText("Mark the follow-up with " + item.business + " as done"), "quiet sm"),
+      ]}));
+  }
+  const hidden = dismissed();
+  const failed = current.tasks.filter((task) => task.state === "failed" && task.updated > week && !hidden.has(task.id));
+  for (const task of failed.slice(0, 3)) {
+    items.push(needItem({key:"failed-" + task.id, kind:"Mission failed", tone:"danger", iconName:"alert", title:task.title,
+      meta:[failureReason(task), ago(task.updated)].filter(Boolean).join(" · "), actions:[
+        action("See what happened", () => inspectTask(task.id), "primary sm"),
+        action("Dismiss", () => { dismiss(task.id); renderNeeds(); }, "quiet sm"),
+      ]}));
+  }
+  if (failed.length > 3) {
+    const more = action("Show all " + failed.length + " failed missions", () => {
+      setMissionFilter("failed");
+      $("missions-panel").scrollIntoView({block:"start"});
+    }, "link-button more-link");
+    more.dataset.focus = "failed-more";
+    items.push(more);
+  }
+  const total = items.filter((item) => item.classList.contains("need")).length + Math.max(0, failed.length - 3);
+  $("needs-count").textContent = total;
+  $("needs-badge").textContent = total ? total + " waiting" : "";
+  $("needs-badge").hidden = !total;
+  renderList("needs-list", items, emptyState("check", "You're all caught up",
+    "Nothing needs a decision right now. Approvals, emails and follow-ups appear here the moment Nova needs you."),
+    JSON.stringify([current.approvals, current.outbox.map((item) => [item.id, item.status, item.updated]), followUps, failed.map((task) => task.id)]));
+  const later = (followUps.upcoming || []).filter((item) => item.due > Date.now() / 1000);
+  $("upcoming-wrap").hidden = !later.length;
+  $("upcoming-list").replaceChildren(...later.slice(0, 4).map((item) => {
+    const row = el("li");
+    row.append(icon("clock"), el("strong", item.business), el("span", ago(item.due), "tip"));
+    if (item.note) row.append(el("span", item.note, "upcoming-note"));
     return row;
-  }), "Completed website research will appear here.", JSON.stringify(leads));
-  const projects = websiteProjects(tasks);
-  renderFeatured(projects[0] || null);
+  }));
+  const active = current.tasks.filter((task) => !terminal.has(task.state)).length;
+  $("overview-sub").textContent = [
+    total ? total + (total === 1 ? " thing needs you" : " things need you") : "Nothing needs you right now",
+    active ? active + (active === 1 ? " mission in progress" : " missions in progress") : "Nova is idle and ready",
+  ].join(" · ") + ".";
+}
+function renderWorking(activeTasks) {
+  const startButton = withIcon(action("Start a mission", () => $("open-mission").click(), "secondary sm"), "plus");
+  renderList("working-list", activeTasks.map((task) => missionRow(task, current.tasks, true)),
+    emptyState("bolt", "Nova is idle", "Start a mission or ask in the conversation. Running missions show each stage here as Nova works through it.",
+      startButton),
+    JSON.stringify([activeTasks, current.approvals.map((item) => [item.task_id, item.state])]));
+}
+function openResult(task) {
+  if (task.spec.workflow === "website") {
+    location.hash = "projects";
+    return openStudio(task.id);
+  }
+  return inspectTask(task.id);
+}
+function renderResults(tasks) {
+  const done = tasks.filter((task) => task.state === "completed" && task.id !== featuredId)
+    .sort((a, b) => b.updated - a.updated).slice(0, 4);
+  const outcome = {website:"Concept verified", research:"Research report ready", topic:"Sources gathered", brief:"Brief written"};
+  renderList("results-list", done.map((task) => {
+    const row = el("li", undefined, "result");
+    const badge = el("span", undefined, "task-icon");
+    badge.setAttribute("aria-hidden", "true");
+    badge.append(icon(workflowIcons[task.spec.workflow] || "check"));
+    const text = el("div", undefined, "result-text");
+    text.append(el("strong", task.title), el("span", (outcome[task.spec.workflow] || "Completed") + " · " + ago(task.updated), "tip"));
+    const open = action("Open", () => openResult(task), "quiet sm");
+    open.setAttribute("aria-label", "Open " + task.title);
+    open.dataset.focus = "result-" + task.id;
+    row.append(badge, text, open);
+    return row;
+  }), el("li", "Finished missions will appear here.", "empty"), JSON.stringify([featuredId, done]));
+}
+
+/* ---------- Customers ---------- */
+const PIPELINE = ["researched", "qualified", "awaiting_approval", "contacted", "negotiating", "won"];
+const stageRank = (stage) => {
+  const order = ["researched", "qualified", "awaiting_approval", "proposal_reviewed", "contacted", "negotiating", "won", "delivered", "lost", "archived"];
+  return Math.max(0, order.indexOf(stage));
+};
+function mergeLeads(leads) {
+  const merged = new Map();
+  for (const lead of leads) {
+    const key = hostOf(lead.url);
+    const seen = merged.get(key);
+    if (!seen) { merged.set(key, {...lead, missions:[lead.task_id]}); continue; }
+    if (!seen.missions.includes(lead.task_id)) seen.missions.push(lead.task_id);
+    const evidence = lead.score > seen.score ? lead.evidence : seen.evidence;
+    const score = Math.max(lead.score, seen.score);
+    if (stageRank(lead.stage) > stageRank(seen.stage)) merged.set(key, {...lead, score, evidence, missions:seen.missions});
+    else Object.assign(seen, {score, evidence});
+  }
+  return [...merged.values()].sort((a, b) => b.score - a.score || stageRank(b.stage) - stageRank(a.stage));
+}
+function stageTrack(stage) {
+  const track = el("div", undefined, "stage-track");
+  const closed = ["lost", "archived"].includes(stage);
+  const position = stage === "proposal_reviewed" ? 2 : stage === "delivered" ? 5 : PIPELINE.indexOf(stage);
+  track.dataset.closed = String(closed);
+  const bar = el("div", undefined, "stage-bar");
+  bar.setAttribute("aria-hidden", "true");
+  PIPELINE.forEach((_, index) => {
+    const segment = el("i");
+    if (!closed && index <= position) segment.dataset.on = index === position ? "current" : "done";
+    bar.append(segment);
+  });
+  const label = closed ? displayName(stage) : "Stage " + (position + 1) + " of " + PIPELINE.length + " · " + displayName(stage);
+  track.append(bar, el("span", label, "stage-label"));
+  return track;
+}
+function leadPrimary(lead) {
+  const host = hostOf(lead.url);
+  if (lead.stage === "awaiting_approval") return action("Review proposal", () => showApproval(lead.task_id), "primary sm");
+  if (["contacted", "negotiating"].includes(lead.stage)) return promptButton("Draft a follow-up", "Draft a follow-up email to " + lead.name, "primary sm");
+  if (lead.score > 0) return promptButton("Draft outreach", "Email " + host + " about a website redesign", "primary sm");
+  return promptButton("Ask Nova about them", "What does " + host + " offer?", "primary sm");
+}
+function renderLeads(leads) {
+  const merged = mergeLeads(leads);
+  const opportunities = merged.filter((lead) => lead.score > 0).length;
+  const awaiting = merged.filter((lead) => lead.stage === "awaiting_approval").length;
+  const summary = [[merged.length, merged.length === 1 ? "business" : "businesses"], [opportunities, "with an opportunity"], [awaiting, "awaiting approval"]];
+  $("lead-summary").replaceChildren(...(merged.length ? summary.map(([value, label]) => {
+    const chip = el("span", undefined, "summary-chip");
+    chip.append(el("strong", String(value)), " " + label);
+    return chip;
+  }) : []));
+  renderList("lead-list", merged.map((lead) => {
+    const card = el("article", undefined, "lead");
+    card.dataset.stage = lead.stage;
+    const head = el("div", undefined, "lead-head");
+    const title = el("div", undefined, "lead-title");
+    const source = link(hostOf(lead.url), lead.url);
+    source.className = "lead-host";
+    source.append(icon("external", "icon tiny"));
+    const meta = el("p", undefined, "lead-meta");
+    meta.append(source);
+    if (lead.missions.length > 1) meta.append(el("span", "Seen in " + lead.missions.length + " missions", "tip"));
+    title.append(el("h3", lead.name), meta);
+    head.append(scoreRing(lead.score), title, pill(lead.stage));
+    const body = el("div", undefined, "lead-body");
+    body.append(stageTrack(lead.stage));
+    const findings = lead.evidence.findings || [];
+    if (findings.length) {
+      const list = el("ul", undefined, "findings");
+      for (const finding of findings.slice(0, 3)) {
+        const item = el("li");
+        const text = el("div");
+        text.append(el("strong", finding.observation));
+        if (finding.change) text.append(el("span", "Fix: " + finding.change, "tip"));
+        item.append(el("span", "+" + (finding.points || 0), "finding-points"), text);
+        list.append(item);
+      }
+      body.append(el("h4", "What Nova found", "mini-title"), list);
+    } else {
+      body.append(el("p", lead.score ? "Evidence recorded without specific findings." : "No website issues found on the inspected page, so there is no clear pitch yet.", "lead-none"));
+    }
+    if (lead.evidence.scope) body.append(el("p", lead.evidence.scope, "tip scope"));
+    const actions = el("div", undefined, "card-actions");
+    const primary = leadPrimary(lead);
+    primary.dataset.focus = "lead-" + lead.url + "-primary";
+    const visit = link("Open website", lead.url);
+    visit.className = "secondary sm";
+    actions.append(primary, visit);
+    if (lead.evidence.source_directory) {
+      const directory = link("Directory source", lead.evidence.source_directory);
+      directory.className = "quiet sm";
+      actions.append(directory);
+    }
+    const inspect = action("Mission evidence", () => inspectTask(lead.task_id), "quiet sm");
+    inspect.dataset.focus = "lead-" + lead.url + "-inspect";
+    actions.append(inspect);
+    if (lead.stage !== "archived" && (!lead.allowed_stages || lead.allowed_stages.length)) actions.append(leadControl(lead));
+    body.append(actions);
+    card.append(head, body);
+    return card;
+  }), emptyState("users", "No customers yet", "Run a website mission and every business Nova inspects appears here with its evidence and score.",
+    promptButton("Find new leads", "Search the web for pottery studios in Hyderabad without a booking system", "primary sm")),
+  JSON.stringify(leads));
+}
+
+/* ---------- Projects ---------- */
+function renderProjects(projects) {
   renderList("project-list", projects.map((task) => {
-    const row = el("article", undefined, "record");
-    const head = el("div", undefined, "record-head");
-    const studio = action("Open Design Studio", () => openStudio(task.id), "secondary");
-    studio.dataset.focus = task.id + "-studio";
-    head.append(el("h3", task.title), studio);
+    const card = el("article", undefined, "record project");
+    const review = current.approvals.find((item) => item.task_id === task.id);
+    const draft = review?.payload?.proposal;
+    const thumbWrap = el("button", undefined, "project-thumb-wrap");
+    thumbWrap.type = "button";
+    thumbWrap.setAttribute("aria-label", "Open " + task.title + " in Design Studio");
+    thumbWrap.tabIndex = -1;
     const thumb = el("img", undefined, "project-thumb");
     thumb.src = "/projects/" + encodeURIComponent(task.id) + "/desktop.png";
     thumb.alt = "";
     thumb.loading = "lazy";
-    thumb.addEventListener("error", () => thumb.remove());
-    row.append(thumb, head, el("p", "Chromium verification completed", "tip"), artifacts(task));
-    return row;
-  }), "Verified website concepts will appear here.", JSON.stringify(projects));
-  $("new-draft").disabled = !projects.length;
-  renderList("approval-list", approvals.map((approval) => {
-    const row = el("article", undefined, "record");
-    const draft = approval.payload.proposal;
-    row.append(el("h3", approval.payload.business),
-      el("p", money.format(draft.proposed_price_inr) + " proposal estimate · " + approval.state),
-      action("Review proposal", () => inspectTask(approval.task_id), "secondary"));
-    if (approval.state === "pending") {
-      const actions = el("div", undefined, "links");
-      for (const approved of [true, false]) {
-        actions.append(action(approved ? "Approve draft" : "Reject draft", async () => {
-          await post("/api/approvals/" + approval.task_id, {digest:approval.digest, approved});
-          report("Proposal decision recorded.");
-          await refresh();
-        }));
-      }
-      row.append(actions, el("p", "Approval records your review for a possible manual handoff.", "tip"));
+    thumb.addEventListener("error", () => thumbWrap.classList.add("no-thumb"));
+    thumbWrap.append(thumb, el("span", "Verified", "thumb-badge"));
+    thumbWrap.querySelector(".thumb-badge").prepend(icon("check"));
+    thumbWrap.addEventListener("click", () => openStudio(task.id).catch((error) => report(error.message)));
+    const head = el("div", undefined, "record-head");
+    const facts = [draft ? money.format(draft.proposed_price_inr) + " proposal" : "", review ? displayName(review.state === "pending" ? "awaiting approval" : review.state) : "",
+      ago(task.updated)].filter(Boolean).join(" · ");
+    const titleBox = el("div");
+    titleBox.append(el("h3", task.title), el("p", facts, "tip"));
+    head.append(titleBox);
+    const studio = action("Open Design Studio", () => openStudio(task.id), "primary sm");
+    studio.dataset.focus = task.id + "-studio";
+    const preview = link("Preview", "/projects/" + task.id + "/index.html");
+    preview.className = "secondary sm";
+    preview.append(icon("external", "icon tiny"));
+    const actions = el("div", undefined, "card-actions");
+    actions.append(studio, preview);
+    if (review?.state === "pending") {
+      const decide = action("Review proposal", () => showApproval(task.id), "quiet sm");
+      decide.dataset.focus = task.id + "-approval";
+      actions.append(decide);
     }
+    const files = el("div", undefined, "file-row");
+    files.append(el("span", "Files", "file-row-label"));
+    for (const [name, file] of [["Desktop", "desktop.png"], ["Mobile", "mobile.png"], ["Proposal", "proposal.json"]]) {
+      const anchor = link(name, "/projects/" + task.id + "/" + file);
+      anchor.className = "file-link";
+      files.append(anchor);
+    }
+    card.append(thumbWrap, head, stepper(task, true), actions, files);
+    return card;
+  }), emptyState("folder", "No verified concepts yet", "When a website mission finishes, its concept and browser-verified screenshots appear here.",
+    withIcon(action("Start a website mission", () => $("open-mission").click(), "primary sm"), "plus")),
+  JSON.stringify([projects, current.approvals.map((item) => [item.task_id, item.state])]));
+}
+
+/* ---------- Approvals ---------- */
+function renderApprovals(approvals) {
+  const pendingList = approvals.filter((item) => item.state === "pending");
+  const decided = approvals.filter((item) => item.state !== "pending");
+  const card = (approval) => {
+    const draft = approval.payload.proposal || {};
+    const task = current.tasks.find((item) => item.id === approval.task_id);
+    const row = el("article", undefined, "approval");
+    row.id = "approval-" + approval.task_id;
+    row.dataset.state = approval.state;
+    const visual = el("div", undefined, "approval-visual");
+    const image = el("img");
+    image.src = "/projects/" + encodeURIComponent(approval.task_id) + "/desktop.png";
+    image.alt = "";
+    image.loading = "lazy";
+    image.addEventListener("error", () => visual.classList.add("no-thumb"));
+    visual.append(image);
+    const body = el("div", undefined, "approval-body");
+    const head = el("div", undefined, "approval-head");
+    const titleBox = el("div");
+    const source = draft.source || approval.payload.source;
+    titleBox.append(el("span", "Website proposal", "need-kind"), el("h3", approval.payload.business));
+    if (source) {
+      const anchor = link(hostOf(source), source);
+      anchor.className = "lead-host";
+      anchor.append(icon("external", "icon tiny"));
+      titleBox.append(anchor);
+    }
+    head.append(titleBox, pill(approval.state, approval.state === "pending" ? "Waiting for you" : undefined));
+    const price = el("div", undefined, "price");
+    price.append(el("strong", Number.isFinite(draft.proposed_price_inr) ? money.format(draft.proposed_price_inr) : "—"),
+      el("span", [draft.effort_hours ? draft.effort_hours + " hours" : "", draft.rate_basis].filter(Boolean).join(" · "), "tip"));
+    body.append(head, price);
+    if (task) body.append(stepper(task));
+    if (draft.demonstrated?.length) {
+      const chips = el("div", undefined, "chips");
+      chips.append(...draft.demonstrated.map((item) => chip(item, "chip ok")));
+      body.append(el("h4", "What the concept demonstrates", "mini-title"), chips);
+    }
+    if (draft.verification?.length) {
+      const chips = el("div", undefined, "chips");
+      chips.append(...draft.verification.map((device) => withIcon(chip("Verified on " + device, "chip accent"), "check")));
+      body.append(chips);
+    }
+    if (draft.limitations?.length) {
+      const more = el("details", undefined, "limits");
+      const list = el("ul");
+      list.append(...draft.limitations.map((item) => el("li", item)));
+      more.append(el("summary", "Limitations to discuss (" + draft.limitations.length + ")"), list);
+      body.append(more);
+    }
+    const actions = el("div", undefined, "card-actions");
+    const evidence = action("Review evidence", () => inspectTask(approval.task_id), "secondary sm");
+    evidence.dataset.focus = approval.task_id + "-evidence";
+    if (approval.state === "pending") {
+      const approve = withIcon(action("Approve proposal", () => decideApproval(approval, true), "primary sm"), "check");
+      const reject = withIcon(action("Reject", () => decideApproval(approval, false), "danger-outline sm"), "x");
+      approve.dataset.focus = approval.task_id + "-approve";
+      reject.dataset.focus = approval.task_id + "-reject";
+      actions.append(approve, evidence, reject);
+      body.append(actions, el("p", "Approving records your review for a manual handoff. Nothing is emailed automatically.", "tip"));
+    } else {
+      actions.append(evidence);
+      body.append(actions);
+    }
+    row.append(visual, body);
     return row;
-  }), "No proposals are waiting for review.", JSON.stringify(approvals));
+  };
+  const nodes = [];
+  if (pendingList.length) nodes.push(el("h2", "Waiting for you · " + pendingList.length, "list-heading"), ...pendingList.map(card));
+  if (decided.length) nodes.push(el("h2", "Decided · " + decided.length, "list-heading"), ...decided.map(card));
+  renderList("approval-list", nodes, emptyState("shield", "No proposals waiting", "When a website mission finishes, its proposal lands here for your decision."),
+    JSON.stringify([approvals, current.tasks.map((task) => [task.id, task.state, task.cursor])]));
+}
+
+/* ---------- Documents ---------- */
+function documentTitle(file) {
+  const stem = file.replace(/\.(md|docx)$/, "").replace(/^\d{8}-\d{4}-/, "");
+  const acronyms = new Set(["llm", "llms", "ai", "ml", "seo", "ui", "ux", "api", "pdf", "crm", "nlp", "rag"]);
+  return stem.split("-").map((word) => acronyms.has(word) ? word.toUpperCase() : word).join(" ")
+    .replace(/^./, (letter) => letter.toUpperCase());
+}
+async function loadDocuments() {
+  try {
+    const {documents} = await api("/api/documents");
+    renderList("document-list", documents.map((doc) => {
+      const word = doc.file.endsWith(".docx");
+      const card = el("article", undefined, "doc");
+      const badge = el("span", word ? "DOCX" : "MD", "doc-type");
+      badge.dataset.kind = word ? "word" : "markdown";
+      const body = el("div", undefined, "doc-body");
+      body.append(el("h3", documentTitle(doc.file)),
+        el("p", [word ? "Word document" : "Markdown", (doc.bytes / 1024).toFixed(doc.bytes < 10240 ? 1 : 0) + " KB", "saved " + ago(doc.modified)].join(" · "), "tip"));
+      const open = el("a", word ? "Download" : "Open", word ? "secondary sm" : "primary sm");
+      open.href = doc.url;
+      if (word) open.setAttribute("download", doc.file);
+      else { open.target = "_blank"; open.rel = "noopener"; }
+      open.prepend(icon(word ? "download" : "eye"));
+      open.setAttribute("aria-label", (word ? "Download " : "Open ") + documentTitle(doc.file));
+      const actions = el("div", undefined, "card-actions");
+      actions.append(open);
+      body.append(actions);
+      card.append(badge, body);
+      return card;
+    }), emptyState("doc", "No documents yet", "Ask Nova for something long, like a research summary or a proposal, and it saves the file here.",
+      promptButton("Write a research summary", "Write a research summary of this week's most important developments in LLM evaluation and save it as a document", "primary sm")),
+    JSON.stringify(documents));
+  } catch (error) {
+    renderList("document-list", [], error.message);
+  }
+}
+
+function renderState() {
+  const {tasks, counts, leads, approvals, usage, routes, voice} = current;
+  $("version").textContent = "v" + current.version;
+  const activeTasks = tasks.filter((task) => !terminal.has(task.state));
+  $("active-count").textContent = activeTasks.filter((task) => task.state !== "paused").length;
+  $("completed-count").textContent = counts.completed || 0;
+  $("qualified-count").textContent = new Set(leads.filter((lead) => lead.score > 0).map((lead) => lead.url)).size;
+  const pending = approvals.filter((review) => review.state === "pending").length;
+  $("pending-count").textContent = pending;
+  for (const badge of document.querySelectorAll(".js-review-count")) {
+    badge.hidden = !pending;
+    badge.textContent = pending;
+  }
+  $("stop").textContent = current.stopped ? "Reset emergency stop" : "Emergency stop";
+  document.body.toggleAttribute("data-stopped", current.stopped);
+  renderAgentStatus();
+  $("open-mission").disabled = current.stopped;
+  renderMissions(tasks);
+  renderNeeds();
+  renderWorking(activeTasks);
+  const projects = websiteProjects(tasks);
+  renderFeatured(projects[0] || null);
+  renderResults(tasks);
+  renderLeads(leads);
+  renderProjects(projects);
+  $("new-draft").disabled = !projects.length;
+  renderApprovals(approvals);
   const inventory = el("div", undefined, "record");
-  inventory.append(el("h3", "Provider access"), el("p", current.catalogue_count === null ? "Catalogue check pending" : current.catalogue_count + " catalogue models"),
+  inventory.className = "record route-summary";
+  inventory.append(el("h3", "Provider access"), el("p", current.catalogue_count === null ? "Catalogue check pending. Press Refresh NVIDIA access." : current.catalogue_count + " catalogue models"),
     el("p", money.format(current.spending_limit_inr) + " spending limit · NVIDIA Build trial", "tip"));
   renderList("routes", [inventory, ...Object.entries(routes).map(([capability, model]) => {
     const row = el("div", undefined, "record");
-    row.append(el("h3", formatState(capability)), el("p", model || "Awaiting catalogue verification", "tip"));
+    row.className = "record route-row";
+    row.append(el("h3", displayName(capability)), model ? el("p", model, "mono") : pill("pending", "Awaiting verification"));
     return row;
   })], "", JSON.stringify([current.catalogue_count, routes]));
   $("usage-total").textContent = usage.length ? usage.reduce((total, group) => total + group.calls, 0) + " calls" : "";
   renderList("usage", usage.map((group) => {
-    const row = el("div", undefined, "record");
-    row.append(el("h3", formatState(group.capability) + " · " + group.lane),
-      el("p", group.calls + " calls · " + (group.mean_ms ?? "—") + " ms mean · " + group.errors + " errors"),
-      el("p", "P50 " + (group.p50_ms ?? "—") + " ms · P95 " + (group.p95_ms ?? "—") + " ms", "tip"),
-      el("p", group.lane === "speech" ? "Audio request metrics" :
-        (group.reported_tokens ?? "—") + " reported tokens · " + (group.estimated_tokens ?? "—") + " estimated tokens", "tip"));
+    const row = el("div", undefined, "record usage-row");
+    const head = el("div", undefined, "record-head");
+    head.append(el("h3", displayName(group.capability)), chip(displayName(group.lane)));
+    const ms = (value) => value == null ? "—" : value >= 1000 ? (value / 1000).toFixed(1) + " s" : Math.round(value) + " ms";
+    const stats = el("dl", undefined, "usage-stats");
+    for (const [label, value, warn] of [["Calls", group.calls], ["Median", ms(group.p50_ms)], ["P95", ms(group.p95_ms)], ["Errors", group.errors, group.errors > 0]]) {
+      const cell = el("div");
+      if (warn) cell.dataset.warn = "";
+      cell.append(el("dt", label), el("dd", String(value)));
+      stats.append(cell);
+    }
+    row.append(head, stats, el("p", group.lane === "speech" ? "Audio request metrics" :
+      compact.format(group.reported_tokens ?? 0) + " reported tokens" + (group.estimated_tokens ? " · " + compact.format(group.estimated_tokens) + " estimated" : ""), "tip"));
     return row;
   }), "NVIDIA request metrics will appear here.", JSON.stringify(usage));
   $("voice-toggle").disabled = !voice.enabled;
@@ -1126,7 +1696,10 @@ async function openStudio(id) {
   body.append(artifacts(task, build));
   const exports = el("div", undefined, "links");
   for (const [label, format] of [["Proposal document", "docx"], ["Review deck", "pptx"], ["Evidence workbook", "xlsx"]]) {
-    exports.append(link(label, "/api/tasks/" + encodeURIComponent(id) + "/export/" + format));
+    const anchor = link(label, "/api/tasks/" + encodeURIComponent(id) + "/export/" + format);
+    anchor.className = "secondary sm";
+    anchor.prepend(icon("download"));
+    exports.append(anchor);
   }
   body.append(exports);
   if (verification?.desktop) body.append(visualReviewSection(task.id));
@@ -1270,22 +1843,25 @@ async function loadDrafts() {
       row.append(head, el("p", [draft.business, displayName(draft.kind), formatDate(draft.updated)].filter(Boolean).join(" · "), "tip"));
       if (draft.body) row.append(el("p", draft.body.replace(/\s+/g, " ").slice(0, 180) + (draft.body.length > 180 ? "…" : ""), "draft-excerpt"));
       const controls = el("div", undefined, "links");
-      controls.append(action("Edit draft", () => openDraft(draft), "secondary"));
-      if (draft.status !== "rejected") controls.append(action("Review delivery", () => openEmail(draft), "secondary"));
       const base = "/api/drafts/" + encodeURIComponent(draft.id);
-      controls.append(link("Plain text", base + "/export/txt"), link("HTML", base + "/export/html"));
-      if (draft.status === "pending") {
-        for (const approved of [true, false]) {
-          controls.append(action(approved ? "Approve draft" : "Reject draft", async () => {
-            await post(base + "/review", {digest:draft.digest, approved});
-            await loadDrafts();
-            report(approved ? "Draft approved for manual handoff." : "Draft rejected.");
-          }));
-        }
+      const review = async (approved) => {
+        if (!approved && !confirm("Reject this draft?")) return;
+        await post(base + "/review", {digest:draft.digest, approved});
+        await loadDrafts();
+        report(approved ? "Draft approved for manual handoff." : "Draft rejected.");
+      };
+      if (draft.status === "pending") controls.append(withIcon(action("Approve draft", () => review(true), "primary sm"), "check"));
+      if (draft.status !== "rejected") controls.append(action("Review delivery", () => openEmail(draft), draft.status === "pending" ? "secondary sm" : "primary sm"));
+      controls.append(action("Edit draft", () => openDraft(draft), "secondary sm"));
+      if (draft.status === "pending") controls.append(action("Reject draft", () => review(false), "quiet sm danger"));
+      for (const [label, href] of [["Plain text", base + "/export/txt"], ["HTML", base + "/export/html"]]) {
+        const anchor = link(label, href);
+        anchor.className = "file-link";
+        controls.append(anchor);
       }
       row.append(controls);
       return row;
-    }), "Create a draft from a completed project.", JSON.stringify(drafts));
+    }), emptyState("mail", "No mission drafts", "Create an introduction, follow-up or quotation from a completed project."), JSON.stringify(drafts));
   } catch (error) {
     renderList("draft-list", [], error.message);
   }
@@ -1434,9 +2010,9 @@ async function loadSchedules() {
       controls.append(action(schedule.enabled ? "Pause schedule" : "Resume schedule", async () => {
         await post("/api/schedules/" + encodeURIComponent(schedule.id), {enabled:!schedule.enabled});
         await loadSchedules();
-      }));
+      }, "secondary sm"));
       const previous = typeof schedule.latest_task === "string" ? schedule.latest_task : schedule.latest_task?.id;
-      if (previous) controls.append(action("Inspect latest mission", () => inspectTask(previous)));
+      if (previous) controls.append(action("Inspect latest mission", () => inspectTask(previous), "quiet sm"));
       row.append(controls);
       return row;
     }), "Set a repeat interval when you create a mission.", JSON.stringify(schedules));
@@ -1458,7 +2034,7 @@ function leadControl(lead) {
   note.maxLength = 500;
   note.placeholder = "Optional owner note";
   const result = el("p", "", "form-error");
-  const submit = el("button", "Save stage", "secondary");
+  const submit = el("button", "Save stage", "primary sm");
   submit.type = "submit";
   if (!stage.options.length) return details;
   const choice = el("label", "Stage");
@@ -1478,7 +2054,7 @@ function leadControl(lead) {
       result.textContent = error.message;
     } finally { submit.disabled = false; }
   });
-  details.append(el("summary", "Record stage"), form);
+  details.append(el("summary", "Update stage"), form);
   return details;
 }
 async function loadFinance() {
@@ -1488,20 +2064,24 @@ async function loadFinance() {
       ["Invoiced", data.invoiced_paise], ["Received", data.received_paise],
       ["Outstanding", data.outstanding_paise], ["Expenses", data.expense_paise], ["Net cash", data.net_cash_paise],
     ];
+    const tones = {Invoiced:"info", Received:"ok", Outstanding:"warn", Expenses:"danger", "Net cash":"gold"};
     $("finance-totals").replaceChildren(...items.map(([name, amount]) => {
-      const item = el("div");
+      const item = el("div", undefined, "stat");
+      item.dataset.tone = tones[name];
       item.append(el("dt", name), el("dd", ledgerMoney.format(amount / 100)));
       return item;
     }));
     $("finance-currency").textContent = data.currency;
     renderList("finance-list", (data.entries || []).map((entry) => {
-      const row = el("article", undefined, "record");
+      const row = el("article", undefined, "record ledger-row");
+      row.dataset.kind = entry.kind;
       const heading = el("div", undefined, "record-head");
-      heading.append(el("h3", entry.reference), el("strong", ledgerMoney.format(entry.amount_paise / 100)));
+      heading.append(el("h3", entry.reference), el("strong", (entry.kind === "expense" ? "−" : "") + ledgerMoney.format(entry.amount_paise / 100), "amount"));
       row.append(heading, el("p", [displayName(entry.kind), entry.occurred_on, entry.invoice_reference].filter(Boolean).join(" · "), "tip"));
       if (entry.note) row.append(el("p", entry.note));
       return row;
-    }), "No financial entries have been recorded.", JSON.stringify(data.entries));
+    }), emptyState("wallet", "No entries yet", "Record an invoice when you bill a client, then a payment when it arrives. Outstanding updates automatically.",
+      withIcon(action("Record your first entry", () => $("new-entry").click(), "primary sm"), "plus")), JSON.stringify(data.entries));
   } catch (error) {
     $("finance-totals").replaceChildren();
     renderList("finance-list", [], error.message);
@@ -1553,10 +2133,12 @@ function routePage() {
     section.hidden = section.id !== selected;
     section.classList.remove("entering");
   }
-  for (const anchor of document.querySelectorAll(".sidebar nav a")) {
+  for (const anchor of document.querySelectorAll("a.nav-link")) {
     if (anchor.hash === "#" + selected) anchor.setAttribute("aria-current", "page");
     else anchor.removeAttribute("aria-current");
   }
+  if ($("nav-sheet").open) $("nav-sheet").close();
+  $("open-nav").toggleAttribute("data-active", !document.querySelector(".tabbar a.nav-link[href='#" + selected + "']"));
   $("breadcrumb").textContent = titles[selected];
   if (selected === "overview") $("voice-home").append($("voice-dock"));
   else {
@@ -1565,9 +2147,13 @@ function routePage() {
   }
   if (lastPage !== selected) {
     $(selected).classList.add("entering");
-    if (lastPage && page !== "workspace") window.scrollTo(0, 0);
+    // Hash navigation would scroll to the <section id>; always start a view at the top instead.
+    if (page !== "workspace") {
+      window.scrollTo(0, 0);
+      requestAnimationFrame(() => window.scrollTo(0, 0));
+    }
     const loaders = {
-      memory:searchMemory, skills:loadSkills, finance:loadFinance, profile:loadProfile, models:loadBench,
+      memory:searchMemory, skills:loadSkills, finance:loadFinance, profile:loadProfile, models:loadBench, documents:loadDocuments,
       communications:async () => { await loadDrafts(); if (current) renderOutbox(current.outbox); },
     };
     loaders[selected]?.().catch((error) => report(error.message));
@@ -1578,14 +2164,27 @@ async function searchMemory() {
   const notes = await api("/api/memory?q=" + encodeURIComponent($("memory-query").value));
   renderList("memory-list", notes.map((note) => {
     const row = el("article", undefined, "record");
-    row.append(el("h3", note.headline), el("p", note.body), el("p", note.source, "tip"),
-      action("Delete note", async () => {
-        if (!confirm("Delete this recorded memory note?")) return;
-        await api("/api/memory/" + note.id, {method:"DELETE", headers:localHeaders});
-        await searchMemory();
-      }));
+    row.className = "memory-note";
+    const head = el("div", undefined, "record-head");
+    const title = el("div");
+    title.append(chip(displayName(note.category || "note"), "chip accent"), el("h3", note.headline));
+    const remove = withIcon(action("Delete", async () => {
+      if (!confirm("Delete this recorded memory note?")) return;
+      await api("/api/memory/" + note.id, {method:"DELETE", headers:localHeaders});
+      await searchMemory();
+    }, "quiet sm danger"), "x");
+    remove.setAttribute("aria-label", "Delete note: " + note.headline);
+    head.append(title, remove);
+    row.append(head);
+    if (note.body) row.append(el("p", note.body));
+    const sourceTask = /^mission:(\w+)$/.exec(note.source || "")?.[1];
+    const foot = el("div", undefined, "memory-foot");
+    foot.append(el("span", [note.source, note.updated ? ago(note.updated) : ""].filter(Boolean).join(" · "), "tip"));
+    if (sourceTask) foot.append(action("Open mission", () => inspectTask(sourceTask), "link-button"));
+    row.append(foot);
     return row;
-  }), "No matching memory.");
+  }), $("memory-query").value.trim() ? emptyState("search", "No matching memory", "Try a business name, a website or a topic.")
+    : emptyState("memory", "Nothing remembered yet", "Completed missions record their key observations here."));
 }
 window.addEventListener("hashchange", routePage);
 routePage();
@@ -1600,16 +2199,34 @@ for (const button of document.querySelectorAll("[data-prompt]")) {
 {
   const hour = new Date().getHours();
   $("greeting").textContent = hour < 5 ? "Working late" : hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+  $("greeting").dataset.base = $("greeting").textContent;
+}
+function setMissionFilter(filter) {
+  missionFilter = filter;
+  for (const choice of document.querySelectorAll("[data-filter]")) {
+    choice.setAttribute("aria-pressed", String(choice.dataset.filter === filter));
+  }
+  if (current) renderMissions(current.tasks);
 }
 for (const button of document.querySelectorAll("[data-filter]")) {
-  button.addEventListener("click", () => {
-    missionFilter = button.dataset.filter;
-    for (const choice of document.querySelectorAll("[data-filter]")) {
-      choice.setAttribute("aria-pressed", String(choice === button));
-    }
-    if (current) renderMissions(current.tasks);
+  button.addEventListener("click", () => setMissionFilter(button.dataset.filter));
+}
+for (const tile of document.querySelectorAll("[data-jump]")) {
+  tile.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (location.hash.substring(1) !== "overview") location.hash = "overview";
+    if (tile.dataset.filterTo) setMissionFilter(tile.dataset.filterTo);
+    requestAnimationFrame(() => {
+      const target = $(tile.dataset.jump);
+      target.scrollIntoView({block:"start", behavior:matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth"});
+      target.focus({preventScroll:true});
+    });
   });
 }
+$("open-nav").addEventListener("click", () => $("nav-sheet").showModal());
+$("nav-sheet").addEventListener("click", (event) => {
+  if (event.target === $("nav-sheet") || event.target.closest("a.nav-link")) $("nav-sheet").close();
+});
 $("details-dialog").addEventListener("close", () => {
   detailTask = "";
   replayEvent = null;
@@ -1974,10 +2591,16 @@ function chime() {
     osc.stop(now + index * .11 + .25);
   }
 }
+// Voice buttons keep an icon; only their text label changes.
+function setLabel(button, text) {
+  const label = button.querySelector(".btn-label");
+  if (label) label.textContent = text;
+  else button.textContent = text;
+}
 function setWakeButton() {
   const button = $("wake-toggle");
   button.setAttribute("aria-pressed", String(wakeMode));
-  button.textContent = wakeMode ? "Wake word on" : "Wake word";
+  setLabel(button, wakeMode ? "Wake word on" : "Wake word");
   button.title = "Say “" + wakePhrase + "” to wake NOVA. Audio is checked on this Mac until you wake it.";
 }
 async function armWake(enabled) {
@@ -2219,7 +2842,7 @@ async function closeMic() {
   micSamples = null;
   if (context) await context.close();
   sendVoice({type:"voice", enabled:false});
-  $("voice-toggle").textContent = "Enable microphone";
+  setLabel($("voice-toggle"), "Enable microphone");
   $("voice-toggle").setAttribute("aria-pressed","false");
   readyState();
 }
@@ -2251,7 +2874,7 @@ async function openMic() {
     micNode.port.onmessage = captureFrame;
     micEnabled = true;
     sendVoice({type:"voice", enabled:true, voice:$("voice-choice").value});
-    $("voice-toggle").textContent = "Disable microphone";
+    setLabel($("voice-toggle"), "Disable microphone");
     $("voice-toggle").setAttribute("aria-pressed","true");
     setTranscript(true);
     readyState();
