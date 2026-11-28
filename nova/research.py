@@ -20,6 +20,8 @@ from .research_wikidata import WikidataLookup
 USER_AGENT = "NOVA-Research/0.1"
 BROWSER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) NOVA-Agent/2.1"
 MAX_PAGE = 1_500_000
+OPENVERSE = "https://api.openverse.org/v1/images/"
+OPENVERSE_LICENSES = {"by", "by-sa", "cc0", "pdm"}
 
 
 class PublicResearch:
@@ -37,11 +39,14 @@ class PublicResearch:
     async def close(self):
         await self.client.aclose()
 
-    async def destination(self, url):
+    async def destination(self, url, allow_query=False):
+        """Validate a public URL and pin it to one resolved global address. Pages never carry a query string; files
+        (images on CDNs such as imgix, Shopify or Unsplash) may, because the query selects the rendition."""
         try:
             source = urlsplit(url)
             if (source.scheme not in ("http", "https") or not source.hostname or source.username or source.password
-                    or source.port or source.query or len(url) > 1000 or "\\" in url):
+                    or source.port or (source.query and not allow_query) or len(url) > 1000 or "\\" in url
+                    or any(ord(char) < 33 for char in url)):
                 raise ValueError()
             hostname = source.hostname.encode("idna").decode()
             if not re.fullmatch(r"[a-zA-Z0-9.-]+", hostname) or "." not in hostname:
@@ -59,7 +64,7 @@ class PublicResearch:
         if not ips or any(not ip.is_global or ip.is_multicast or ip.is_reserved for ip in ips):
             raise NovaError("private_target", "Research is limited to public internet addresses.")
         address = f"[{ips[0]}]" if ips[0].version == 6 else str(ips[0])
-        return urlunsplit((source.scheme, address, source.path or "/", "", "")), hostname
+        return urlunsplit((source.scheme, address, source.path or "/", source.query if allow_query else "", "")), hostname
 
     async def request(self, url):
         pinned, hostname = await self.destination(url)
@@ -256,52 +261,136 @@ class PublicResearch:
         return result
 
     async def fetch_bytes(self, url, limit=4_000_000):
-        """Download one public binary resource (e.g. an image) through the pinned, rate-limited client."""
-        if not await self.robots(url, strict=False):
-            raise NovaError("robots", "The website's crawling policy disallows this file.")
-        pinned, hostname = await self.destination(url)
-        async with self.lock:
-            await asyncio.sleep(max(0, self.next_request - time.monotonic()))
-            self.next_request = time.monotonic() + 0.4
-            try:
-                async with self.client.stream("GET", pinned, headers={
-                    "Host": hostname, "User-Agent": USER_AGENT, "Accept": "image/avif,image/webp,image/jpeg,image/png,*/*;q=0.5",
-                    "Accept-Encoding": "identity", "Connection": "close",
-                }, extensions={"sni_hostname": hostname}) as response:
-                    if response.status_code in (301, 302, 303, 307, 308):
-                        location = urljoin(url, response.headers.get("location", ""))
-                        if location == url:
-                            raise NovaError("redirect", "The file redirected to itself.")
-                        return await self.fetch_bytes(location, limit) if location.startswith("https://") else (b"", "")
-                    if response.status_code != 200:
-                        raise NovaError("site_response", f"The file returned HTTP {response.status_code}.")
-                    data = bytearray()
-                    async for chunk in response.aiter_bytes():
-                        data.extend(chunk)
-                        if len(data) > limit:
-                            raise NovaError("page_limit", "The file exceeded the download limit.")
-                    record_fetch(url, response.status_code, bytes(data), "web-file")
-                    return bytes(data), response.headers.get("content-type", "")
-            except httpx.HTTPError as exc:
-                raise NovaError("web_network", "Could not fetch the file.", transient=True) from exc
+        """Download one public binary resource (e.g. an image) through the pinned, rate-limited client.
 
-    async def images(self, url, limit=6):
-        """Photos published on a business's own page, best first: (bytes, width, height) as JPEG, max 1600 px wide."""
+        Redirects (common for CDN renditions) are followed after the client lock is released: re-entering the lock from
+        inside it used to deadlock the whole research client."""
+        for _ in range(4):
+            if not await self.robots(url, strict=False):
+                raise NovaError("robots", "The website's crawling policy disallows this file.")
+            pinned, hostname = await self.destination(url, allow_query=True)
+            async with self.lock:
+                await asyncio.sleep(max(0, self.next_request - time.monotonic()))
+                self.next_request = time.monotonic() + 0.4
+                try:
+                    async with self.client.stream("GET", pinned, headers={
+                        "Host": hostname, "User-Agent": USER_AGENT, "Accept": "image/avif,image/webp,image/jpeg,image/png,*/*;q=0.5",
+                        "Accept-Encoding": "identity", "Connection": "close",
+                    }, extensions={"sni_hostname": hostname}) as response:
+                        if response.status_code in (301, 302, 303, 307, 308):
+                            location = urljoin(url, response.headers.get("location", ""))
+                            if location == url:
+                                raise NovaError("redirect", "The file redirected to itself.")
+                            if not location.startswith("https://"):
+                                return b"", ""
+                            url = location
+                            continue
+                        if response.status_code != 200:
+                            raise NovaError("site_response", f"The file returned HTTP {response.status_code}.")
+                        data = bytearray()
+                        async for chunk in response.aiter_bytes():
+                            data.extend(chunk)
+                            if len(data) > limit:
+                                raise NovaError("page_limit", "The file exceeded the download limit.")
+                        record_fetch(url, response.status_code, bytes(data), "web-file")
+                        return bytes(data), response.headers.get("content-type", "")
+                except httpx.HTTPError as exc:
+                    raise NovaError("web_network", "Could not fetch the file.", transient=True) from exc
+        raise NovaError("redirect", "The file redirected too many times.")
+
+    async def fetch_file(self, url, deadline=25):
+        """fetch_bytes with an overall deadline, so one slow-trickling host cannot stall a whole photo search."""
+        try:
+            return await asyncio.wait_for(self.fetch_bytes(url), deadline)
+        except TimeoutError as exc:
+            raise NovaError("web_timeout", "The file took too long to download.", transient=True) from exc
+
+    async def images(self, url, limit=8):
+        """Photos published on a business's own page, best first: (bytes, width, height, {"alt", "url"}) as JPEG, at
+        most 1600 px wide. The page's alt text travels with each photo so the layout can match it to an offering."""
         target, html, _ = await self.html(normalize_url(url), strict=False)
-        candidates = await asyncio.to_thread(image_candidates, target, html)
+        candidates = await asyncio.to_thread(image_candidates, target, html, True)
         photos = []
-        for candidate in candidates[:14]:
+        for candidate, alt in candidates[:16]:
             if len(photos) >= limit:
                 break
             try:
-                data, kind = await self.fetch_bytes(candidate)
+                data, kind = await self.fetch_file(candidate)
             except NovaError:
                 continue
             if not kind.startswith("image/") or "svg" in kind:
                 continue
             photo = await asyncio.to_thread(prepare_photo, data)
             if photo and all(abs(len(photo[0]) - len(item[0])) > 2000 for item in photos):
-                photos.append(photo)
+                photos.append((*photo, {"alt": alt, "url": candidate[:500]}))
+        return photos
+
+    async def openverse(self, query, *, page_size=12):
+        """Openverse image search, restricted to photographs whose licenses allow commercial use and modification.
+
+        Openverse is a documented public API (its robots.txt keeps crawlers off result pages, it does not forbid API
+        clients), so this calls the fixed API host directly, like the Brave search API, and caches the result for a day."""
+        query = " ".join(str(query).split())[:120]
+        if not query:
+            return []
+        key = f"openverse:v1:{query.casefold()}"
+        if (cached := self.store.cached(key)) is not None:
+            record_fetch(f"{OPENVERSE}?q={query}", "cache", json.dumps(cached), "Openverse cache")
+            return cached
+        try:
+            response = await self.client.get(OPENVERSE, params={
+                "q": query, "license_type": "commercial,modification", "category": "photograph", "mature": "false",
+                "page_size": page_size}, headers={"User-Agent": USER_AGENT, "Accept": "application/json"})
+        except httpx.HTTPError as exc:
+            raise NovaError("openverse_network", "Openverse could not be reached.", transient=True) from exc
+        record_fetch(f"{OPENVERSE}?q={query}", response.status_code, response.content[:MAX_PAGE], "Openverse")
+        if response.status_code != 200 or len(response.content) > MAX_PAGE:
+            raise NovaError("openverse_response", f"Openverse returned HTTP {response.status_code}.",
+                            transient=response.status_code in (429, 500, 502, 503))
+        try:
+            results = openverse_results(response.json())
+        except ValueError as exc:
+            raise NovaError("openverse_format", "Openverse returned an unexpected response.") from exc
+        self.store.cache(key, results, 86400)
+        return results
+
+    async def stock_photos(self, slots, need, *, exclude=(), per_slot=1):
+        """Licensed photographs for representative use: (bytes, width, height, credit), for up to `need` slots.
+
+        `slots` is a list (or {slot: group} dict) of query groups (e.g. ["bento cake decorating", "cake decorating"]).
+        Each slot yields up to `per_slot` candidates (so a caller can verify relevance and keep the best), trying its
+        queries in order; the credit records the slot index so a picture lands on the offering it was chosen for.
+        Downloads use the same pinned, size-limited, robots-checked path as the business's photos."""
+        photos, seen, filled = [], set(exclude), 0
+        for slot, group in (slots.items() if isinstance(slots, dict) else enumerate(slots)):
+            if filled >= need:
+                break
+            found = []
+            originals = [group] if isinstance(group, str) else list(group)[:3]
+            # Every phrasing the caller gave comes first; shortened variants only after them.
+            queries = list(dict.fromkeys([*originals, *(variant for query in originals for variant in relax_query(query))]))[:5]
+            for query in queries:
+                if len(found) >= per_slot:
+                    break
+                try:
+                    results = await self.openverse(query)
+                except NovaError:
+                    continue
+                for item in results[:6]:
+                    if len(found) >= per_slot:
+                        break
+                    if item["id"] in seen:
+                        continue
+                    try:  # the API's own thumbnails sit under its robots-disallowed path, so only the source is used
+                        data, kind = await self.fetch_file(item["url"])
+                    except NovaError:
+                        continue
+                    photo = await asyncio.to_thread(prepare_photo, data) if kind.startswith("image/") and "svg" not in kind else None
+                    if photo and all(abs(len(photo[0]) - len(other[0])) > 2000 for other in photos + found):
+                        seen.add(item["id"])
+                        found.append((*photo, {**item, "query": query, "slot": slot}))
+            photos += found
+            filled += bool(found)
         return photos
 
     async def discover(self, url):
@@ -554,41 +643,134 @@ def readable(url, html):
             "text": text, "links": links, "contacts": contacts, "observed_at": time.time()}
 
 
-def image_candidates(url, html):
+IMAGE_URL = re.compile(r"(?i)\.(?:jpe?g|png|webp|avif)(?:$|[?#])")
+CSS_URL = re.compile(r"""url\(\s*['"]?([^'")\s]+)""")
+NOT_A_PHOTO = re.compile(r"(?i)(logo|icon|favicon|sprite|avatar|badge|pixel|placeholder|spinner|loader|\.svg|\.gif)")
+
+
+def largest_from_srcset(value):
+    """The widest candidate of a srcset ("a.jpg 480w, b.jpg 1200w" -> b.jpg); density descriptors count as x * 1000."""
+    best, best_size = None, -1
+    for part in (value or "").split(","):
+        bits = part.strip().split()
+        if not bits:
+            continue
+        size = 0
+        if len(bits) > 1:
+            match = re.fullmatch(r"(\d+(?:\.\d+)?)([wx])", bits[1])
+            if match:
+                size = float(match.group(1)) * (1000 if match.group(2) == "x" else 1)
+        if size > best_size:
+            best, best_size = bits[0], size
+    return best
+
+
+def image_candidates(url, html, with_alt=False):
+    """Photo URLs a page shows, best first: social cards, <img>/<picture> (incl. lazy-load attributes and srcset),
+    inline and <style> CSS backgrounds, and schema.org JSON-LD images. With `with_alt`, (url, alt text) pairs."""
     soup = BeautifulSoup(html, "html.parser")
     found = []
+    alts = {}
 
-    def add(value, weight):
-        if not value or value.startswith("data:"):
+    def add(value, weight, alt=""):
+        value = unescape(value.strip()) if isinstance(value, str) else ""
+        if not value or value.startswith(("data:", "#", "blob:")) or len(value) > 900:
             return
-        absolute = urljoin(url, value.strip().split(" ")[0])
-        if absolute.startswith("https://") and not re.search(r"(?i)(logo|icon|favicon|sprite|avatar|badge|pixel|\.svg)", absolute):
+        absolute = urljoin(url, value.split()[0])
+        absolute = absolute.split("#", 1)[0]
+        if absolute.startswith("https://") and not NOT_A_PHOTO.search(urlsplit(absolute).path):
             found.append((weight, absolute))
+            identity = absolute.split("?", 1)[0]
+            if alt and not alts.get(identity):
+                alts[identity] = " ".join(str(alt).split())[:120]
 
-    for meta in soup.find_all("meta", attrs={"property": re.compile(r"^og:image", re.I)}) + \
+    for meta in soup.find_all("meta", attrs={"property": re.compile(r"^og:image(?::url|:secure_url)?$", re.I)}) + \
             soup.find_all("meta", attrs={"name": re.compile(r"^twitter:image", re.I)}):
         add(meta.get("content"), 3)
     for index, img in enumerate(soup.find_all("img", limit=80)):
-        sources = [img.get("data-src"), img.get("data-lazy-src"), img.get("src")]
-        srcset = img.get("srcset") or img.get("data-srcset")
+        sources = [img.get(name) for name in ("data-src", "data-lazy-src", "data-original", "data-lazy", "data-full", "src")]
+        srcset = img.get("data-srcset") or img.get("srcset") or img.get("data-lazy-srcset")
+        if not srcset and img.parent is not None and img.parent.name == "picture":
+            source = img.parent.find("source", attrs={"srcset": True}) or img.parent.find("source", attrs={"data-srcset": True})
+            srcset = source and (source.get("srcset") or source.get("data-srcset"))
         if srcset:
-            sources.insert(0, srcset.split(",")[-1].strip().split(" ")[0])
-        width = int(re.sub(r"\D", "", str(img.get("width") or "0")) or 0)
+            sources.insert(0, largest_from_srcset(srcset))
+        width = int(re.sub(r"\D", "", str(img.get("width") or "0"))[:5] or 0)
         weight = 2 if width >= 600 or not width else 0
         weight += 1 if index < 12 else 0
         for source in sources:
-            if source:
-                add(source, weight)
+            if source and not source.startswith("data:"):
+                add(source, weight, img.get("alt") or img.get("title") or "")
                 break
-    for style in soup.select("[style*='background']", limit=30):
-        match = re.search(r"url\(['\"]?([^'\")]+)", style.get("style", ""))
-        if match:
+    for element in soup.select("[style*='url('], [data-bg], [data-background], [data-background-image]", limit=40):
+        for value in (element.get("data-bg"), element.get("data-background"), element.get("data-background-image")):
+            add(value, 2)
+        for match in CSS_URL.finditer(element.get("style", "")):
             add(match.group(1), 2)
-    ordered = []
+    for style in soup.find_all("style", limit=20):
+        for match in CSS_URL.finditer(style.get_text()[:200_000]):
+            if IMAGE_URL.search(match.group(1)) or "images." in match.group(1):
+                add(match.group(1), 2)
+    for script in soup.find_all("script", attrs={"type": "application/ld+json"}, limit=8):
+        try:
+            data = json.loads(script.get_text()[:200_000])
+        except ValueError:
+            continue
+        stack = [data]
+        while stack and len(found) < 200:
+            item = stack.pop()
+            if isinstance(item, list):
+                stack.extend(item[:40])
+            elif isinstance(item, dict):
+                for key, value in list(item.items())[:60]:
+                    if key in ("image", "photo", "contentUrl", "thumbnailUrl"):
+                        for entry in value if isinstance(value, list) else [value]:
+                            add(entry.get("url") or entry.get("contentUrl") if isinstance(entry, dict) else entry, 2)
+                    elif isinstance(value, (dict, list)):
+                        stack.append(value)
+    ordered, seen = [], set()
     for _, item in sorted(found, key=lambda pair: -pair[0]):
-        if item not in ordered:
+        identity = item.split("?", 1)[0]  # the same picture at different CDN renditions is one candidate
+        if identity not in seen:
+            seen.add(identity)
             ordered.append(item)
-    return ordered
+    return [(item, alts.get(item.split("?", 1)[0], "")) for item in ordered] if with_alt else ordered
+
+
+QUERY_FILLER = {"a", "an", "the", "on", "in", "at", "of", "with", "and", "for", "into", "to", "by", "from"}
+
+
+def relax_query(query):
+    """Openverse matches every word, so specific subjects often return nothing ("bento cake decorating"). Try the full
+    subject first, then shorter tails and heads ("cake decorating", "bento cake")."""
+    words = [word for word in query.split() if word.casefold() not in QUERY_FILLER] or query.split()
+    variants = [" ".join(query.split())]
+    if len(words) > 2:
+        variants += [" ".join(words[1:]), " ".join(words[-2:]), " ".join(words[:2])]
+    return [variant for variant in dict.fromkeys(variants) if variant]
+
+
+def openverse_results(payload):
+    """Keep what attribution needs from an Openverse search response, dropping anything unlicensed or unsafe."""
+    results = []
+    for item in (payload.get("results") or [])[:40] if isinstance(payload, dict) else []:
+        if not isinstance(item, dict) or item.get("mature") or str(item.get("license", "")).lower() not in OPENVERSE_LICENSES:
+            continue
+        image, thumb = str(item.get("url") or ""), str(item.get("thumbnail") or "")
+        if not image.startswith("https://") or not thumb.startswith("https://api.openverse.org/"):
+            continue
+        if int(item.get("width") or 0) and int(item.get("width") or 0) < 640:
+            continue
+        clean = lambda value, limit=160: " ".join(str(value or "").split())[:limit]  # noqa: E731
+        results.append({
+            "id": clean(item.get("id"), 64), "title": clean(item.get("title")) or "Untitled", "url": image[:900],
+            "thumbnail": thumb[:300], "creator": clean(item.get("creator"), 100),
+            "creator_url": clean(item.get("creator_url"), 300) if str(item.get("creator_url", "")).startswith("https://") else "",
+            "license": clean(item.get("license"), 12).lower(), "license_version": clean(item.get("license_version"), 8),
+            "license_url": clean(item.get("license_url"), 300) if str(item.get("license_url", "")).startswith("https://") else "",
+            "landing_url": clean(item.get("foreign_landing_url"), 300) if str(item.get("foreign_landing_url", "")).startswith("https://") else "",
+            "provider": clean(item.get("source") or item.get("provider"), 40)})
+    return results
 
 
 def prepare_photo(data):

@@ -266,14 +266,74 @@ def package(upstream: Path, settings, only=(), use_model=True):
     return added, failures
 
 
+# NOVA-authored playbooks: written in this repository (nova/skills/authored/<id>/SKILL.md + GUIDE.md) under the project's
+# MIT license. They are packaged like upstream skills (pinned revision, SHA-256 hashes, license, privilege review) so the
+# registry treats them identically; the revision is the SHA-1 of SKILL.md + GUIDE.md, so any edit is a new revision.
+AUTHORED = ROOT / "nova" / "skills" / "authored"
+AUTHORED_SPECS = {
+    "photo-art-direction": ("Photo Art Direction", "design", ["agent:design"],
+                            "Choosing, cropping, sequencing and describing photos for small-business sites; hero selection, "
+                            "alt text and cliché-free representative stock."),
+    "web-motion-design": ("Web Motion Design", "design", ["agent:design"],
+                          "Purposeful landing-page motion: timing and easing values, reduced motion, progressive "
+                          "enhancement and performance budgets."),
+}
+
+
+def package_authored(only=()):
+    lock = json.loads(LOCK.read_text())
+    licence = (ROOT / "LICENSE").read_bytes()
+    for skill_id, (title, category, roles, description) in AUTHORED_SPECS.items():
+        if only and skill_id not in only:
+            continue
+        skill_md = (AUTHORED / skill_id / "SKILL.md").read_bytes()
+        guide = (AUTHORED / skill_id / "GUIDE.md").read_bytes()
+        metadata, markdown = parse_frontmatter(skill_md, skill_id)
+        if PRIVILEGE_OVERRIDE.search(markdown) or PRIVILEGE_OVERRIDE.search(guide.decode()):
+            raise SystemExit(f"{skill_id}: privilege review failed")
+        revision = hashlib.sha1(skill_md + b"\0" + guide).hexdigest()
+        source = f"nova/skills/authored/{skill_id}"
+        files = {"SKILL.md": (f"{source}/SKILL.md", skill_md), "GUIDE.md": (None, guide), "LICENSE.txt": ("LICENSE", licence)}
+        shutil.rmtree(LIB / skill_id, ignore_errors=True)
+        for path, (_, data) in files.items():
+            (LIB / skill_id / revision / skill_id / path).parent.mkdir(parents=True, exist_ok=True)
+            (LIB / skill_id / revision / skill_id / path).write_bytes(data)
+        words = sorted({word for word in re.findall(r"[a-z]{4,}", (skill_id + " " + description).casefold())
+                        if word not in {"with", "that", "from", "small"}})[:12]
+        entry = {
+            "skill_id": skill_id, "title": title, "description": description[:260],
+            "source": "https://github.com/MaheshReddy-ML/Nova", "category": category, "roles": roles, "keywords": words,
+            "priority": 12, "permissions": ["local-reference"], "dependencies": [], "default_enabled": True,
+            "default_revision": revision,
+            "revisions": [{
+                "revision": revision, "version": str((metadata.get("metadata") or {}).get("version", "1.0")),
+                "license": "MIT", "license_file": "LICENSE.txt", "upstream_name": skill_id,
+                "source_path": f"{source}/SKILL.md", "reviewed_on": TODAY,
+                "files": {path: {"source_path": src, "sha256": sha(data), "bytes": len(data)} for path, (src, data) in files.items()},
+                "guide_sources": ["SKILL.md"],
+                "evaluation": "NOVA-authored playbook; SHA-256 files, MIT license and privilege review; guide written by hand",
+            }],
+        }
+        lock["skills"] = [item for item in lock["skills"] if item["skill_id"] != skill_id] + [entry]
+        print(f"packaged {skill_id:24} revision {revision[:7]} guide {len(guide):5} bytes")
+    LOCK.write_text(json.dumps(lock, indent=1, ensure_ascii=False) + "\n")
+    registry = SkillRegistry(sqlite3.connect(":memory:"))
+    for skill_id in AUTHORED_SPECS:
+        print(skill_id, registry.evaluate(skill_id))
+    print("registry errors:", registry.errors or "none")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--upstream", type=Path)
     parser.add_argument("--only", nargs="*", default=())
     parser.add_argument("--no-model", action="store_true")
     parser.add_argument("--recompile", action="store_true", help="Recompile extracted guides with the model")
+    parser.add_argument("--authored", action="store_true", help="Package NOVA-authored playbooks from nova/skills/authored")
     args = parser.parse_args()
-    if args.recompile:
+    if args.authored:
+        package_authored(set(args.only))
+    elif args.recompile:
         recompile(Settings())
     else:
         package(args.upstream, Settings(), set(args.only), not args.no_model)

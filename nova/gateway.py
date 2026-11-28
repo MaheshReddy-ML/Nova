@@ -19,7 +19,7 @@ from riva.client.proto import riva_asr_pb2 as asr, riva_asr_pb2_grpc as asr_grpc
 from riva.client.proto import riva_tts_pb2 as tts, riva_tts_pb2_grpc as tts_grpc
 from riva.client.proto.riva_audio_pb2 import AudioEncoding
 
-from .config import BOLT, EMBED, OMNI, SUPER, Settings
+from .config import BOLT, EMBED, LIGHTNING, OMNI, SUPER, ULTRA, Settings
 from .domain import NovaError
 from .store import Store, encoded
 
@@ -35,13 +35,16 @@ class Capability(StrEnum):
     TTS = "text_to_speech"
 
 
+# When the configured model is missing from the key's catalogue (retired models return HTTP 410), use the strongest
+# suitable model that IS listed, in this order. Measured on this key in Nov 2026 with tools/model_bench.py:
+# Ultra 4/4 tool choices at 1.9 s, Super 4/4 at 1.0 s, Lightning 4/4 at 0.6 s, Bolt 4/4 at 0.56 s (0.21 s first word).
 FALLBACK = {
-    Capability.FAST: BOLT,
-    Capability.REASONING: SUPER,
-    Capability.PLANNING: BOLT,
-    Capability.CODING: SUPER,
-    Capability.VISION: OMNI,
-    Capability.EMBEDDING: EMBED,
+    Capability.FAST: (BOLT, LIGHTNING, SUPER),
+    Capability.REASONING: (SUPER, ULTRA, LIGHTNING),
+    Capability.PLANNING: (ULTRA, SUPER, LIGHTNING, BOLT),
+    Capability.CODING: (SUPER, ULTRA, LIGHTNING),
+    Capability.VISION: (SUPER, OMNI),
+    Capability.EMBEDDING: (EMBED,),  # Other embedders use different dimensions, so stored vectors would not match.
 }
 
 
@@ -171,10 +174,15 @@ class Gateway:
             Capability.VISION: "vision_model", Capability.EMBEDDING: "embedding_model",
         }[capability])
 
+    def resolve(self, capability, models):
+        """The configured model when the catalogue lists it, else the strongest listed fallback for the job."""
+        configured = self.configured(capability)
+        return next((value for value in (configured, *FALLBACK[capability]) if models and value in models), None)
+
     async def route(self, capability):
         models = await self.catalogue()
         configured = self.configured(capability)
-        selected = next((value for value in (configured, FALLBACK[capability]) if value in models), None)
+        selected = self.resolve(capability, models)
         if not selected:
             raise NovaError("model_missing", f"No NVIDIA trial model is listed for {capability.value}.")
         if selected != configured:
@@ -468,6 +476,8 @@ class Gateway:
         }]}
         if model == OMNI:
             payload["reasoning_budget"] = min(160, output // 3)
+        else:
+            payload.update(thinking_off(model))  # a reasoning model would otherwise spend the whole budget thinking
         async with self.invocation(Capability.VISION, model, task_id, "background", estimate, estimate + output) as metrics:
             response = await self.client.post(f"{self.settings.nvidia_base_url}/chat/completions",
                                               headers=self.headers(), json=payload)

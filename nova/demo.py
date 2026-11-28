@@ -427,6 +427,10 @@ def proposal(root, task_id, lead, checks):
     }
     if brief:
         draft.update(design_direction=brief["direction"], revision=brief["revision"])
+        stock = (brief.get("photo_sources") or {}).get("stock", 0)
+        if stock:
+            draft["limitations"].append(f"{stock} photo(s) in the concept are representative stock images (Openverse, "
+                                        "credited in the footer); replace them with the business's own photos before launch.")
     write_json(path / "proposal.json", draft)
     if brief:
         archive_revision(path, brief)

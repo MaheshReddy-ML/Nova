@@ -3975,6 +3975,132 @@
      "evaluation": "Pinned commit, SHA-256 files, Apache-2.0 license and privilege review; NOVA guide compiled by model"
     }
    ]
+  },
+  {
+   "skill_id": "photo-art-direction",
+   "title": "Photo Art Direction",
+   "description": "Choosing, cropping, sequencing and describing photos for small-business sites; hero selection, alt text and cliché-free representative stock.",
+   "source": "https://github.com/MaheshReddy-ML/Nova",
+   "category": "design",
+   "roles": [
+    "agent:design"
+   ],
+   "keywords": [
+    "business",
+    "choosing",
+    "clich",
+    "cropping",
+    "describing",
+    "direction",
+    "free",
+    "hero",
+    "photo",
+    "photos",
+    "representative",
+    "selection"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "650635e7f81bd2d4e759f28e995889a432f967f8",
+   "revisions": [
+    {
+     "revision": "650635e7f81bd2d4e759f28e995889a432f967f8",
+     "version": "1.0",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "photo-art-direction",
+     "source_path": "nova/skills/authored/photo-art-direction/SKILL.md",
+     "reviewed_on": "2026-11-28",
+     "files": {
+      "SKILL.md": {
+       "source_path": "nova/skills/authored/photo-art-direction/SKILL.md",
+       "sha256": "c64630ab776e81eca0caa9560a4a0ff1b14223020244c665b5b5c1c8b55fbd69",
+       "bytes": 4361
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "372f58e21cf3f113a1d502ff6b33a92852a489ce7da3eb8940b36bf92b2574ad",
+       "bytes": 1739
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "6658c188181a46faa6c2a8faf774df8d0b1583acdea2d66d73a6ffc0e4084c45",
+       "bytes": 1069
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "NOVA-authored playbook; SHA-256 files, MIT license and privilege review; guide written by hand"
+    }
+   ]
+  },
+  {
+   "skill_id": "web-motion-design",
+   "title": "Web Motion Design",
+   "description": "Purposeful landing-page motion: timing and easing values, reduced motion, progressive enhancement and performance budgets.",
+   "source": "https://github.com/MaheshReddy-ML/Nova",
+   "category": "design",
+   "roles": [
+    "agent:design"
+   ],
+   "keywords": [
+    "budgets",
+    "design",
+    "easing",
+    "enhancement",
+    "landing",
+    "motion",
+    "page",
+    "performance",
+    "progressive",
+    "purposeful",
+    "reduced",
+    "timing"
+   ],
+   "priority": 12,
+   "permissions": [
+    "local-reference"
+   ],
+   "dependencies": [],
+   "default_enabled": true,
+   "default_revision": "bed35879373c05a5c05e12f8df05fb4d4f04c2d7",
+   "revisions": [
+    {
+     "revision": "bed35879373c05a5c05e12f8df05fb4d4f04c2d7",
+     "version": "1.0",
+     "license": "MIT",
+     "license_file": "LICENSE.txt",
+     "upstream_name": "web-motion-design",
+     "source_path": "nova/skills/authored/web-motion-design/SKILL.md",
+     "reviewed_on": "2026-11-28",
+     "files": {
+      "SKILL.md": {
+       "source_path": "nova/skills/authored/web-motion-design/SKILL.md",
+       "sha256": "0b2fba545a48c776c7f710a64e2b911361b21594c1c1b847b053b88f6d70a794",
+       "bytes": 3442
+      },
+      "GUIDE.md": {
+       "source_path": null,
+       "sha256": "0c8af85473ec45603e97708b982b56a48ade11fbdd3f778e83432a69cd2d6f7f",
+       "bytes": 1521
+      },
+      "LICENSE.txt": {
+       "source_path": "LICENSE",
+       "sha256": "6658c188181a46faa6c2a8faf774df8d0b1583acdea2d66d73a6ffc0e4084c45",
+       "bytes": 1069
+      }
+     },
+     "guide_sources": [
+      "SKILL.md"
+     ],
+     "evaluation": "NOVA-authored playbook; SHA-256 files, MIT license and privilege review; guide written by hand"
+    }
+   ]
   }
  ]
 }

@@ -198,7 +198,7 @@ async def evaluate(files, out_dir: Path):
                     name = route.request.url.removeprefix(AUDIT_ORIGIN + "/")
                     if name in files:
                         kind = {"html": "text/html; charset=utf-8", "css": "text/css; charset=utf-8", "jpg": "image/jpeg",
-                                "woff2": "font/woff2"}[name.rsplit(".", 1)[-1]]
+                                "woff2": "font/woff2", "js": "text/javascript; charset=utf-8"}[name.rsplit(".", 1)[-1]]
                         await route.fulfill(status=200, body=files[name], content_type=kind)
                     else:
                         blocked.append(route.request.url[:160])

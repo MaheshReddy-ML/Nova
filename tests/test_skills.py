@@ -221,3 +221,19 @@ def test_agent_catalog_matches_word_forms_and_ignores_filler(tmp_path):
     assert "ai-seo" not in pick("how do I cite these papers")
     assert all(not item["hint"].endswith(("-", " ")) and len(item["hint"]) <= 91
                for item in registry.agent_catalog("write a cold email and plan a launch", 8))
+
+
+def test_nova_authored_design_playbooks_are_verified_and_feed_the_site_plan():
+    from nova.sitekit.generate import SKILLS, skill_guidance
+
+    registry = SkillRegistry(sqlite3.connect(":memory:"))
+    for skill_id in ("photo-art-direction", "web-motion-design"):
+        result = registry.evaluate(skill_id)
+        assert result["verification"] == "passed" and result["roles"] == ["agent:design"]
+        assert registry.inspect(skill_id)["status"] == "enabled" and registry.inspect(skill_id)["license"] == "MIT"
+        authored = PACKAGE / "authored" / skill_id
+        assert registry.reference(skill_id, "GUIDE.md")["text"].strip() == (authored / "GUIDE.md").read_text().strip()[:2400].strip()
+        assert skill_id in SKILLS
+    guidance = skill_guidance(registry)
+    assert "### Photo Art Direction" in guidance and "### Web Motion Design" in guidance
+    assert "prefers-reduced-motion" in guidance and "photo subjects" in guidance.lower()
