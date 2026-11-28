@@ -179,3 +179,26 @@ def test_relaxed_queries_skip_filler_words():
     from nova.research import relax_query
 
     assert relax_query("hands shaping clay on wheel") == ["hands shaping clay on wheel", "shaping clay wheel", "clay wheel", "hands shaping"]
+
+
+async def test_robots_follows_apex_to_www_redirect(tmp_path):
+    from nova.research import PublicResearch, same_site
+    from nova.store import Store
+
+    assert same_site("www.regalmuse.in", "regalmuse.in") and same_site("regalmuse.in", "regalmuse.in")
+    assert not same_site("evil.example", "regalmuse.in") and not same_site("www.regalmuse.in.evil.example", "regalmuse.in")
+    research = PublicResearch(Store(tmp_path / "r.db"))
+    answers = {"https://regalmuse.in/robots.txt": (301, {"location": "https://www.regalmuse.in/robots.txt"}, ""),
+               "https://www.regalmuse.in/robots.txt": (200, {"content-type": "text/plain"}, "User-agent: *\nAllow: /\n"),
+               "https://other.example/robots.txt": (301, {"location": "https://elsewhere.example/robots.txt"}, "")}
+
+    async def request(url):
+        status, headers, text = answers[url]
+        return status, headers, text, 1
+
+    research.request = request
+    try:
+        assert await research.robots("https://regalmuse.in")
+        assert not await research.robots("https://other.example/")
+    finally:
+        await research.close()

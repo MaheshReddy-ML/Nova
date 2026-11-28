@@ -101,7 +101,7 @@ class PublicResearch:
                 if status not in (301, 302, 303, 307, 308):
                     break
                 target = urljoin(target, headers.get("location", ""))
-                if urlsplit(target).netloc != urlsplit(origin).netloc:
+                if not same_site(urlsplit(target).hostname, urlsplit(origin).hostname):
                     return False
             if status in (404, 410) or (status == 200 and "text/html" in headers.get("content-type", "")):
                 found = []
@@ -422,6 +422,14 @@ class PublicResearch:
         if "text/html" not in headers.get("content-type", ""):
             raise NovaError("page_type", "The public URL did not return HTML.")
         return target, html, elapsed
+
+
+def same_site(host, other):
+    """True for the same host or its www. twin (regalmuse.in → www.regalmuse.in, a very common 301).
+
+    RFC 9309 has crawlers follow robots.txt redirects; this stays conservative and only follows them within one site."""
+    strip = lambda value: (value or "").lower().removeprefix("www.")
+    return bool(host) and strip(host) == strip(other)
 
 
 def directory_links(source, html):
