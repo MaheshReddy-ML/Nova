@@ -15,6 +15,19 @@ feedback = call_user_for_review(
 
 `TOOL_SCHEMA` is a ready-made function-calling definition (OpenAI, Groq and Gemini compatible) to add to your agent's tools.
 
+## Use it from Nova
+
+Start the bridge once (it opens a fresh Cloudflare tunnel each time, so you never edit `PUBLIC_TUNNEL_URL`):
+
+```sh
+cd voice_bridge && .venv/bin/python control.py
+```
+
+Then say or type to Nova: **"call me"**, "ring me about the Regal Muse concept", or "you need something from me, phone me".
+Nova's `call_owner` tool rings your phone through ntfy and replies at once. When the call ends, your instructions and the
+transcript are saved in **Memory** and announced in the dashboard's live activity. Nova only calls you, never other numbers,
+and only when you ask for a call. Calling real phone numbers would need a paid telephony provider such as Twilio.
+
 ## How a call works
 
 1. NOVA sends an **urgent ntfy push** to your topic. The ntfy app rings and shows **Join call** and **Open preview** buttons.
