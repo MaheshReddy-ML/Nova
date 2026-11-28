@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="24" viewBox="0 0 1200 24" role="img" aria-label="divider">
+  <defs>
+    <linearGradient id="line" x1="0" x2="1"><stop offset="0" stop-color="#4f8cff" stop-opacity="0"/><stop offset=".5" stop-color="#4f8cff" stop-opacity=".55"/><stop offset="1" stop-color="#4f8cff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="spark" x1="0" x2="1"><stop offset="0" stop-color="#7fd0ff" stop-opacity="0"/><stop offset=".5" stop-color="#ffffff"/><stop offset="1" stop-color="#7fd0ff" stop-opacity="0"/></linearGradient>
+    <filter id="g" x="-20%" y="-300%" width="140%" height="700%"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+  <style>
+    .spark { animation: sweep 3.8s cubic-bezier(.6,0,.4,1) infinite; }
+    @keyframes sweep { from { transform: translateX(-260px); } to { transform: translateX(1200px); } }
+    @media (prefers-reduced-motion: reduce) { .spark { animation: none; opacity: 0; } }
+  </style>
+  <rect x="0" y="11" width="1200" height="1.5" fill="url(#line)"/>
+  <g class="spark"><rect x="0" y="9" width="260" height="6" rx="3" fill="url(#spark)" filter="url(#g)"/><rect x="40" y="11" width="180" height="1.6" fill="url(#spark)"/></g>
+  <circle cx="600.0" cy="12" r="3" fill="#7fd0ff"/>
+</svg>
