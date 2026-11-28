@@ -443,7 +443,7 @@ class Agent:
         if name == "whatsapp_message":
             digits = re.sub(r"\D", "", str(args.get("phone", "")))
             if len(digits) == 10:
-                digits = "91" + digits
+                digits = self.settings.default_country_code + digits
             if not 10 <= len(digits) <= 15:
                 raise NovaError("tool_input", "That phone number is not usable for WhatsApp.")
             message = str(args.get("message", ""))[:1200]

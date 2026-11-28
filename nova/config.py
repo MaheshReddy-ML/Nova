@@ -70,6 +70,8 @@ class Settings(BaseSettings):
     business_about: str = Field("", max_length=600)
     business_website: str = ""
     business_phone: str = ""
+    # Country calling code added to 10-digit local numbers for WhatsApp links (91 = India). Digits only.
+    default_country_code: str = Field("91", pattern=r"^[1-9][0-9]{0,3}$")
     brand_color: str = Field("#5b4bff", pattern=r"^#[0-9a-fA-F]{6}$")
     max_emails_hour: int = Field(10, ge=1, le=50)
     agent_model: str = SUPER
