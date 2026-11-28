@@ -331,10 +331,13 @@ class Gateway:
                 return candidate
         raise NovaError("model_missing", "No NVIDIA chat model is available for the agent.")
 
-    async def agent_chat(self, messages, tools, *, max_output=700, require_tool=False, fast=False):
-        """One tool-calling turn. Returns the assistant message dict (content and/or tool_calls) and usage."""
+    async def agent_chat(self, messages, tools, *, max_output=2048, require_tool=False, fast=False):
+        """One tool-calling turn. Returns the assistant message dict (content and/or tool_calls) and usage.
+
+        The output ceiling leaves room for save_document, whose whole document travels inside one tool call;
+        spoken replies stay short because the prompt asks for 1-4 sentences, not because of this cap."""
         model = await self.route(Capability.FAST) if fast else await self.agent_model()
-        max_output = min(max_output, max(self.settings.max_output_tokens, 700))
+        max_output = min(max_output, max(self.settings.max_output_tokens, 2048))
         payload = {"model": model, "messages": messages, "max_tokens": max_output, "stream": False,
                    "temperature": 0.3, **thinking_off(model)}
         if tools:
@@ -354,6 +357,9 @@ class Gateway:
             calls = message.get("tool_calls") or []
             content = message.get("content") or ""
             if not calls and not content.strip():
+                if body["choices"][0].get("finish_reason") == "length":
+                    raise NovaError("output_limit", "That answer was too long to finish in one step. Ask for a shorter "
+                                    "version or split it into parts.")
                 raise NovaError("empty_response", "NVIDIA returned no visible answer.")
             metrics["estimate"] = estimate + len(content.encode()) // 3
             return {"content": content.strip(), "tool_calls": calls, "model": model, "usage": body.get("usage") or {}}

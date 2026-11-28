@@ -71,4 +71,14 @@ def verify_answer(answer, evidence_texts, fetches):
     unverified = sorted(name for name in named if not any(name == item or name.endswith("." + item) or item.endswith("." + name)
                                                          for item in seen))
     return {"named_sites": sorted(named), "unverified_sites": unverified,
-            "fetched": len(fetches), "ok_fetches": sum(1 for fetch in fetches if 200 <= int(fetch.get("status") or 0) < 300)}
+            "fetched": len(fetches), "ok_fetches": sum(1 for fetch in fetches if fetch_ok(fetch.get("status")))}
+
+
+def fetch_ok(status):
+    """HTTP 2xx, or a cache hit (status "cache") of content that was fetched successfully earlier."""
+    if status == "cache":
+        return True
+    try:
+        return 200 <= int(status or 0) < 300
+    except (TypeError, ValueError):
+        return False

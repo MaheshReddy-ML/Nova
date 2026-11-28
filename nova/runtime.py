@@ -13,6 +13,7 @@ from .gateway import Capability
 from .outreach import Outbox, Outreach
 from .places import Places
 from .profile import Profiles
+from .toolkit import FollowUps
 from .scheduling import Schedules
 from .skills import SkillRegistry
 from .store import encoded
@@ -44,6 +45,7 @@ class Runtime:
         self.profiles = Profiles(settings.database_path.parent / "profile.json")
         self.places = Places(settings, research, store) if research is not None else None
         self.schedules = Schedules(store)
+        self.follow_ups = FollowUps(store)
         self.skills = SkillRegistry(store.db, context_budget=settings.skill_context_budget)
         self.wake = asyncio.Event()
         self.activity = asyncio.Event()

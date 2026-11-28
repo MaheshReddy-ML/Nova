@@ -27,7 +27,7 @@ from nova.skills.registry import PRIVILEGE_OVERRIDE, SkillRegistry, parse_frontm
 
 LIB = ROOT / "nova" / "skills" / "library"
 LOCK = ROOT / "nova" / "skills" / "skills.lock.json"
-TODAY = "2026-11-27"
+TODAY = __import__("datetime").date.today().isoformat()
 
 REPOS = {
     "marketing": ("coreyhaines31_marketingskills", "https://github.com/coreyhaines31/marketingskills", "LICENSE", "MIT"),
@@ -70,9 +70,12 @@ SPECS = [
 
 COMPILE = """You compile an upstream agent skill into a compact operating guide for NOVA, a personal AI agent.
 NOVA's only capabilities are these tools: web_search, deep_research (search and read top pages), read_website,
-find_contacts, draft_email (owner confirms before sending), whatsapp_message, start_mission (website audit or verified
-concept build), mission_details, save_memory, search_memory, get_owner_profile. NOVA cannot run code, scripts or shell
-commands, install packages, read or write files, call other APIs, or spawn agents. Its replies are short and spoken.
+search_papers (scholarly papers with abstracts, years and citation counts), find_contacts, find_local_businesses (ranked
+by rating, with website status), draft_email (owner confirms before sending), whatsapp_message, schedule_follow_up,
+start_mission (website audit or verified concept build), mission_details, save_document (saves long-form Markdown such
+as a review, outline or proposal to the owner's workspace), save_memory, search_memory, get_owner_profile. NOVA cannot
+run code, scripts or shell commands, install packages, call other APIs, or spawn agents. Its spoken replies are short,
+so long deliverables go into save_document.
 
 Write 2,200-3,400 characters of plain Markdown with exactly these sections:
 # <Skill name>

@@ -51,7 +51,9 @@ def collect(runtime, since):
     ledger = runtime.business.ledger()
     schedules = [entry for entry in runtime.schedules.list() if entry["enabled"]]
     upcoming = min(schedules, key=lambda entry: entry["next_due"], default=None)
+    follow_ups = runtime.follow_ups.due() if getattr(runtime, "follow_ups", None) else []
     return {"done": done, "failed": failed, "active": active, "sent": sent, "waiting": waiting, "unaddressed": unaddressed,
+            "follow_ups": follow_ups,
             "approvals": approvals, "leads": leads, "outstanding": ledger["outstanding_paise"] / 100, "upcoming": upcoming}
 
 
@@ -93,6 +95,9 @@ def briefing(runtime, *, since=None, wake=False):
         pending.append(f"{plural(len(data['unaddressed']), 'drafted message')} that need a recipient")
     if data["outstanding"] > 0:
         pending.append(f"{data['outstanding']:,.0f} rupees outstanding in invoices")
+    if data["follow_ups"]:
+        pending.append(f"{plural(len(data['follow_ups']), 'follow-up')} due, starting with "
+                       f"{join([row['business'] for row in data['follow_ups'][:2]])}")
     if not news and not pending and not data["waiting"]:
         lines.append("All quiet since we last spoke. No new results, and nothing is waiting on you." if away > 120
                      else "Everything is up to date.")

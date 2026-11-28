@@ -596,6 +596,22 @@ def create_app(settings=None, *, transport=None, research_factory=PublicResearch
         html, policy = demo.sandbox_preview(Path(response.path).read_text(encoding="utf-8"), root)
         return HTMLResponse(html, headers={"Content-Security-Policy": policy})
 
+    @app.get("/api/documents")
+    async def documents():
+        from .toolkit import list_documents
+
+        return {"documents": list_documents(settings.workspace_path)}
+
+    @app.get("/documents/{name}")
+    async def document(name: str):
+        from .toolkit import document_path
+
+        path = document_path(settings.workspace_path, name)
+        media = "text/markdown; charset=utf-8" if name.endswith(".md") else \
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        return FileResponse(path, media_type=media, filename=name,
+                            content_disposition_type="inline" if name.endswith(".md") else "attachment")
+
     @app.get("/projects/{task_id}/{file}")
     async def project(request: Request, task_id: str, file: str):
         return serve_project(request, task_id, file)
