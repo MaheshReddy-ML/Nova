@@ -15,6 +15,7 @@ from urllib.parse import quote, urlsplit
 from .domain import Candidate, MissionInput, NovaError
 from . import provenance
 from .profile import compact, detail
+from .store import encoded
 from uuid import uuid4
 
 ACTION_TOOLS = {"start_mission", "control_mission", "draft_email", "open_dashboard", "whatsapp_message", "email_owner",
@@ -117,6 +118,27 @@ def host(value):
         return ""
 
 
+def context_estimate(messages, tools):
+    """Same conservative estimate the gateway enforces: three bytes per token."""
+    return len(encoded([messages, tools]).encode("utf-8")) // 3 + 32
+
+
+def fit_context(messages, tools, budget):
+    """Trim the largest tool results (never the system prompt or the newest request) until the turn fits the budget.
+
+    Without this, a turn that loaded two playbooks and read a few pages failed outright with 'context exceeds the
+    agent input budget'. Trimmed results keep their opening, which holds the facts the model already used."""
+    floor = 500
+    while context_estimate(messages, tools) > budget:
+        candidates = [item for item in messages[1:-1] if item.get("role") == "tool" and len(item.get("content") or "") > floor]
+        if not candidates:
+            return False
+        largest = max(candidates, key=lambda item: len(item["content"]))
+        keep = max(floor, len(largest["content"]) // 2)
+        largest["content"] = largest["content"][:keep] + "…(trimmed to fit context; already used)"
+    return True
+
+
 def clip(value, limit):
     text = json.dumps(value, ensure_ascii=False, default=str)
     return text if len(text) <= limit else text[:limit] + "…(truncated)"
@@ -176,7 +198,8 @@ class Agent:
             "outlines, proposals, plans over ~150 words): write them in full with save_document and speak a one-line summary.",
             "Before research writing, outreach copy or planning you do yourself, load_skill the matching playbook from the list "
             "below (once per task) and follow it. Missions apply their own skills: to build or audit a website, call "
-            "start_mission directly. 'Do it', 'go ahead' or 'yes' refers to your last suggestion.",
+            "start_mission directly (kind website_concept, with the official URL; a redesign of a site is a website_concept) and do "
+            "not load design skills for it. 'Do it', 'go ahead' or 'yes' refers to your last suggestion.",
         ]
         if OUTREACH.search(text) or pending:
             lines += [
@@ -234,6 +257,7 @@ class Agent:
             if final:
                 messages.append({"role": "system", "content": "Tool budget reached. Answer now with what you know and suggest "
                                  "the next step."})
+            fit_context(messages, [] if final else TOOLS, self.settings.agent_input_tokens)
             message = await gateway.agent_chat(messages, [] if final else TOOLS,
                                                require_tool=step_index == 0 and needs_tool(text))
             self.account(reply, message, started_turn)
@@ -306,7 +330,10 @@ class Agent:
                 raise NovaError("tool_guard", "The owner did not ask to be emailed. Do not use email_owner for this request.")
             if name == "draft_email" and sum(step["tool"] == "draft_email" for step in reply.steps) > 1:
                 raise NovaError("tool_guard", "Only one email draft per request. One was already prepared.")
-            if signature in seen and name not in ACTION_TOOLS:
+            if name == "load_skill" and sum(step["tool"] == "load_skill" for step in reply.steps) > 2:
+                # Not an error: extra playbooks are skipped so the turn keeps its context budget.
+                result, state = {"note": "Two playbooks are already loaded for this request; continue with those."}, "done"
+            elif signature in seen and name not in ACTION_TOOLS:
                 result, state = {"note": "You already ran this exact call; use the earlier result."}, "done"
             else:
                 seen[signature] = True

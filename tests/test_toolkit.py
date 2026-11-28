@@ -100,3 +100,15 @@ def test_cached_fetches_do_not_break_answer_verification():
                                       [{"url": "search:x", "status": "cache"}, {"url": "https://arxiv.org/abs/1", "status": 200},
                                        {"url": "https://a.org", "status": None}])
     assert result["ok_fetches"] == 2 and result["unverified_sites"] == []
+
+
+def test_fit_context_trims_old_tool_results_instead_of_failing():
+    from nova.agent import context_estimate, fit_context
+
+    messages = [{"role": "system", "content": "rules " * 200}, {"role": "user", "content": "redesign regalmuse.in"},
+                *({"role": "tool", "tool_call_id": str(i), "name": "load_skill", "content": "x" * 6000} for i in range(3)),
+                {"role": "tool", "tool_call_id": "last", "name": "read_website", "content": "y" * 3000}]
+    assert context_estimate(messages, []) > 4000
+    assert fit_context(messages, [], 4000) and context_estimate(messages, []) <= 4000
+    assert messages[0]["content"] == "rules " * 200 and messages[-1]["content"] == "y" * 3000
+    assert not fit_context([{"role": "system", "content": "z" * 30000}, {"role": "user", "content": "hi"}], [], 1000)

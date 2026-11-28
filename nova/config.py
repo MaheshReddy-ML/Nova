@@ -76,7 +76,7 @@ class Settings(BaseSettings):
     site_revision_rounds: int = Field(1, ge=0, le=3)
     site_min_score: int = Field(65, ge=0, le=100)
     agent_max_steps: int = Field(5, ge=1, le=8)
-    agent_input_tokens: int = Field(7000, ge=1024, le=16000)
+    agent_input_tokens: int = Field(10000, ge=1024, le=32000)
     voice_enabled: bool = True
     speech_streaming: bool = True
     max_speech_calls_hour: int = Field(300, ge=1, le=1000)
