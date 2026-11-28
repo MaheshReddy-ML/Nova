@@ -1,46 +1,44 @@
-# Spec Driven Development
-## Spec-Driven Development
-## Overview
-## When to Use
-- Starting a new project or feature
-- Requirements are ambiguous or incomplete
-- The change touches multiple files or modules
-- You're about to make an architectural decision
-- The task would take more than 30 minutes to implement
-## The Gated Workflow
-## Phase 0: Scope Check
-- The requirement names distinct capabilities with their own consumers or data (e.g. identity, billing, notifications, reporting)
-- Acceptance criteria cluster into groups that could ship and be verified separately
-- One capability could be cut or replaced without rewriting the others' requirements
-- **Stable module ids.** Kebab-case, chosen once, never renamed mid-initiative. Specs, plans, and downstream commands select work by these ids instead of guessing which spec is active.
-- **Dependency direction, no cycles.** Arrows point one way. If two modules each need the other, they are one module.
-- **Interfaces live at the boundary.** The map records that `billing` depends on `identity`; the contract between them belongs in the provider module's spec (see `api-and-interface-design` for designing it).
-## Phase 1: Specify
-1. **Objective** — What are we building and why? Who is the user? What does success look like?
-2. **Commands** — Full executable commands with flags, not just tool names.
-3. **Project Structure** — Where source code lives, where tests go, where docs belong.
-4. **Code Style** — One real code snippet showing your style beats three paragraphs describing it. Include naming conventions, formatting rules, and examples of good output.
-5. **Testing Strategy** — What framework, where tests live, coverage expectations, which test levels for which concerns.
-- **Always do:** Run tests before commits, follow naming conventions, validate inputs
-- **Ask first:** Database schema changes, adding dependencies, changing CI config
-- **Never do:** Commit secrets, edit vendor directories, remove failing tests without approval
-1. Summarize it and list any Open Questions.
-2. Ask the human to approve it or request changes.
-3. **STOP YOUR TURN IMMEDIATELY.** Do NOT start Phase 2, invoke `planning-and-task-breakdown`, or write code in this turn. Planning starts only after the human approves the spec in a later turn.
-## Phase 2: Plan
-1. Identify the major components and their dependencies
-2. Determine the implementation order (what must be built first)
-3. Note risks and mitigation strategies
-4. Identify what can be built in parallel vs. what must be sequential
-5. Define verification checkpoints between phases
-## Phase 3: Tasks
-- Each task should be completable in a single focused session
-- Each task has explicit acceptance criteria
-- Each task includes a verification step (test, build, manual check)
-- Tasks are ordered by dependency, not by perceived importance
-- No task should require changing more than ~5 files
-## Phase 4: Implement
-## Keeping the Spec Alive
-- **Update when decisions change** — If you discover the data model needs to change, update the spec first, then implement.
-- **Update when scope changes** — Features added or cut should be reflected in the spec.
-- **Commit the spec** — The spec belongs in version control alongside the code.
+# Spec-Driven Development
+
+One sentence: This skill makes NOVA better at writing structured specifications before any implementation begins, ensuring requirements are concrete, testable, and human-approved before work proceeds.
+
+## When to use
+
+Use this skill when starting a new project, feature, or significant change with no existing specification; when drafting a PRD or requirements document with objectives and scope; when requirements are unclear, ambiguous, or only exist as a vague idea; when a single requirement spans several independently testable capabilities and needs decomposing into a capability map of modules before specifying; or when evolving a shipped spec — scoping a V1, deferring ideas to a V2 backlog, or writing a follow-up spec for a change to an existing feature.
+
+Do not use it for single-line fixes, typo corrections, or changes where requirements are unambiguous and self-contained.
+
+## Workflow
+
+1. **Scope check.** Determine if the request bundles several independently testable capabilities. If yes, propose a capability map before writing any spec: a module table with module id, responsibility, and dependencies, plus a build order. Use kebab-case module ids chosen once and never renamed mid-initiative. Ensure dependency direction has no cycles; if two modules each need the other, they are one module. Get the human to review module boundaries, dependency direction, and build order before any module spec is written. Save the approved map as `spec/capability-map.md` and each module spec alongside it in `spec/`, named by module id (for example `spec/SPEC-identity.md`). Then recurse through the remaining steps for each module in dependency order.
+
+2. **Surface assumptions.** Before writing spec content, list what you are assuming (platform, auth mechanism, database, browser targets, etc.) and ask the human to correct them. Never silently fill in ambiguous requirements.
+
+3. **Write the spec.** Create a document covering these six core areas:
+   - **Objective:** What we are building and why, who the user is, and what success looks like.
+
+## Quality bar
+
+- [ ] The spec covers all six core areas (a delta spec covers at minimum objective, success criteria, and boundary deltas, inheriting the rest from the original).
+- [ ] The human has reviewed and approved the spec.
+- [ ] The turn ended after saving the spec; approval came in a later turn.
+- [ ] Success criteria are specific and testable, not vague adjectives.
+- [ ] Boundaries (Always / Ask first / Never) are defined.
+- [ ] The spec is saved to a file in the repository.
+- [ ] Ideas cut from this version are captured under Out of Scope (Deferred), not silently dropped or included.
+- [ ] If this is a change to a shipped spec, it is a delta spec referencing the original, not a rewrite of it.
+- [ ] If the request bundles several independently testable capabilities, a capability map (module ids, dependency direction, build order) was approved before any module spec was written.
+- [ ] Every module spec traces to a module id in the approved map.
+
+## Pitfalls
+
+- Starting to write code without any written requirements.
+- Asking "should I just start building?" before clarifying what "done" means.
+- Implementing features not mentioned in any spec or task list.
+- Making architectural decisions without documenting them.
+- Skipping the spec because "it's obvious what to build."
+- Letting V1 requirements grow mid-implementation as new ideas get written straight into the spec.
+- Changing a shipped feature with no spec for the change because "the feature already has one."
+- Writing the spec and starting the plan or code in the same turn.
+- One spec whose requirements span several independently testable capabilities without an approved capability map.
+- Deciding module boundaries or build order implicitly during implementation instead of up front.

@@ -257,3 +257,63 @@ class FollowUps:
         with self.db:
             self.db.execute("UPDATE follow_ups SET status='done' WHERE id=?", (match["id"],))
         return {"say": f"Marked the follow-up with {match['business']} as done."}
+
+
+# ---------- phone the owner (voice_bridge) ----------
+
+CALL_REQUEST = re.compile(r"\b(?:call|phone|ring|dial)\b", re.I)
+_CALL_WATCHERS = set()
+
+
+async def call_owner(store, bridge_url, summary, questions, preview_url="", *, transport=None, interval=5.0):
+    """Ask the local voice_bridge to ring the owner. Returns immediately; a watcher saves the outcome when the call ends."""
+    import asyncio
+
+    summary, questions = squash(summary, 1000), squash(questions, 1000)
+    if len(summary) < 5 or len(questions) < 5:
+        raise NovaError("tool_input", "A call needs a short status summary and the questions to ask.")
+    try:
+        async with httpx.AsyncClient(timeout=10, trust_env=False, transport=transport) as client:
+            health = (await client.get(f"{bridge_url}/health")).json()
+            response = await client.post(f"{bridge_url}/calls", json={"status_summary": summary, "questions": questions,
+                                                                       "preview_url": preview_url})
+            response.raise_for_status()
+            job = response.json()
+    except (httpx.HTTPError, ValueError) as exc:
+        raise NovaError("bridge_offline", "The phone bridge isn't running. Start it with: cd voice_bridge && "
+                        ".venv/bin/python control.py") from exc
+    store.event("call", "Ringing the owner's phone for a voice call", call_id=job["id"])
+    task = asyncio.create_task(watch_call(store, bridge_url, job["id"], summary, interval=interval, transport=transport))
+    _CALL_WATCHERS.add(task)
+    task.add_done_callback(_CALL_WATCHERS.discard)
+    busy = " Another call is in progress, so this one is queued right after it." if health.get("busy") else ""
+    warning = "" if health.get("ntfy") else " The ntfy topic isn't set, so your phone won't ring; open the call page instead."
+    return {"call_id": job["id"], "status": job["status"], "call_page": health.get("public_url"),
+            "say": "I'm ringing your phone now. Tap Join call in the ntfy notification." + busy + warning}
+
+
+async def watch_call(store, bridge_url, call_id, summary, *, interval=5.0, limit=1800, transport=None):
+    """Poll the bridge until the call ends, then keep the owner's instructions in memory and on the dashboard."""
+    import asyncio
+
+    started = time.monotonic()
+    result, status = None, "timeout"
+    async with httpx.AsyncClient(timeout=10, trust_env=False, transport=transport) as client:
+        while time.monotonic() - started < limit:
+            await asyncio.sleep(interval)
+            try:
+                job = (await client.get(f"{bridge_url}/calls/{call_id}")).json()
+            except (httpx.HTTPError, ValueError):
+                continue
+            if job.get("status") in {"done", "failed"}:
+                result, status = str(job.get("result") or ""), job["status"]
+                break
+    body = result or "The call did not finish within 30 minutes."
+    with store.db:
+        store.db.execute("INSERT OR REPLACE INTO notes (source,category,headline,body,updated) VALUES(?,?,?,?,?)",
+                         (f"call:{call_id}", "owner", f"Voice call: {squash(summary, 80)}", body[:6000], time.time()))
+    joined = "did not join" not in body
+    store.event("call", ("Voice call finished; your instructions are saved in Memory" if status == "done" and joined
+                         else "Voice call ended without a conversation" if status == "done" else "Voice call failed"),
+                call_id=call_id, status=status)
+    return status, body

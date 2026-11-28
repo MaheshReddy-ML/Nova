@@ -16,10 +16,11 @@ from .domain import Candidate, MissionInput, NovaError
 from . import provenance
 from .profile import compact, detail
 from .store import encoded
+from .toolkit import CALL_REQUEST
 from uuid import uuid4
 
 ACTION_TOOLS = {"start_mission", "control_mission", "draft_email", "open_dashboard", "whatsapp_message", "email_owner",
-                "save_memory", "save_document", "schedule_follow_up"}
+                "save_memory", "save_document", "schedule_follow_up", "call_owner"}
 VIEWS = {"overview", "leads", "projects", "communications", "approvals", "finance", "skills", "models", "memory"}
 DIRECTORY_HOSTS = ("justdial.", "zomato.", "district.in", "eazydiner.", "tripadvisor.", "yelp.", "facebook.com",
                    "instagram.com", "linkedin.com", "google.", "wikipedia.org", "magicpin.", "swiggy.", "indiamart.")
@@ -72,6 +73,10 @@ TOOLS = [
          "nothing is sent). mark_done=true closes an open follow-up.",
          {"business": S, "days": {"type": "number"}, "note": S, "message_id": S, "mark_done": {"type": "boolean"}},
          ["business"]),
+    tool("call_owner", "Ring the owner's phone (ntfy) for a live voice call to discuss something or get decisions. Only "
+         "the owner can be called, not businesses. Returns at once; the owner's spoken instructions are saved to memory.",
+         {"summary": {**S, "description": "What to tell them, 1-3 sentences"},
+          "questions": {**S, "description": "What you need from them"}, "preview_url": S}, ["summary", "questions"]),
     tool("save_memory", "Remember a fact or preference.", {"headline": S, "note": S}, ["headline", "note"]),
     tool("search_memory", "Search saved notes.", {"query": S}, ["query"]),
     tool("open_dashboard", "Open a dashboard section.", {"view": {"type": "string", "enum": sorted(VIEWS)}}, ["view"]),
@@ -103,6 +108,7 @@ LABELS = {
     "open_dashboard": lambda a: f"Opening {a.get('view', '')}",
     "load_skill": lambda a: f"Loading the {str(a.get('skill_id', '')).replace('-', ' ')} playbook",
     "find_skills": lambda a: f"Looking for skills on “{a.get('query', '')}”",
+    "call_owner": lambda a: "Ringing your phone",
     "search_papers": lambda a: f"Searching papers on “{a.get('query', '')}”",
     "save_document": lambda a: f"Saving “{a.get('title', 'the document')}”",
     "schedule_follow_up": lambda a: (f"Closing the follow-up with {a.get('business', '')}" if a.get("mark_done")
@@ -328,6 +334,10 @@ class Agent:
         try:
             if name == "email_owner" and not OWNER_REQUEST.search(text):
                 raise NovaError("tool_guard", "The owner did not ask to be emailed. Do not use email_owner for this request.")
+            if name == "call_owner" and not CALL_REQUEST.search(text):
+                raise NovaError("tool_guard", "The owner did not ask for a call. Offer to call instead of calling.")
+            if name == "call_owner" and sum(step["tool"] == "call_owner" for step in reply.steps) > 1:
+                raise NovaError("tool_guard", "One call per request; the phone is already ringing.")
             if name == "draft_email" and sum(step["tool"] == "draft_email" for step in reply.steps) > 1:
                 raise NovaError("tool_guard", "Only one email draft per request. One was already prepared.")
             if name == "load_skill" and sum(step["tool"] == "load_skill" for step in reply.steps) > 2:
@@ -403,6 +413,11 @@ class Agent:
             reply.links.append({"label": f"Open {saved['file']}", "url": saved["url"]})
             self.store.event("document", f"Saved document {saved['file']}", file=saved["file"])
             return saved
+        if name == "call_owner":
+            from .toolkit import call_owner
+
+            return await call_owner(self.store, self.settings.voice_bridge_url, str(args.get("summary", "")),
+                                    str(args.get("questions", "")), str(args.get("preview_url", "")))
         if name == "schedule_follow_up":
             follow_ups = getattr(self.runtime, "follow_ups", None)
             if follow_ups is None:

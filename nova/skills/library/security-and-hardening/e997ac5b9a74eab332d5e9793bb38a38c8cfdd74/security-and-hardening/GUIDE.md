@@ -1,48 +1,43 @@
-# Security And Hardening
-## Security and Hardening
-## Overview
-## When to Use
-- Building anything that accepts user input
-- Implementing authentication or authorization
-- Storing or transmitting sensitive data
-- Integrating with external APIs or services
-- Adding file uploads, webhooks, or callbacks
-- Handling payment or PII data
-## Process: Threat Model First
-1. **Map the trust boundaries.** Where does untrusted data cross into your system? HTTP requests, form fields, file uploads, webhooks, third-party APIs, message queues, and **LLM output** — plus the local values that look internal because the OS handed them to you: another process's command line or environment, filenames on a shared volume, a path in a job payload. Trust follows who *wrote* a value, not which channel delivered it. Every boundary is attack surface.
-2. **Name the assets.** What's worth stealing or breaking? Credentials, PII, payment data, admin actions, money movement.
-3. **Run STRIDE over each boundary** — a quick lens, not a ceremony:
-4. **Write abuse cases next to use cases.** For each feature, ask "how would I misuse this?" — then make that your first test.
-## The Three-Tier Boundary System
-## Always Do (No Exceptions)
-- **Validate all external input** at the system boundary (API routes, form handlers)
-- **Parameterize all database queries** — never concatenate user input into SQL
-- **Encode output** to prevent XSS (use framework auto-escaping, don't bypass it)
-- **Use HTTPS** for all external communication
-- **Hash passwords** with bcrypt/scrypt/argon2 (never store plaintext)
-- **Set security headers** (CSP, HSTS, X-Frame-Options, X-Content-Type-Options)
-- **Use httpOnly, secure, sameSite cookies** for sessions
-- **Run the detected package manager's native audit** against the committed lockfile before every release
-## Ask First (Requires Human Approval)
-- Adding new authentication flows or changing auth logic
-- Storing new categories of sensitive data (PII, payment info)
-- Adding new external service integrations
-- Changing CORS configuration
-- Adding file upload handlers
-- Modifying rate limiting or throttling
-- Granting elevated permissions or roles
-## Never Do
-- **Never commit secrets** to version control (API keys, passwords, tokens)
-- **Never log sensitive data** (passwords, tokens, full credit card numbers)
-- **Never trust client-side validation** as a security boundary
-- **Never disable security headers** for convenience
-- **Never use `eval()` or `innerHTML`** with user-provided data
-- **Never store sessions in client-accessible storage** (localStorage for auth tokens)
-- **Never expose stack traces** or internal error details to users
-## Hardening Controls
-## Injection, XSS, and access control
-- Parameterize every query. Never build SQL, NoSQL, or shell commands from input strings.
-- Encode output through the framework's auto-escaping. If raw HTML is unavoidable, sanitize with an allowlist sanitizer first.
-- Check **authorization** on every request, not just authentication: the authenticated user must own, or be permitted on, the specific resource (A01:2025, IDOR).
-## Authentication and sessions
-- Hash passwords with bcrypt (≥12 rounds), scrypt, or argon2. The session secret comes from the environment, never from code.
+# Security and Hardening
+
+One sentence: makes NOVA better at auditing and hardening web applications against vulnerabilities, covering input handling, authentication, data storage, external integrations, dependencies, and privacy compliance.
+
+## When to use
+
+Use when auditing an input handler for vulnerabilities, handling user input, authentication, data storage, or external integrations, checking a login flow against the OWASP Top Ten, building any feature that accepts untrusted data or manages sessions, auditing dependencies for known vulnerabilities, triaging package-manager audit findings, assessing supply-chain risk, or when personal data or privacy compliance (GDPR, CCPA) is involved.
+
+## Workflow
+
+1. Threat model first. Spend five minutes thinking like an attacker: map trust boundaries where untrusted data enters (HTTP requests, forms, file uploads, webhooks, third-party APIs, LLM output), name the assets worth stealing, run STRIDE (spoofing, tampering, repudiation, information disclosure, denial of service, elevation of privilege) over each boundary, and write abuse cases next to use cases. If you cannot name the trust boundaries, you are not ready to secure it.
+2. Apply the always-do controls with no exceptions: validate all external input at the boundary; parameterize all database queries; encode output to prevent XSS; use HTTPS for all external communication; hash passwords with bcrypt, scrypt, or argon2; set security headers (CSP, HSTS, X-Frame-Options, X-Content-Type-Options); use httpOnly, secure, sameSite cookies for sessions; run the native package-manager audit against the committed lockfile before every release.
+
+## Quality bar
+
+- Threat model completed before controls are applied
+- Every external input validated at the system boundary
+- All database queries parameterized; no string concatenation of user input into SQL, NoSQL, or shell commands
+- Authorization checked on every request, not just authentication
+- Passwords hashed with bcrypt (12+ rounds), scrypt, or argon2; no plaintext storage
+- Session cookies httpOnly, secure, sameSite lax or strict, with bounded maxAge
+- Security headers present on every response; CSP starts from default-src 'self'
+- CORS restricted to explicit origin list; no wildcard with credentials
+- Error responses generic; internal details logged server-side only
+- Native package-manager audit run against committed lockfile before release; no forced remediation
+- Secrets sourced from environment only; none in source code or git history
+- Rate limiting on auth endpoints (~10 attempts per 15 minutes), shared store for multiple instances
+- Server-side URL fetches allowlisted; private/reserved addresses rejected
+
+## Pitfalls
+
+- Treating security as a phase rather than a constraint on every line touching user data or external systems
+- Relying on client-side validation as a security boundary
+- Assuming internal tools do not need security
+- Believing the framework handles security automatically
+- Using in-memory rate limiters across multiple instances or serverless environments
+- Applying npm audit fix --force or equivalent automatically, which can cross declared dependency ranges
+- Assuming an audit passed means a dependency is safe; audits match known advisories only, not new malicious or typosquatted packages
+- Collecting personal data with no stated purpose, retention limit, or deletion path
+- Handling deletion requests by flipping a flag while data lingers in stores, caches, search indexes, and backups
+- Placing secrets, PII, or full system prompts inside LLM context windows
+- Trusting path shape checks alone for destructive operations without resolving symlinks and verifying authorization
+- Skipping human approval for auth changes, new sensitive data categories, or external integrations

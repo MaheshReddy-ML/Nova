@@ -1,60 +1,36 @@
 # Sales Enablement
-## Sales Enablement
-## Before Starting
-1. **Value Proposition & Differentiators**
-- What do you sell and who is it for?
-- What makes you different from the next best alternative?
-- What outcomes can you prove?
-2. **Sales Motion**
-- How do you sell? (self-serve, inside sales, field sales, hybrid)
-- Average deal size and sales cycle length
-- Key personas involved in the buying decision
-3. **Collateral Needs**
-- What specific assets do you need?
-- What stage of the funnel are they for?
-- Who will use them? (AE, SDR, champion, prospect)
-4. **Current State**
-- What materials exist today?
-- What's working and what's not?
-- What do reps ask for most?
-## Core Principles
-## Sales Uses What Sales Trusts
-## Situation-Specific, Not Generic
-## Scannable Over Comprehensive
-## Tie Back to Business Outcomes
-## Claims Reps Can Defend
-- **"Why we win" needs evidence**: win/loss interviews, call recordings, customer quotes, or CRM reasons backed by one of those (see Win-Loss Analysis). Without it, write advantages as hypotheses for reps to test, and say what evidence would confirm them.
-- **Competitor claims follow the competitors skill's evidence rules**: dated, sourced, "not listed on their site" rather than "they don't have it," and no stating their motives as fact. Reps can reason about why a competitor did something, labeled as a guess.
-- **Include where you lose.** A competitive doc that admits when the competitor is the better fit is one reps will trust in front of a buyer.
-## Sales Deck / Pitch Deck
-## 10-12 Slide Framework
-1. **Current World Problem** — The pain your buyer lives with today
-2. **Cost of the Problem** — What inaction costs (time, money, risk)
-3. **The Shift Happening** — Market or technology change creating urgency
-4. **Your Approach** — How you solve it differently
-5. **Product Walkthrough** — 3-4 key workflows, not a feature tour
-## Deck Principles
-- **Story arc, not feature tour.** Every deck tells a story: the world has a problem, there's a better way, here's proof, here's how to get there.
-- **One idea per slide.** If you need two points, use two slides.
-- **Design for presenting, not reading.** Slides support the conversation — they don't replace it. Minimal text, strong visuals.
-## Customization by Buyer Type
-## One-Pagers / Leave-Behinds
-## When to Use
-- **Post-meeting recap** — Reinforce what you discussed, keep momentum
-- **Champion internal selling** — Arm your champion to sell for you
-- **Trade show handout** — Quick intro that drives follow-up
-## Structure
-1. **Problem statement** — The pain in one sentence
-2. **Your solution** — What you do and how
-3. **3 differentiators** — Why you vs. alternatives
-4. **Proof point** — One strong metric or customer quote
-5. **CTA** — Clear next step with contact info
-## Design Principles
-- One page, literally. Front only, or front and back maximum.
-- Scannable in 30 seconds. Bold headers, short bullets, whitespace.
-- Include your logo, website, and a specific contact (not info@).
-- Match your brand but keep it clean — this is a sales tool, not a brand piece.
-## Objection Handling Docs
-## Objection Categories
-## Response Framework
-1. **Objection statement** — Exactly how reps hear it
+
+One sentence: This skill makes NOVA better at building B2B sales collateral that reps actually use — decks, one-pagers, objection docs, demo scripts, battle cards, proposals, playbooks, and win-loss evidence — all grounded in claims reps can defend.
+
+## When to use
+
+Use this when the owner needs sales collateral, wants to know what to give a champion or rep, needs help answering an objection, or wants to make the case to a buyer. For public comparison pages, see competitors. For buyer research, see customer-research. For website copy, see copywriting. For cold emails, see cold-email. For the offer, see offers.
+
+## Workflow (numbered steps adapted to NOVA's tools)
+
+1. **Gather context.** Ask what collateral is needed, who will use it (AE, SDR, champion, prospect), what sales stage it serves, the target persona, and the top three objections heard most. Use get_owner_profile for brand and product context. If product-marketing or brand files exist in the workspace, read them first via read_website or save_document references.
+2. **Confirm the competitor for battle cards.** If a battle card is requested and no competitor is named, ask in one short question. Do not draft until confirmed.
+3. **Ground every claim.** Require sources for factual claims: win/loss interviews, call recordings, customer quotes, CRM reasons, or dated competitor facts. Tag each competitor fact with source and date. Never invent a stat, customer, or competitor number.
+4. **Build the asset.** Follow the structure below for the requested type. Draft long-form copy in save_document; keep spoken replies short.
+5. **Review against the quality bar.** Check scannability, outcome ties, persona fit, and evidence before presenting.
+6. **Log live objections.** After handling a live-deal objection, suggest the rep log it and how it went; this feeds the objection library and win-loss analysis.
+
+## Quality bar (checklist)
+
+- Reps can find the answer in 3 seconds, not 30 (bold headers, short bullets, visual hierarchy).
+- Every claim ties to revenue, efficiency, or risk reduction — features always include the "so what."
+- All factual claims have sources; competitor claims are dated, sourced, and never state motives as fact.
+- Includes where you lose and when to walk away.
+- One idea per slide; one page for one-pagers; battle cards fit on one screen.
+- Tested language: uses rep phrasing, not marketing-speak.
+- Live objections answered with assumptions stated, one say-as-written response, proof, and a follow-up question.
+
+## Pitfalls
+
+- Writing decks reps rewrite before sending — that means you wrote the wrong deck; involve top performers first.
+- Generic, one-size-fits-all collateral — tailor to persona, deal stage, and use case.
+- Inventing stats, customers, or competitor numbers; repeating a buyer's claim about a competitor as fact.
+- Battle cards about the wrong competitor — confirm the competitor before drafting.
+- Treating playbooks as set-and-forget — review quarterly with top rep input or they rot.
+- Reporting win-loss themes without sample sizes — always state n; under ~5 deals is a signal to watch, not a finding.
+- Burying price in proposals or making reps hunt for proof mid-call.

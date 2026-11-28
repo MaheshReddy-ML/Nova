@@ -1,44 +1,39 @@
 # Experimental Design
-## Experimental Design
-## Overview
-- **Randomization** — assign treatments at random so that confounders, known and unknown, are balanced in expectation. This is what turns a comparison into a causal claim.
-- **Replication** — independent repetition at the right level, so you can estimate variability and your effects aren't artifacts of a single unit. The most common fatal error is **pseudoreplication**: counting repeated measurements on the same unit as independent replicates.
-- **Blocking / local control** — group similar units (by batch, day, site, litter) and randomize within blocks, removing that nuisance variation from the error term instead of letting it inflate noise.
-## When to Use This Skill
-- Planning any comparative experiment or trial and deciding how to assign units
-- Randomizing subjects/samples to arms (simple, blocked, stratified, or cluster)
-- Removing nuisance variation by blocking or stratification
-- Designing multi-factor experiments: full or fractional factorial, screening designs
-- Optimizing a response over continuous factors (response-surface designs)
-- Within-subject / repeated-measures, crossover, split-plot, or Latin-square designs
-- Cluster- or group-randomized designs (sites, clinics, classrooms, litters)
-- Deciding the number and level of replicates and avoiding pseudoreplication
-- Sequential, group-sequential, or adaptive designs with interim analyses
-- Laying out plates/batches and randomizing run order to defeat drift
-## Installation
-## Choosing a design
-- **Randomization, blocking, stratification, controls** → `references/randomization_and_blocking.md`
-- **Factorial, fractional-factorial, screening, response-surface, DOE concepts (aliasing, resolution)** → `references/factorial_and_doe.md`
-- **Crossover, repeated-measures, split-plot, Latin-square, cluster, nested designs** → `references/design_types.md`
-- **Sequential, group-sequential, and adaptive designs (interim analyses)** → `references/sequential_and_adaptive.md`
-## Generating the design
-## The mistakes that ruin studies
-1. **Pseudoreplication.** Treating repeated measurements of one unit as independent
-2. **Confounding by a nuisance variable.** Running all treatment samples on Monday
-3. **No or broken randomization.** Convenience assignment (first-come → treatment)
-4. **No proper control.** Without a concurrent control (and, where relevant, a
-5. **Batch effects mistaken for biology.** In omics especially, process samples in a
-## Workflow
-1. **State the question, the unit, and the response.** What is randomized? What is
-2. **List nuisance factors** (batch, day, site, operator, position) — plan to block,
-3. **Pick the design** using the decision tree and reference files.
-4. **Decide replication** at the correct level (and get n from the
-## Resources
-## Scripts
-## References
-- `references/randomization_and_blocking.md` — randomization methods, blocking,
-- `references/factorial_and_doe.md` — factorial and fractional designs, resolution
-- `references/design_types.md` — completely randomized, randomized block, crossover,
-- `references/sequential_and_adaptive.md` — group-sequential designs, alpha spending,
-## Related skills
-- **statistical-power** — required sample size / power for the design you've chosen.
+
+One sentence: this skill makes NOVA better at planning studies before data is collected — choosing designs, randomizing, blocking, and laying out treatment combinations so results are interpretable.
+
+## When to use
+
+Use whenever someone is planning a study, asks how to assign subjects or samples to groups, mentions randomization, blocking, stratification, controls, factorial or fractional-factorial designs, design of experiments (DOE), screening many factors, response-surface optimization, crossover or repeated-measures or split-plot designs, cluster/group randomization, Latin squares, plate layouts, batch/run-order effects, replication vs. pseudoreplication, or sequential/adaptive/group-sequential designs. Trigger even for informal phrasings like "how should I set up this experiment," "how do I avoid confounding," "what's the best way to test these 6 factors," or "assign these mice to conditions." For computing sample size or power once the design is chosen, use statistical-power; for analyzing data already collected, use statistical-analysis.
+
+## Workflow (numbered steps adapted to NOVA's tools)
+
+1. **State the question, the unit, and the response.** What is randomized? What is measured? At what level is a true independent replicate? This determines everything.
+2. **List nuisance factors** (batch, day, site, operator, position) — plan to block, stratify, or randomize across each.
+3. **Pick the design** using the decision tree below:
+   - Compare a few predefined conditions with independent units → completely randomized, or randomized block if a known nuisance factor exists.
+   - Each unit can receive every condition in sequence with washout → crossover / repeated-measures (watch carry-over).
+   - Only groups can be randomized (schools, clinics, litters) → cluster-randomized design.
+   - Screen many factors (5+) to find the few that matter → fractional factorial or Plackett-Burman screening design.
+   - Quantify main effects and interactions among a handful of factors → full 2^k factorial design.
+
+## Quality bar (checklist)
+
+- The experimental unit and the replication level are explicitly stated and match the treatment assignment level.
+- Randomization is used to assign treatments; no convenience or first-come assignment.
+- Known nuisance factors are blocked, stratified, or randomized across — never aligned with treatment.
+- A concurrent control (and vehicle/sham where relevant) is included.
+- Plate positions and run order are randomized or blocked to defeat drift and edge effects.
+- Fractional factorial designs report resolution and alias structure; main effects are not confounded with interactions.
+- Response-surface designs include axial or center runs to estimate curvature; a two-level factorial alone is not used to claim an interior optimum.
+- Cluster-randomized designs treat the cluster, not the individual, as the unit of randomization and replication.
+- The design, seed, schedule, and pre-specified analysis are saved to the owner's workspace via save_document.
+
+## Pitfalls
+
+- **Pseudoreplication:** 3 mice with 100 cells each is n = 3 mice, not n = 300 cells, for any treatment applied to the mouse. This single error invalidates a large share of published experiments.
+- **Confounding by a nuisance variable:** running all treatment samples on Monday and all controls on Tuesday confounds treatment with day.
+- **No or broken randomization:** convenience assignment lets confounders sneak in. Use a seeded schedule and follow it.
+- **No proper control:** without a concurrent control, you cannot separate treatment effects from time, placebo, or handling.
+- **Batch effects mistaken for biology:** never let batch align with condition; randomize or block across batches.
+- **Edge/position effects on plates:** do not put all controls in column 1; randomize or block sample positions.

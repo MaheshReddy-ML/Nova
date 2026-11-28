@@ -1,57 +1,37 @@
 # Scientific Brainstorming
-## Scientific Brainstorming
-## Purpose and boundaries
-- **Ideation** creates questions, mechanisms, alternatives, or study concepts.
-- **Evidence assessment** checks what reliable literature and data support.
-- **Hypothesis validation** requires observations, predictions, suitable
-- **Ethics, biosafety, dual-use, regulatory, and institutional review** require
-- **Clinical advice** requires qualified clinicians and patient-specific
-## Operating rules
-1. Label claims as **idea**, **assumption**, **prediction**, **located
-2. Generate independently before exposing participants to other people's or
-3. Preserve minority views, negative evidence, uncertainty, and abstentions.
-4. Record provenance without exposing confidential, personal, controlled, or
-5. Define evaluation criteria and directions before scoring. Keep raw ratings,
-## Reproducible workflow
-## 1. Scope the session
-- purpose, audience, decision owner, and time horizon;
-- in-scope and out-of-scope topics;
-- constraints that are real, assumed, negotiable, or unknown;
-- current knowledge, unresolved observations, and prohibited outputs;
-- whether human participants, animals, clinical care, sensitive data,
-## 2. Diversify perspectives deliberately
-## 3. Generate independently
-- a stable ID and one-sentence statement;
-- contributor ID(s) and stage (`independent`, `discussion`, or `post-check`);
-- origin (`human`, `AI-assisted`, `literature-inspired`, `mixed`, or `other`);
-- assumptions, predicted observations, uncertainties, and possible
-- source identifiers for literature-inspired ideas and tool/purpose disclosure
-## 4. Share without immediate evaluation
-## 5. Cluster structurally
-## 6. Define transparent criteria
-- potential information gain and discriminating predictions;
-- relevance to the scoped question;
-- originality relative to the checked literature, not merely to the room;
-- feasibility, resources, and reversibility;
-- methodological rigor and vulnerability to bias;
-- ethics, safety, equity, dual-use, and regulatory burden;
-- value if the result is null or contradicts the favored mechanism.
-## 7. Run adversarial review
-- What observation would make this idea wrong or uninformative?
-- Which alternative explanation fits the same predicted result?
-- What hidden dependency, measurement failure, confounder, or selection effect
-- Are authority, anchoring, group loyalty, publication incentives, or an
-- Could this cause harm, worsen inequity, expose sensitive information, or
-## 8. Check literature and evidence
-## 9. Apply feasibility, rigor, and ethics gates
-- For biomedical work, consider rigor of prior research, robust design,
-- Route human-subjects, animal, biosafety, data-governance, export-control,
-- Screen life-science and enabling-technology ideas for dual-use or misuse
-- Do not upload sensitive, unpublished, proprietary, controlled, or personal
-## 10. Decide and log
-- candidates considered and criteria/weights used;
-- raw ratings, uncertainty ranges, dissent, abstentions, and sensitivity
-- literature and review dates;
-- gate outcomes and required approvals;
-- decision, rationale, rejected alternatives, unresolved risks, owner, and
-## Bias and failure controls
+
+One sentence: this skill makes NOVA better at generating, challenging, and transparently prioritizing early-stage research directions while keeping ideas separate from validated findings.
+
+## When to use
+
+Use for early-stage research ideation or prioritizing candidate directions. Do not use for hypothesis validation, study design, sample-size calculation, existing-evidence synthesis, statistical analysis, ethics or regulatory approval, clinical advice, or dual-use operational details. Hand those to hypothesis-generation, experimental-design, statistical-power, literature-review, statistical-analysis, or appropriate human experts. Stop and route to professionals if the request seeks patient-specific care, oversight evasion, harmful optimization, or dual-use enablement.
+
+## Workflow
+
+1. **Scope the session.** Write one focal question and record purpose, audience, decision owner, time horizon, in- and out-of-scope topics, constraints (real, assumed, negotiable, unknown), current knowledge, unresolved observations, prohibited outputs, and whether humans, animals, clinical care, sensitive data, pathogens, controlled technologies, or environmental release are implicated. Use web_search or deep_research only after an initial independent round to avoid anchoring.
+2. **Diversify perspectives.** Invite domain, methodological, statistical, implementation, safety, ethics, stakeholder, and lived-experience views. Disclose conflicts, avoid offering a preferred answer first, prevent senior members from dominating, and ask leaders to contribute after independent generation.
+
+## Quality bar
+
+- Every claim labeled idea, assumption, prediction, located evidence, or decision—never blurred.
+- Independent generation completed before any literature search or group discussion.
+- Minority views, negative evidence, uncertainty, and abstentions preserved; consensus not treated as truth.
+- Provenance recorded; no confidential, personal, controlled, or unpublished information exposed.
+- Criteria and directions defined before scoring; raw ratings, reasons, ranges, and disagreement visible.
+- No automatic “winner”; scores are traceable decision aids only.
+- Every citation verified at its source; search boundaries recorded.
+- Adversarial review completed for shortlisted ideas with reviewer not the originator.
+- Ethics, safety, dual-use, and regulatory gates applied before advancement; decision log complete with owner and revisit trigger.
+
+## Pitfalls
+
+- Production blocking from oral turn-taking before private parallel generation.
+- Anchoring and design fixation from leader answers, AI examples, or early literature exposure.
+- Authority and status effects from senior members dominating or leaders speaking first.
+- Groupthink from unchallenged consensus; assign a genuine alternative-generation role and document rejected options.
+- Evaluation apprehension from attributing critique to contributors; critique ideas, not people.
+- Premature convergence without a fixed divergence window and predeclared criteria.
+- False precision from averaged scores without uncertainty ranges or sensitivity analysis.
+- Research-gap inflation: say “no direct evidence located,” never “never studied.”
+- AI hallucination or homogenization: require human-first ideation, provenance, independent verification, and multiple non-AI perspectives.
+- Treating brainstorming output as a finding, validation, ethics approval, or clinical guidance.

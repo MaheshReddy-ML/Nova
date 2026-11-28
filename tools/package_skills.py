@@ -134,14 +134,35 @@ def _chat(settings, system, user, max_tokens):
     return re.sub(r"^```(?:markdown)?\s*|\s*```$", "", text.strip())
 
 
+def fit_sections(text, limit=3900):
+    """Shrink a Markdown guide under `limit` bytes by dropping the last line of the longest section, repeatedly.
+
+    Every heading survives and nothing is cut mid-sentence; sections keep their first (most important) lines."""
+    blocks = re.split(r"(?m)^(?=#{1,3} )", text.strip())
+    sections = [block.strip().splitlines() for block in blocks if block.strip()]
+    size = lambda: len("\n\n".join("\n".join(lines) for lines in sections).encode())
+    while size() > limit:
+        shrinkable = [lines for lines in sections if len([line for line in lines[1:] if line.strip()]) > 1]
+        if not shrinkable:
+            break
+        longest = max(shrinkable, key=lambda lines: len("\n".join(lines)))
+        longest.pop()
+        while longest and not longest[-1].strip():
+            longest.pop()
+    return "\n\n".join("\n".join(lines) for lines in sections)
+
+
 def compile_guide(settings, name, markdown, use_model):
     for _ in range(2 if use_model else 0):
         try:
             text = _chat(settings, COMPILE + "\nHard limit: 3,300 characters.", f"Skill: {name}\n\n{markdown[:22000]}", 1600)
             if len(text.encode()) > 4000:
                 # Long drafts are condensed rather than cut, so every section survives.
-                text = _chat(settings, "Condense this operating guide to 2,600-3,300 characters. Keep every section heading, the "
-                             "workflow steps and the most valuable checklist items and pitfalls. Output only the guide.", text, 1100)
+                condensed = _chat(settings, "Condense this operating guide to 2,600-3,300 characters. Keep every section heading, "
+                                  "the workflow steps and the most valuable checklist items and pitfalls. Output only the guide.",
+                                  text, 1600)
+                # Models overshoot length targets; a token cap would cut the last section off, so fit deterministically.
+                text = fit_sections(condensed if 1200 <= len(condensed.encode()) < len(text.encode()) else text)
             if 1200 <= len(text.encode()) <= 4000 and not PRIVILEGE_OVERRIDE.search(text):
                 return text, "model"
         except (httpx.HTTPError, KeyError, ValueError):

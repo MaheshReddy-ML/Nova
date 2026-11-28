@@ -598,14 +598,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "5be72b1d704be83893478a8b1ed71593a47ad724f84684f2c8a5199c24b1e433",
-       "bytes": 3227
+       "sha256": "4e9add71482e4826c8c4a7a10744cc88b2418e7f6ec8ffd24642e1fb70d875d0",
+       "bytes": 3651
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -681,14 +681,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "26e72c05e93385d58b5883cb64d7956c245ad7373d6514aa0bc985bc1c36729e",
-       "bytes": 3255
+       "sha256": "a70171ae883e46c81e4d1ed74e87627990e5b310a7abe79dd18920f6c9743b4f",
+       "bytes": 3824
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -764,14 +764,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "70f216afea82e7163cba1f73c23593891a81b4e02592df9894ab095d921165f8",
-       "bytes": 3248
+       "sha256": "7f56f4a9e1826fae52cb63acbe2a3fd73d5c7fa68d4e5edc8a4e4fcb3371ac12",
+       "bytes": 3460
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -847,14 +847,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "39e269e877d30d90a4aa21017c82187a344c7490eaba788fcf1d27c579c3b1be",
-       "bytes": 3203
+       "sha256": "e1646a76599e6a3004575b87bbc7c249d277e261ac23ff1e4e025eb3e8590fb4",
+       "bytes": 3480
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -1014,15 +1014,15 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "231baae7dbbdf530c94402598856f49c6c554d5cf6085baa9dcfda15d415e2dd",
-       "bytes": 3301
+       "sha256": "37afb8d0a86153caf508021e4c0a2fb602a201915f7e407b78549ffc2b1c0ec9",
+       "bytes": 3886
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
      "ignored_tool_grants": "Read Write Edit Bash",
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -1098,15 +1098,15 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "8477c500021a576d5369613adbc0e1e1156423f10eec8873e296fe456e7cae23",
-       "bytes": 3272
+       "sha256": "6fdec41260b2677867cdc44f035916b540ce0e94d10ee3f591a6840e161b832b",
+       "bytes": 3939
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
      "ignored_tool_grants": "Read Write Edit Bash",
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -1265,15 +1265,15 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "389c349ca1af371ac95698e1fa8741a34a67c68109ebb0b76540d14eb79af58d",
-       "bytes": 3208
+       "sha256": "d02c5d5088dba382fc7b9a3747c23bca0243908fb42f941364e6298f70369d82",
+       "bytes": 3808
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
      "ignored_tool_grants": "Read Write Edit Bash WebSearch WebFetch",
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -1349,15 +1349,15 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "1d45c094427ec7c006e3323536b537f9ba099d24d7def6180ccbbabacd8cf5f3",
-       "bytes": 3204
+       "sha256": "57fc977825ce87493816d77c2609f8d926dfd707b9a152421c68f06aac88e76c",
+       "bytes": 3765
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
      "ignored_tool_grants": "Read Write Bash Glob Python",
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -1838,14 +1838,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "7d3743a9a13975d3e26291c7e55f0c4343d158f3f26db427e5044ce4426c5b33",
-       "bytes": 3244
+       "sha256": "9d65c9b4222aaf968ea630a4c619312bd6cbb2dece1c8284a7112eccd3c0cfda",
+       "bytes": 3233
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -2004,14 +2004,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "201ef9ea5960160f66f8e70bac88118c80b70f532418b4e2450f3fca3c5d8dae",
-       "bytes": 3279
+       "sha256": "d7f3b38b043b16e90f53fd995a30844d760b056839ec910423cf9ca3102c76a7",
+       "bytes": 3839
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -2087,14 +2087,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "ca5242ddb123a4b0fa4546323d2961a033077c629a1ab0e6ad55466c3bdf4efb",
-       "bytes": 3233
+       "sha256": "2bcff301bb91bbb6f3c1b2256d334e77d8a15b663b2b23fc9eec31fe751f15cb",
+       "bytes": 3406
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -2233,14 +2233,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "9217dcdbcdf22bd5711dc1671695f3621c97b9bcf3336134e17864dc4094af2e",
-       "bytes": 3239
+       "sha256": "6277cf46b8c3fbfbdd17fef8293f9fbc791636ae7b4994fd4841c40094622d07",
+       "bytes": 3835
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -2452,14 +2452,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "b9912ebf91dd88ccc621d8bc9ac4512f6ef4fd03d60d5144c3163e1381c2d0a3",
-       "bytes": 3213
+       "sha256": "c8132c644cd1ff6fdbbf3a9bfa4a59a5cfe17fc8e3c2c856bef63f03bcc12c51",
+       "bytes": 3880
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -2593,14 +2593,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "c3339bd3d69218126eb50b9ce211f0d29fb8ac33f3bd9c111b1eb31598ed08aa",
-       "bytes": 3224
+       "sha256": "e56f08d74bc6a21e054ec67b83a120cfc3e6b72d1651edafeacbf9b574efd72c",
+       "bytes": 3953
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -3139,14 +3139,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "fe633d618b54024714f68223c035374f265ebcaae610aa7308efec360f881ecc",
-       "bytes": 3305
+       "sha256": "d6f64f58d2f7e4dc20010ebebb9908c299330723dd8c8260704f3ed217688f75",
+       "bytes": 3777
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -3275,14 +3275,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "520dbc693123aa0115e360d29951babf964498bb7b78fa1e6dc7e20d9603925c",
-       "bytes": 3270
+       "sha256": "ccd1cb514ba29df0794c955332660e70e25f28b35fc9a57e51cd21e343166454",
+       "bytes": 3798
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -3401,14 +3401,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "1ee73a4a45fc177d35e5b38b3c615039fed140884894a09a0b955b314d208b21",
-       "bytes": 3264
+       "sha256": "ce81003ecddd816a7c0ce9cb0f9ad7e110db32df8f3332e6b0abd6df5d9d5489",
+       "bytes": 3858
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },
@@ -3590,14 +3590,14 @@
       },
       "GUIDE.md": {
        "source_path": null,
-       "sha256": "b72598fc038e987191f9689ec1e2b330c969bef045c75a7b65882086e8a36a7b",
-       "bytes": 3259
+       "sha256": "59e245bb0367a5ae1d378b5c91cb18845450263474f03199af56b8e86d07bc5b",
+       "bytes": 3863
       }
      },
      "guide_sources": [
       "SKILL.md"
      ],
-     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by extract"
+     "evaluation": "Pinned commit, SHA-256 files, MIT license and privilege review; NOVA guide compiled by model"
     }
    ]
   },

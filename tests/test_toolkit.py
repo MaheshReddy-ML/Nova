@@ -112,3 +112,42 @@ def test_fit_context_trims_old_tool_results_instead_of_failing():
     assert fit_context(messages, [], 4000) and context_estimate(messages, []) <= 4000
     assert messages[0]["content"] == "rules " * 200 and messages[-1]["content"] == "y" * 3000
     assert not fit_context([{"role": "system", "content": "z" * 30000}, {"role": "user", "content": "hi"}], [], 1000)
+
+
+async def test_call_owner_rings_then_saves_instructions(tmp_path):
+    import asyncio
+
+    from nova.toolkit import _CALL_WATCHERS, call_owner
+
+    store = Store(tmp_path / "c.db")
+    store.db.execute("CREATE TABLE IF NOT EXISTS notes(source TEXT PRIMARY KEY, category TEXT, headline TEXT, body TEXT, updated REAL)")
+    polls = []
+
+    def bridge(request):
+        if request.url.path == "/health":
+            return httpx.Response(200, json={"ok": True, "public_url": "https://x.trycloudflare.com", "ntfy": True, "busy": False})
+        if request.method == "POST":
+            assert b"Need a decision" in request.content
+            return httpx.Response(200, json={"id": "abc12345", "status": "ringing"})
+        polls.append(1)
+        done = len(polls) >= 2
+        return httpx.Response(200, json={"id": "abc12345", "status": "done" if done else "ringing",
+                                         "result": "OWNER INSTRUCTIONS:\n- Ship the dark hero" if done else None})
+
+    said = await call_owner(store, "http://127.0.0.1:7861", "Need a decision on the hero", "Dark or light?",
+                            transport=httpx.MockTransport(bridge), interval=.01)
+    assert said["call_id"] == "abc12345" and "ringing your phone" in said["say"]
+    await asyncio.wait_for(asyncio.gather(*_CALL_WATCHERS), 5)
+    note = store.db.execute("SELECT body FROM notes WHERE source='call:abc12345'").fetchone()
+    assert "Ship the dark hero" in note[0]
+
+
+async def test_call_owner_reports_offline_bridge(tmp_path):
+    from nova.toolkit import call_owner
+
+    def offline(request):
+        raise httpx.ConnectError("refused")
+
+    with pytest.raises(NovaError, match="control.py"):
+        await call_owner(Store(tmp_path / "c.db"), "http://127.0.0.1:7861", "Status update", "Any questions?",
+                         transport=httpx.MockTransport(offline))

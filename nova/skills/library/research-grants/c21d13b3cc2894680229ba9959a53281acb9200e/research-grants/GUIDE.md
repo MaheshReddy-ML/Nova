@@ -1,43 +1,34 @@
 # Research Grants
-## Research Grant Writing
-## Overview
-## When to Use This Skill
-- Writing research proposals for NSF, NIH, DOE, DARPA, or NSTC programs
-- Preparing project descriptions, specific aims, or technical narratives
-- Developing broader impacts or significance statements
-- Creating research timelines and milestone plans
-- Preparing budget justifications and personnel allocation plans
-- Responding to program solicitations or funding announcements
-- Addressing reviewer comments in resubmissions
-- Planning multi-institutional collaborative proposals
-- Writing preliminary data or feasibility sections
-- Preparing biosketches, CVs, or facilities descriptions
-## Establish the governing opportunity first
-## Visual Enhancement (Optional)
-- Research methodology and workflow diagrams
-- Project timeline or Gantt charts
-- Conceptual framework or system architecture (technical proposals)
-- Experimental design flowcharts
-- Broader impacts activity diagrams
-- NSTC CM03 research architecture diagrams when they clarify the proposed methods
-- **Preferred:** Use the **scientific-schematics** skill (`--doc-type grant`) for AI-generated diagrams from a natural-language description
-- **Alternative:** Build figures in your usual tools (matplotlib, Illustrator, PowerPoint, etc.)
-## Agency-Specific Overview
-## NSF (National Science Foundation)
-- Use the [current PAPPG index](https://www.nsf.gov/policies/pappg), effective supplements and solicitation; as reviewed, NSF 24-1 is supplemented by NSF 26-200 and 26-202
-- Intellectual Merit + Broader Impacts both receive full consideration; no universal numerical weighting
-- 15-page project description limit (most programs; includes Results from Prior NSF Support, max 5 pages)
-- Education and societal benefit, with activities aligned to current NSF priorities and the solicitation
-- Collaborative research encouraged
-- Current SciENcv Common Forms, graduate/postdoc mentoring, and Research.gov DMSP tool requirements
-- Merit review process with panel + ad hoc reviewers
-## NIH (National Institutes of Health)
-- Standard R01: Specific Aims up to 1 page and Research Strategy up to 12; verify the NOFO
-- Most RPGs use Importance, Rigor/Feasibility, and Expertise/Resources review factors; required narrative headings remain Significance, Innovation, Approach
-- Preliminary evidence normally supports R01 feasibility; follow the mechanism-specific instructions
-- Rigor and reproducibility; SciENcv Common Forms and NIH Supplement required under the 2026 implementation
-- For eligible applications, modular budgets use **$25,000 increments**, up to **$250,000 in direct costs per budget period**, excluding consortium F&A; verify the NOFO and organization eligibility. See [NIH budget guidance](https://grants.nih.gov/grants/developing_budget.htm).
-- NIH permits **one resubmission (A1)** of an unfunded application, within 37 months of the initial application due date when the NOFO permits resubmissions; see [resubmission policy](https://grants.nih.gov/grants-process/submit/submission-policies/resubmission-applications).
-## DOE (Department of Energy)
-- Focus on energy, climate, computational science, basic energy sciences
-- Cost sharing and partnerships depend on the specific office, NOFO, and award instrument
+This skill makes NOVA better at developing and critiquing competitive research proposals for NSF, NIH, DOE, DARPA, and Taiwan NSTC, covering opportunity requirements, review criteria, budgets, broader impacts, forms, and resubmissions.
+
+## When to use
+Use this skill when writing or reviewing research proposals for NSF, NIH, DOE, DARPA, or NSTC programs; drafting specific aims, significance, innovation, approach, or broader impacts sections; preparing budgets and justifications; building compliance matrices; or responding to reviewer comments in resubmissions.
+
+## Workflow
+1. Establish the governing opportunity: record agency, opportunity identifier and amendment, activity type, due date/time zone, eligibility, submission stage, form version, limits, required attachments, review criteria, and source URL/retrieval date. Check current notices and amendments; an archived call or award announcement does not establish live funding. If the official package is unavailable, provide a bounded drafting review and list unresolved rules.
+2. Build a requirement → source section → draft location → gap matrix before judging compliance. Never invent data, citations, investigator records, partner commitments, or approvals.
+3. For NIH, use this skill for requirements, critique, consistency checks, and limited editing of investigator-authored material. NIH policy excludes applications substantially developed by AI; preserve applicant ownership of substantive science and writing. Apply other agencies’ current rules too.
+4. Draft core components: specific aims/objectives first, then significance, innovation, approach, preliminary data, timeline and milestones, budget justification, biosketch, facilities, data management/sharing plan, and broader impacts (NSF).
+5. Run an internal review: circulate to co-investigators, seek mentor feedback, conduct a mock review against the agency’s stated criteria, and revise.
+6. Finalize forms, biosketches, letters of support, and required plans; proofread formatting against page limits, fonts, and margins.
+7. Submit through the institutional route 24–48 hours before the deadline; confirm agency receipt and validation status. A 48-hour buffer is a target, not a grace period.
+
+## Quality bar
+- [] Opportunity identifier, due date, eligibility, and review criteria are sourced from the official solicitation with retrieval date.
+- [] Every requirement is mapped to a draft section and source; gaps are listed explicitly.
+- [] Specific aims are one page (NIH R01) or solicitation-compliant; research strategy addresses Significance, Innovation, and Approach.
+- [] NSF proposals address both Intellectual Merit and Broader Impacts as separate review criteria.
+- [] Budget uses agency increments (e.g., NIH modular budgets in $25,000 increments up to $250,000 direct costs per period where eligible) and matches proposed activities.
+- [] Page limits, fonts, margins, and required attachments are verified against the current form version.
+- [] No fabricated citations, investigator records, commitments, or approvals; all factual claims carry sources.
+- [] Resubmissions include a response to the prior summary statement where required.
+
+## Pitfalls
+- Treating an archived call, funded award, or budget announcement as live funding availability.
+- Letting NOVA substantially draft NIH application sections; NIH policy restricts AI authorship of applications.
+- Exceeding page limits or using non-compliant formatting; Markdown text does not establish page compliance.
+- Proposing research misaligned with agency mission or program priorities.
+- Omitting preliminary data for mechanisms requiring demonstrated feasibility.
+- Budgets that do not support proposed activities or exceed mechanism caps.
+- Missing broader impacts for NSF or significance/innovation framing for NIH.
+- Late submission; institutional registrations and validations can fail near deadlines.

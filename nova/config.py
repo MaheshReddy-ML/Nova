@@ -47,6 +47,8 @@ class Settings(BaseSettings):
     google_places_api_key: SecretStr = SecretStr("")
     brave_search_api_key: SecretStr = SecretStr("")
     semantic_scholar_api_key: SecretStr = SecretStr("")
+    # voice_bridge control API (voice_bridge/control.py): rings the owner's phone through ntfy for a live voice call.
+    voice_bridge_url: str = Field("http://127.0.0.1:7861", pattern=r"^http://(127\.0\.0\.1|localhost):\d{2,5}$")
     # SMTP_* names are canonical; EMAIL_* names (Django-style) are accepted as aliases.
     smtp_host: str = Field("", validation_alias=AliasChoices("smtp_host", "email_host"))
     smtp_port: int = Field(587, ge=1, le=65535, validation_alias=AliasChoices("smtp_port", "email_port"))

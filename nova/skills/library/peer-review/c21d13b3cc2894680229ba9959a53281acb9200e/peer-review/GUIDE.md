@@ -1,66 +1,38 @@
 # Peer Review
-## Peer Review
-## Mandatory safety boundary
-1. Confirm the user is authorized by the publisher, editor, author, or other material owner.
-2. Check the target venue’s review, confidentiality, co-review, retention, and AI/tool policies.
-3. Record conflicts, competence limits, requested scope, and specialist-review needs.
-4. Default to local-only processing.
-- Send unpublished manuscript, supplement, review, or editorial text to an external service without specific publisher/author authorization and venue permission
-- Upload confidential content to a public model, search engine, citation service, grammar tool, plagiarism checker, or image service
-- Reuse content for training, benchmarking, product improvement, or unrelated research
-- Read broad environment state, `.env` files, API keys, or credentials
-- Call a network, LLM, or image API from bundled tools
-- Invoke another skill or a PDF/image pipeline automatically
-- Impersonate an assigned reviewer, editor, journal, funder, or author
-- Fabricate manuscript details, review findings, citations, analyses, experiments, reproduction, or an editorial outcome
-- Announce a decision that belongs to an editor or panel
-## Human accountability
-- Read the complete authorized submission and relevant supplements
-- Verify every factual statement, calculation, citation, and manuscript location
-- Resolve conflicts and disclose assistance as required
-- Rewrite comments in their own expert judgment
-- Submit through the authorized channel
-## Intake gate
-- Undocumented authorization
-- Missing human accountability
-- Unassessed or unresolved conflicts
-- Unknown review model or unchecked venue policy
-- Unauthorized AI assistance
-- External service use
-- Data reuse
-- Missing deletion/retention planning
-## Review workflow
-## 1. Establish scope and available evidence
-- Submission type and stage
-- Review question and requested focus
-- Target venue and review model
-- Materials actually available: manuscript, supplements, protocol, registration, analysis plan, data/code statement, prior decision, or response letter
-- Competence areas and limits
-- Missing material that prevents assessment
-## 2. Orient without deciding
-- Research question
-- Population or system
-- Design and unit
-- Intervention, exposure, test, or model
-- Comparator/reference
-- Outcomes and timing
-- Principal claims
-## 3. Select reporting guidance
-## 4. Map claims to evidence
-- Location and claim ID
-- Supporting result, figure, table, analysis, or citation IDs
-- Direction, magnitude, population, outcome, timepoint, and uncertainty alignment
-- Limitation or alternative explanation
-- Bounded requested action
-## 5. Review methods and statistics
-1. Question and target quantity
-2. Design and unit of inference
-3. Sampling, allocation, controls, masking, and timing
-4. Sample-size or precision rationale
-5. Inclusion, exclusion, attrition, and missingness
-## 6. Review reproducibility and transparency
-- Protocol, registration, amendments, and analysis-plan consistency
-- Data provenance, exclusions, transformations, and accession IDs
-- Software, package, model, and parameter versions
-- Code, environment, seeds, run instructions, and tests
-- Data, code, materials, and model availability or justified restrictions
+
+Prepares evidence-bounded, constructive peer-review drafts and structured manuscript assessments for scientific manuscripts, protocols, preprints, and research proposals.
+
+## When to use
+Use when NOVA must support a human reviewer in assessing an unpublished scientific submission, including claim–evidence checks, methods and statistics critique, reproducibility review, ethics screening, figure/table/citation review, reporting-guideline selection, or revision-response planning. Do not use for published papers, general editing, or to replace the editor’s decision.
+
+## Workflow (numbered steps adapted to NOVA's tools)
+
+1. **Confirm authorization and policy.** Verify the user is authorized by the publisher, editor, author, or material owner. Check the venue’s review, confidentiality, co-review, retention, and AI/tool policies. Record conflicts, competence limits, requested scope, and specialist-review needs. Default to local-only processing. If authorization is unclear, do not inspect or quote the manuscript; clarify only the unresolved authorization and use synthetic or public fixtures.
+2. **Complete the intake gate.** Fill out the review intake template covering submission type and stage, review question, target venue and review model, available materials (manuscript, supplements, protocol, registration, analysis plan, data/code statement, prior decision, response letter), competence areas and limits, and missing material. Proceed only when intake status is READY_FOR_LOCAL_REVIEW. A disclosed conflict remains blocked until the editor clears it; do not clear a conflict merely to pass validation.
+
+## Quality bar (checklist)
+- Authorization confirmed and venue policy checked before reading unpublished content
+- Intake status READY_FOR_LOCAL_REVIEW; conflicts cleared or none identified
+- Human reviewer reads the complete authorized submission and verifies every factual statement, calculation, citation, and manuscript location
+- Neutral orientation completed; no acceptance/rejection recommendation issued
+- Reporting guidance selected from current base guideline, extensions, and venue policy
+- Central claims mapped to evidence with IDs; no claim text emitted by tools
+- Methods and statistics reviewed in the prescribed order; equivalence claims require stated margins
+- Reproducibility and transparency items checked; no reproduction claimed without documented execution
+- Ethics and integrity screened; credible concerns routed to the confidential editor channel
+- Figures, tables, and citations reviewed; citation audit limited to identifier format
+- Every comment includes location, observation, evidence or criterion, why it matters, and requested action
+- New-work requests necessary and proportionate; narrowing or limitation language offered when sufficient
+- Author and editor channels kept separate; reviewer identity protected
+- Lint run; placeholders removed; no invented citations, experiments, reanalyses, or outcomes
+
+## Pitfalls
+- Treating automated coverage, consistency, or lint results as peer review or as establishing manuscript merit
+- Converting missing reporting items into automatic scores or publication judgments
+- Inferring absent content; use “not reported” or “not available for review” instead
+- Equating a nonsignificant test with equivalence or “no effect”
+- Running retrospective observed-power calculations instead of requesting a narrower claim
+- Claiming reproduction without authorized inputs, documented commands, environment, and outputs
+- Accusing authors or investigating integrity concerns directly instead of using the confidential editor channel
+- Placing ordinary criticism only in confidential editor notes or revealing reviewer identity under anonymized review
+- Sending unpublished manuscript, supplement, review

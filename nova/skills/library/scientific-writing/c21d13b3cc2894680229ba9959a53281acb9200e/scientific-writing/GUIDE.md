@@ -1,59 +1,31 @@
 # Scientific Writing
-## Scientific Writing
-## Purpose
-## Non-negotiable safety rules
-## Confidentiality
-1. explicit authorization from a person or body empowered to grant it; and
-2. a documented review of journal, institutional, funder, consent, ethics, contractual,
-## No fabrication
-- citations, references, DOI, PMID, PMCID, ISBN, URLs, or quotations;
-- results, data values, denominators, sample sizes, units, effect estimates,
-- methods, materials, protocol details, software versions, analysis choices, or
-- registrations, approvals, consent, ethics statements, participant details, or dates;
-- authors, author order, CRediT roles, acknowledgments, or permissions;
-- funding, sponsor roles, conflicts, data or code availability, or AI disclosures.
-## Evidence binding
-## Scientific fidelity
-- Preserve uncertainty and alternative explanations.
-- Distinguish confirmatory, exploratory, descriptive, and post hoc work.
-- Keep methods and results consistent.
-- Reconcile units, denominators, sample sizes, populations, time points, and labels.
-- For binary trial outcomes, report group event counts/denominators plus both absolute and relative effects with uncertainty when the reporting guideline requires them. Distinguish risk difference (percentage points), relative risk, and odds ratio; do not rewrite one as another or infer an absolute effect without the baseline risk. See [CONSORT 2025 explanation](https://www.bmj.com/content/389/bmj-2024-081124).
-- Report negative, null, adverse, unexpected, failed, and inconclusive findings when
-- State concrete limitations and bound generalizability.
-- Do not convert association into causation or non-significance into equivalence.
-## Intake
-- document type, study design, stage, audience, and target venue;
-- current author instructions and policy access date;
-- protocol, registration, analysis plan, amendments, and reporting guideline;
-- manuscript or section scope;
-- verified source manifest and claim registry;
-- methods, results, tables, figures, and supplements;
-- authorship, CRediT, declarations, and approval records;
-- confidentiality classification and authorized processing boundary;
-- data, code, materials, and repository constraints.
+
+One sentence: this skill makes NOVA better at drafting, revising, and auditing scientific manuscripts or reports with explicit evidence provenance, reporting-guideline coverage, authorship accountability, confidentiality controls, and local consistency checks.
+
+## When to use
+
+Use for manuscript sections, references, declarations, tables, figures, or submission preparation when scientific accuracy and traceability matter. Do not use it to invent citations, results, methods, approvals, authorship, funding, conflicts, or AI disclosures. Never send unpublished manuscripts, peer-review material, sensitive or restricted data, PHI, proprietary content, or source documents to an external service without explicit authorization and a documented review of journal, institutional, funder, consent, ethics, contractual, legal, and data-use policy. When authorization or policy is unclear, keep processing local and use only minimum metadata.
+
 ## Workflow
-## 1. Establish the local workspace
-## 2. Select reporting guidance
-## 3. Build the evidence record
-- `E` IDs to sources in `source_manifest.json`;
-- `C` IDs to claims in `claims.csv`;
-- `N`, `M`, `O`, and `R` IDs to numeric facts, methods, outcomes, and results in
-## 4. Create an evidence outline
-- objective or question;
-- section purpose;
-- claim IDs and evidence IDs;
-- methods and result IDs;
-- analysis intent and uncertainty;
-- unresolved conflicts or missing information;
-- applicable reporting topics.
-## 5. Draft without adding facts
-- Match title and abstract to the completed main text.
-- Describe methods as performed.
-- Present results in the declared order and analysis population.
-- Separate result from interpretation unless the venue combines them.
-- Compare with prior evidence only after verifying it.
-- Keep conclusions within the observed design, population, and uncertainty.
-## 6. Reconcile methods and results
-## 7. Verify citations and claims
-## 8. Validate authorship and disclosure
+
+1. **Intake.** Obtain or mark unresolved: document type, study design, stage, audience, target venue; current author instructions and policy access date; protocol, registration, analysis plan, amendments, and reporting guideline; manuscript scope; verified source manifest and claim registry; methods, results, tables, figures, supplements; authorship, CRediT, declarations, and approval records; confidentiality classification and authorized processing boundary; data, code, materials, and repository constraints. Do not ask for restricted source material if metadata or a local user-run audit suffices.
+2. **Select reporting guidance.** Use web_search or deep_research to find the current official statement, checklist, explanation document, extensions, and target-journal instructions for the actual design and article type (e.g., CONSORT 2025, SPIRIT 2025, PRISMA 2020, STROBE, STARD and STARD-AI, TRIPOD+AI, CARE, ARRIVE 2.0, SQUIRE 2.0, CHEERS 2022). Record each topic as addressed, not applicable with rationale, or missing. Never claim adherence merely because a coverage file passes.
+
+## Quality bar
+
+- Every factual or numeric claim maps to verified evidence IDs opened and confirmed by a human.
+- Uncertainty is preserved; association is not converted to causation; non-significance is not equivalence.
+- Binary trial outcomes report group event counts/denominators plus absolute and relative effects with uncertainty when the guideline requires them; risk difference, relative risk, and odds ratio are never rewritten as one another.
+- Negative, null, adverse, unexpected, failed, and inconclusive findings are reported when they belong to the study record.
+- Methods and results are reconciled; units, denominators, sample sizes, populations, time points, and labels match.
+- Authorship follows journal criteria; CRediT roles are recorded; AI use is disclosed per policy.
+- All declarations are independently verified and actual access conditions recorded.
+
+## Pitfalls
+
+- Treating search snippets, summaries, memory, or another work's bibliography as verification.
+- Fabricating plausible boilerplate for missing citations, results, methods, approvals, authorship, funding, conflicts, or AI disclosures.
+- Rewriting risk difference as relative risk or odds ratio, or inferring absolute effects without baseline risk.
+- Uploading unpublished manuscripts, peer-review material, PHI, or proprietary content to external services without authorization and policy review.
+- Claiming guideline adherence from a local coverage file rather than the official checklist with manuscript locations.
+- Letting AI fluency substitute for evidence or presenting AI as an author.

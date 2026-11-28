@@ -1,97 +1,38 @@
-# Seo Audit
-## SEO Audit
-## Initial Assessment
-1. **Site Context**
-- What type of site? (SaaS, e-commerce, blog, etc.)
-- What's the primary business goal for SEO?
-- What keywords/topics are priorities?
-2. **Current State**
-- Any known issues or concerns?
-- Current organic traffic level?
-- Recent changes or migrations?
-3. **Scope**
-- Full site audit or specific pages?
-- Technical + on-page, or one focus area?
-- Access to Search Console / analytics?
-## Audit Framework
-## Schema Markup Detection Limitation
-2. **Google Rich Results Test** — https://search.google.com/test/rich-results
-3. **Screaming Frog export** — if the client provides one, use it (SF renders JavaScript)
-## Priority Order
-1. **Crawlability & Indexation** (can Google find and index it?)
-2. **Technical Foundations** (is the site fast and functional?)
-3. **On-Page Optimization** (is content optimized?)
-4. **Content Quality** (does it deserve to rank?)
-5. **Authority & Links** (does it have credibility?)
-## Technical SEO Audit
-## Crawlability
-- Check for unintentional blocks
-- Verify important pages allowed
-- Check sitemap reference
-- Exists and accessible
-- Submitted to Search Console
-- Contains only canonical, indexable URLs
-- Updated regularly
-- Proper formatting
-- Important pages within 3 clicks of homepage
-- Logical hierarchy
-- Internal linking structure
-- No orphan pages
-- Parameterized URLs under control
-- Faceted navigation handled properly
-- Infinite scroll with pagination fallback
-- Session IDs not in URLs
-## Indexation
-- site:domain.com check
-- Search Console coverage report
-- Compare indexed vs. expected
-- Noindex tags on important pages
-- Canonicals pointing wrong direction
-- Redirect chains/loops
-- Soft 404s
-- Duplicate content without canonicals
-- All pages have canonical tags
-- Self-referencing canonicals on unique pages
-- HTTP → HTTPS canonicals
-- www vs. non-www consistency
-- Trailing slash consistency
-## Site Speed & Core Web Vitals
-- LCP (Largest Contentful Paint): < 2.5s
-- INP (Interaction to Next Paint): < 200ms
-- CLS (Cumulative Layout Shift): < 0.1
-- Server response time (TTFB)
-- Image optimization
-- JavaScript execution
-- CSS delivery
-- Caching headers
-- CDN usage
-- Font loading
-- PageSpeed Insights
-- WebPageTest
-- Chrome DevTools
-- Search Console Core Web Vitals report
-## Mobile-Friendliness
-- Responsive design (not separate m. site)
-- Tap target sizes
-- Viewport configured
-- No horizontal scroll
-- Same content as desktop
-- Mobile-first indexing readiness
-## Security & HTTPS
-- HTTPS across entire site
-- Valid SSL certificate
-- No mixed content
-- HTTP → HTTPS redirects
-- HSTS header (bonus)
-## URL Structure
-- Readable, descriptive URLs
-- Keywords in URLs where natural
-- Consistent structure
-- No unnecessary parameters
-- Lowercase and hyphen-separated
-## International SEO & Localization
-## Hreflang
-- Self-referencing entry on every page (page must include itself in the hreflang set)
-- Reciprocal links (if A points to B, B must point back to A -- or both are ignored)
-- Valid codes: ISO 639-1 language + optional ISO 3166-1 Alpha 2 region (e.g., `en`, `en-GB` -- never `en-UK`)
-- Consider `x-default` for unmatched language/region users, pointing to an appropriate fallback; it is recommended, not required for other valid annotations.
+# SEO Audit
+This skill makes NOVA better at diagnosing why pages won't rank, traffic dropped, or technical setups like canonicals, hreflang, and redirects are wrong.
+
+## When to use
+Use when the user says SEO is bad, traffic dropped, a page won't rank, or they need an audit of indexing, Core Web Vitals, on-page elements, titles, or local SEO. Start here for general SEO complaints; use programmatic-seo for pages at scale, schema for structured data, ai-seo for AI search, and local-seo for map pack and citation work.
+
+## Workflow (numbered steps adapted to NOVA's tools)
+1. Gather site context: site type, primary SEO goal, priority keywords, known issues, current organic traffic, recent changes or migrations, and audit scope. Ask only what is missing.
+2. Check robots.txt and XML sitemap via read_website; verify important pages are allowed, sitemap is submitted, and it lists only canonical, indexable URLs.
+3. Run site:domain.com checks via web_search to gauge indexation and spot unexpected pages or missing important pages.
+4. Audit priority pages with read_website: titles, meta descriptions, H1s, heading hierarchy, canonical tags, noindex directives, redirects, and URL structure.
+5. Check Core Web Vitals and mobile-friendliness via web_search for PageSpeed Insights guidance and Search Console reports; note LCP under 2.5s, INP under 200ms, CLS under 0.1.
+6. For hreflang and canonicals on multilingual sites, inspect page source via read_website; verify self-referencing entries, reciprocal links, valid ISO codes (en-GB, never en-UK), and that canonicals never cross locales.
+7. For schema markup, do not rely on read_website alone—it strips script tags. Use web_search to find Google Rich Results Test guidance or ask the owner for a Screaming Frog export; never report "no schema" based solely on static fetch.
+8. Check local SEO signals if relevant: NAP consistency, Google Business Profile, location pages, and local content via web_search and find_local_businesses.
+9. For competitor and backlink context, use web_search and search_papers only when scholarly evidence is needed; otherwise rely on observable page data.
+10. Draft findings using the issue/impact/evidence/fix/priority format and save the full report with save_document. Keep spoken replies short.
+
+## Quality bar (checklist)
+- [ ] Indexation and crawlability checked before on-page factors
+- [ ] Every issue includes evidence from an NOVA tool or owner-provided access
+- [ ] Canonicals are self-referencing on unique pages and never cross-locale
+- [ ] Hreflang pairs are reciprocal, use valid ISO codes, and include self-references
+- [ ] Core Web Vitals thresholds cited: LCP < 2.5s, INP < 200ms, CLS < 0.1
+- [ ] Titles 50–60 characters, unique, primary keyword near front
+- [ ] Meta descriptions 150–160 characters, unique per page
+- [ ] One H1 per page, logical heading hierarchy
+- [ ] No claim made without a source or observable evidence
+- [ ] Prioritized action plan separates critical fixes, high-impact improvements, quick wins, and long-term work
+
+## Pitfalls
+- Treating read_website output as proof of missing schema; it strips script tags and cannot see JS-injected JSON-LD.
+- Assuming one broken hreflang annotation invalidates all others; Google processes valid bidirectional pairs independently.
+- Cross-locale canonicalization (e.g., French to English), which suppresses the non-canonical locale entirely.
+- Using URL parameters for language (?lang=en); subdirectories are recommended.
+- Noindexing thin locale pages to save crawl budget; better to not create them or make them genuinely helpful.
+- Reporting Search Console or analytics metrics without owner access; NOVA cannot log in or pull private data.
+- Recommending scripts, packages, crawlers, or CI tools; NOVA cannot run them. Suggest them only as owner-provided exports.
