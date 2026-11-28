@@ -188,9 +188,7 @@ def create_app(settings=None, *, transport=None, research_factory=PublicResearch
             "agent": settings.agent_name, "version": settings.release_version, "stopped": store.stopped(),
             "tasks": store.tasks(), "counts": counts, "leads": leads, "approvals": approvals, "usage": store.usage(),
             "catalogue_count": len(models) if models is not None else None,
-            "routes": {item.value: next((model for model in (model_caps.configured(item), default)
-                                        if models and model in models), None)
-                       for item, default in FALLBACK.items()},
+            "routes": {item.value: model_caps.resolve(item, models) for item in FALLBACK},
             "voice": {"enabled": settings.voice_enabled, "provider": runtime.gateway.speech_provider,
                       "preferred": settings.deepgram_voice if runtime.gateway.deepgram_active else settings.tts_voice,
                       "asr_streaming": runtime.gateway.asr_streaming, "tts_streaming": runtime.gateway.tts_streaming,
@@ -514,6 +512,20 @@ def create_app(settings=None, *, transport=None, research_factory=PublicResearch
     async def control(task_id: str, command: Control):
         return app.state.runtime.control(task_id, command.action)
 
+    @app.post("/api/tasks/{task_id}/retry")
+    async def retry(task_id: str):
+        """Queue a fresh copy of a failed or cancelled mission with the same inputs."""
+        store = app.state.runtime.store
+        row = store.db.execute("SELECT spec, state FROM tasks WHERE id=?", (task_id,)).fetchone()
+        if row is None:
+            raise NovaError("task_missing", "That mission does not exist.")
+        if row["state"] not in {"failed", "cancelled"}:
+            raise NovaError("task_state", "Only failed or cancelled missions can be retried.")
+        spec = {key: value for key, value in json.loads(row["spec"]).items() if key not in {"run_at", "depends_on"}}
+        task, created = store.submit(MissionInput.model_validate(spec))
+        store.event("task", "Owner retried a mission", task["id"], retried_from=task_id)
+        return {"task": task, "created": created}
+
     @app.post("/api/stop/{action}")
     async def stop(action: str):
         if action not in {"enable", "reset"}:
@@ -606,6 +618,10 @@ def create_app(settings=None, *, transport=None, research_factory=PublicResearch
     async def follow_ups():
         reminders = app.state.runtime.follow_ups
         return {"due": reminders.due(), "upcoming": reminders.upcoming(20)}
+
+    @app.post("/api/follow-ups/{key}/done")
+    async def follow_up_done(key: str):
+        return app.state.runtime.follow_ups.complete(key)
 
     @app.get("/documents/{name}")
     async def document(name: str):

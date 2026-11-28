@@ -1043,7 +1043,9 @@ function renderNeeds() {
         action("Draft with Nova", () => sendText("Draft a follow-up email to " + item.business +
           (item.recipient ? " at " + item.recipient : "") + (item.note ? ". Context: " + item.note : "")), "primary sm"),
         action("Write it myself", () => followUpCompose(item), "secondary sm"),
-        action("Mark done", () => sendText("Mark the follow-up with " + item.business + " as done"), "quiet sm"),
+        action("Mark done", () => post("/api/follow-ups/" + encodeURIComponent(item.id) + "/done", {})
+          .then(() => { report("Follow-up with " + item.business + " marked done."); queueRefresh(); })
+          .catch((error) => report(error.message)), "quiet sm"),
       ]}));
   }
   const hidden = dismissed();
@@ -1051,7 +1053,11 @@ function renderNeeds() {
   for (const task of failed.slice(0, 3)) {
     items.push(needItem({key:"failed-" + task.id, kind:"Mission failed", tone:"danger", iconName:"alert", title:task.title,
       meta:[failureReason(task), ago(task.updated)].filter(Boolean).join(" · "), actions:[
-        action("See what happened", () => inspectTask(task.id), "primary sm"),
+        action("Retry", () => post("/api/tasks/" + encodeURIComponent(task.id) + "/retry", {})
+          .then((result) => { dismiss(task.id); report(result.created ? "Mission queued again." : "That mission is already queued.");
+                              queueRefresh(); })
+          .catch((error) => report(error.message)), "primary sm"),
+        action("See what happened", () => inspectTask(task.id), "secondary sm"),
         action("Dismiss", () => { dismiss(task.id); renderNeeds(); }, "quiet sm"),
       ]}));
   }

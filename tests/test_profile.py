@@ -50,3 +50,26 @@ def test_follow_up_api_lists_due_and_upcoming(tmp_path):
         FollowUps(Store(tmp_path / "nova.db")).schedule("Clay Studio", days=2, note="Share the concept")
         listed = client.get("/api/follow-ups").json()
         assert listed["due"] == [] and [row["business"] for row in listed["upcoming"]] == ["Clay Studio"]
+
+
+def test_follow_up_done_and_mission_retry_endpoints(tmp_path):
+    from nova.domain import MissionInput
+
+    settings = Settings(_env_file=None, nvidia_api_key="test", database_path=tmp_path / "nova.db", workspace_path=tmp_path / "w",
+                        autonomous_mode=False)
+    headers = {"x-nova-owner": "1"}
+    with TestClient(create_app(settings)) as client:
+        from nova.store import Store
+        from nova.toolkit import FollowUps
+
+        store = Store(tmp_path / "nova.db")  # the app runs in another thread with its own connection
+        key = FollowUps(store).schedule("Clay Studio", days=2)["follow_up_id"]
+        assert "Clay Studio" in client.post(f"/api/follow-ups/{key}/done", headers=headers).json()["say"]
+        assert client.get("/api/follow-ups").json()["upcoming"] == []
+        assert client.post("/api/follow-ups/nope/done", headers=headers).status_code == 404
+
+        task, _ = store.submit(MissionInput(title="Project brief", workflow="brief", objective="Plan a storefront"))
+        assert client.post(f"/api/tasks/{task['id']}/retry", headers=headers).status_code == 409  # still queued
+        store.control(task["id"], "cancel")
+        again = client.post(f"/api/tasks/{task['id']}/retry", headers=headers).json()
+        assert again["created"] and again["task"]["id"] != task["id"] and again["task"]["title"] == "Project brief"
